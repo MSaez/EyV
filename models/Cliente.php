@@ -50,14 +50,14 @@ class Cliente extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'CLI_ID' => 'Cli  ID',
-            'CLI_NOMBRES' => 'Cli  Nombres',
-            'CLI_PATERNO' => 'Cli  Paterno',
-            'CLI_MATERNO' => 'Cli  Materno',
-            'CLI_RUT' => 'Cli  Rut',
-            'CLI_TELEFONO' => 'Cli  Telefono',
-            'CLI_DIRECCION' => 'Cli  Direccion',
-            'CLI_IND_CONDUCTA' => 'Cli  Ind  Conducta',
+            'CLI_ID' => 'ID',
+            'CLI_NOMBRES' => 'Nombres',
+            'CLI_PATERNO' => 'Apellido Paterno',
+            'CLI_MATERNO' => 'Apellido Materno',
+            'CLI_RUT' => 'Rut',
+            'CLI_TELEFONO' => 'Teléfono',
+            'CLI_DIRECCION' => 'Dirección',
+            'CLI_IND_CONDUCTA' => 'Indicador de Conducta',
         ];
     }
 

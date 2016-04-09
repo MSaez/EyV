@@ -5,10 +5,10 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Cliente */
 
-$this->title = 'Update Cliente: ' . $model->CLI_ID;
+$this->title = 'Actualizar Cliente: ' . $model->CLI_RUT;
 $this->params['breadcrumbs'][] = ['label' => 'Clientes', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->CLI_ID, 'url' => ['view', 'id' => $model->CLI_ID]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = ['label' => $model->CLI_RUT, 'url' => ['view', 'id' => $model->CLI_ID]];
+$this->params['breadcrumbs'][] = 'Actualizar';
 ?>
 <div class="cliente-update">
 

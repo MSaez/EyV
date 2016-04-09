@@ -24,10 +24,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'CLI_DIRECCION')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'CLI_IND_CONDUCTA')->textInput(['maxlength' => true]) ?>
-
+    
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Guardar' : 'Guardar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
