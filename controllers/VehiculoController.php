@@ -3,16 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Modelo;
-use app\models\ModeloSearch;
+use app\models\Vehiculo;
+use app\models\VehiculoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * ModeloController implements the CRUD actions for Modelo model.
+ * VehiculoController implements the CRUD actions for Vehiculo model.
  */
-class ModeloController extends Controller
+class VehiculoController extends Controller
 {
     /**
      * @inheritdoc
@@ -30,12 +30,12 @@ class ModeloController extends Controller
     }
 
     /**
-     * Lists all Modelo models.
+     * Lists all Vehiculo models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ModeloSearch();
+        $searchModel = new VehiculoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,7 +45,7 @@ class ModeloController extends Controller
     }
 
     /**
-     * Displays a single Modelo model.
+     * Displays a single Vehiculo model.
      * @param integer $id
      * @return mixed
      */
@@ -57,16 +57,16 @@ class ModeloController extends Controller
     }
 
     /**
-     * Creates a new Modelo model.
+     * Creates a new Vehiculo model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Modelo();
+        $model = new Vehiculo();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->MOD_ID]);
+            return $this->redirect(['view', 'id' => $model->VEH_ID]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -75,7 +75,7 @@ class ModeloController extends Controller
     }
 
     /**
-     * Updates an existing Modelo model.
+     * Updates an existing Vehiculo model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -85,7 +85,7 @@ class ModeloController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->MOD_ID]);
+            return $this->redirect(['view', 'id' => $model->VEH_ID]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -94,7 +94,7 @@ class ModeloController extends Controller
     }
 
     /**
-     * Deletes an existing Modelo model.
+     * Deletes an existing Vehiculo model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -107,42 +107,18 @@ class ModeloController extends Controller
     }
 
     /**
-     * Finds the Modelo model based on its primary key value.
+     * Finds the Vehiculo model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Modelo the loaded model
+     * @return Vehiculo the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Modelo::findOne($id)) !== null) {
+        if (($model = Vehiculo::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
-    
-    public function actionList($id)
-    {
-        $countModelos = Modelo::find()
-            ->where(['MAR_ID' =>$id])
-            ->count();
-
-        $modelos = Modelo::find()
-            ->where(['MAR_ID' =>$id])
-            ->all();
-
-        echo "<option value=''>Seleccione un modelo</option>";
-
-        if( $countModelos > 0 )
-        {
-            foreach ($modelos as $modelo) {
-                echo "<option value='".$modelo->MOD_ID."'>".$modelo->MOD_NOMBRE."</option>";                
-            }
-        }
-        else
-        {
-            echo "<option>-</option>";
         }
     }
 }

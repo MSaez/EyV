@@ -11,6 +11,7 @@ use Yii;
  * @property string $MAR_NOMBRE
  *
  * @property Modelo[] $modelos
+ * @property Vehiculo[] $vehiculos
  */
 class Marca extends \yii\db\ActiveRecord
 {
@@ -52,8 +53,11 @@ class Marca extends \yii\db\ActiveRecord
         return $this->hasMany(Modelo::className(), ['MAR_ID' => 'MAR_ID']);
     }
 
-    public function getNombreMarca()
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getVehiculos()
     {
-        return $this->MAR_NOMBRE;
+        return $this->hasMany(Vehiculo::className(), ['MAR_ID' => 'MAR_ID']);
     }
 }

@@ -76,4 +76,9 @@ class Cliente extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Vehiculo::className(), ['CLI_ID' => 'CLI_ID']);
     }
+    
+    public function getNombreCompleto() // Función que obtiene el nombre completo de un registro en el modelo.
+    {
+        return $this->CLI_NOMBRES.' '.$this->CLI_PATERNO.' '.$this->CLI_MATERNO;
+    }
 }
