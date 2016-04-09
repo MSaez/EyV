@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/EyV/models/Usuario.php</file>
+            <file>file:/C:/xampp/htdocs/EyV/views/layouts/main.php</file>
+            <file>file:/C:/xampp/htdocs/EyV/views/site/about.php</file>
+            <file>file:/C:/xampp/htdocs/EyV/models/LoginForm.php</file>
+            <file>file:/C:/xampp/htdocs/EyV/views/usuario/_update.php</file>
+            <file>file:/C:/xampp/htdocs/EyV/views/usuario/view.php</file>
             <file>file:/C:/xampp/htdocs/EyV/views/usuario/_form.php</file>
-            <file>file:/C:/xampp/htdocs/EyV/views/usuario/create.php</file>
-            <file>file:/C:/xampp/htdocs/EyV/controllers/UsuarioController.php</file>
             <file>file:/C:/xampp/htdocs/EyV/views/usuario/index.php</file>
+            <file>file:/C:/xampp/htdocs/EyV/controllers/UsuarioController.php</file>
+            <file>file:/C:/xampp/htdocs/EyV/config/web.php</file>
+            <file>file:/C:/xampp/htdocs/EyV/models/Usuario.php</file>
+            <file>file:/C:/xampp/htdocs/EyV/views/usuario/update.php</file>
         </group>
     </open-files>
 </project-private>
