@@ -1235,8 +1235,12 @@ abstract class BaseActiveRecord extends Model implements ActiveRecordInterface
             $this->_related[$name] = $model;
         } elseif (isset($this->_related[$name])) {
             if ($relation->indexBy !== null) {
-                $indexBy = $relation->indexBy;
-                $this->_related[$name][$model->$indexBy] = $model;
+                if ($relation->indexBy instanceof \Closure) {
+                    $index = call_user_func($relation->indexBy, $model);
+                } else {
+                    $index = $model->{$relation->indexBy};
+                }
+                $this->_related[$name][$index] = $model;
             } else {
                 $this->_related[$name][] = $model;
             }
@@ -1304,10 +1308,14 @@ abstract class BaseActiveRecord extends Model implements ActiveRecordInterface
             $p1 = $model->isPrimaryKey(array_keys($relation->link));
             $p2 = static::isPrimaryKey(array_values($relation->link));
             if ($p2) {
-                foreach ($relation->link as $a => $b) {
-                    $model->$a = null;
+                if ($delete) {
+                    $model->delete();
+                } else {
+                    foreach ($relation->link as $a => $b) {
+                        $model->$a = null;
+                    }
+                    $model->save(false);
                 }
-                $delete ? $model->delete() : $model->save(false);
             } elseif ($p1) {
                 foreach ($relation->link as $a => $b) {
                     if (is_array($this->$b)) { // relation via array valued attribute

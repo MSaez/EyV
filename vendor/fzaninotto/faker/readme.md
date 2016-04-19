@@ -1147,7 +1147,16 @@ echo $faker->name; // 'Sr. Luis Adriano Sepúlveda Filho'
 echo $faker->cpf;        // '145.343.345-76'
 echo $faker->cpf(false); // '45623467866'
 echo $faker->rg;         // '84.405.736-3'
-echo $faker->cnpj;       // '23.663.478/0001-24'
+```
+
+### `Faker\Provider\pt_BR\Company`
+
+```php
+<?php
+
+// Generates a Brazilian formated and valid CNPJ
+echo $faker->cnpj;        // '23.663.478/0001-24'
+echo $faker->cnpj(false); // '23663478000124'
 ```
 
 ### `Faker\Provider\ro_MD\Payment`
@@ -1231,6 +1240,16 @@ echo $faker->personalIdentityNumber() // '950910-0799'
 
 //Since the numbers are different for male and female persons, optionally you can specify gender.
 echo $faker->personalIdentityNumber('female') // '950910-0781'
+```
+
+
+### `Faker\Provider\zh_CN\Payment`
+
+```php
+<?php
+
+// Generates a random bank name (based on list of real chinese banks)
+echo $faker->bank; // '中国建设银行'
 ```
 
 ## Third-Party Libraries Extending/Based On Faker

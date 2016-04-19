@@ -39,7 +39,16 @@ AppAsset::register($this);
             ['label' => 'Inicio', 'url' => ['/site/index']],
             ['label' => 'Sobre mí', 'url' => ['/site/about']],
             ['label' => 'Contacto', 'url' => ['/site/contact']],
-            ['label' => 'Usuarios', 'url' => ['/usuario']],
+            ['label' => 'Administrar', 
+                                'items' => [
+                                                ['label' => 'Marcas', 'url' => ['/marca']],
+                                                ['label' => 'Modelos', 'url' => ['/modelo']],
+                                                ['label' => 'Clientes', 'url' => ['/cliente']],
+                                                ['label' => 'Vehículos', 'url' => ['/vehiculo']],
+                                                ['label' => 'Empleados', 'url' => ['/empleado']],
+                                                ['label' => 'Usuarios', 'url' => ['/usuario']],
+                                ],
+                            ],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Iniciar sesión', 'url' => ['/site/login']]
             ) : (

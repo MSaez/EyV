@@ -17,7 +17,10 @@
         "php": ">=5.4.0",
         "yiisoft/yii2": ">=2.0.5",
         "yiisoft/yii2-bootstrap": "*",
-        "yiisoft/yii2-swiftmailer": "*"
+        "yiisoft/yii2-swiftmailer": "*",
+        "wbraganca/yii2-dynamicform": "*",
+        "kartik-v/yii2-grid": "@dev",
+        "kartik-v/yii2-mpdf": "^1.0"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
