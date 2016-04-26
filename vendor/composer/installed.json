@@ -323,12 +323,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/yiisoft/yii2-framework.git",
-            "reference": "d7d15fe98d1000aa82de7e86e749c0df4f5169de"
+            "reference": "38a273269f57dd08ad0189b9e0d5f8b68009231b"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/d7d15fe98d1000aa82de7e86e749c0df4f5169de",
-            "reference": "d7d15fe98d1000aa82de7e86e749c0df4f5169de",
+            "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/38a273269f57dd08ad0189b9e0d5f8b68009231b",
+            "reference": "38a273269f57dd08ad0189b9e0d5f8b68009231b",
             "shasum": ""
         },
         "require": {
@@ -606,12 +606,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/fzaninotto/Faker.git",
-            "reference": "1c33e894fbbad6cf65bd42871719cd33227ed6a7"
+            "reference": "ccef6542a4f9c1098fce823c42da7aab4264d385"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/1c33e894fbbad6cf65bd42871719cd33227ed6a7",
-            "reference": "1c33e894fbbad6cf65bd42871719cd33227ed6a7",
+            "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/ccef6542a4f9c1098fce823c42da7aab4264d385",
+            "reference": "ccef6542a4f9c1098fce823c42da7aab4264d385",
             "shasum": ""
         },
         "require": {
@@ -823,12 +823,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/kartik-v/yii2-krajee-base.git",
-            "reference": "ac0587853943e99738fc7bbd21fcf7acf7095a61"
+            "reference": "1e53b1124cd92f75e03bf934b01c413ac445ad98"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/kartik-v/yii2-krajee-base/zipball/ac0587853943e99738fc7bbd21fcf7acf7095a61",
-            "reference": "ac0587853943e99738fc7bbd21fcf7acf7095a61",
+            "url": "https://api.github.com/repos/kartik-v/yii2-krajee-base/zipball/1e53b1124cd92f75e03bf934b01c413ac445ad98",
+            "reference": "1e53b1124cd92f75e03bf934b01c413ac445ad98",
             "shasum": ""
         },
         "require": {
@@ -876,12 +876,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/kartik-v/yii2-grid.git",
-            "reference": "2969c68557cd396dea6a3af6924f96aa0d9d1d7d"
+            "reference": "f6d157a8af70d34872e415a19724dc67378cf151"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/2969c68557cd396dea6a3af6924f96aa0d9d1d7d",
-            "reference": "2969c68557cd396dea6a3af6924f96aa0d9d1d7d",
+            "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/f6d157a8af70d34872e415a19724dc67378cf151",
+            "reference": "f6d157a8af70d34872e415a19724dc67378cf151",
             "shasum": ""
         },
         "require": {
@@ -1115,12 +1115,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/yiisoft/yii2-gii.git",
-            "reference": "70edab5a7938b5bf4b5dc3ad1e1c3ce673552f48"
+            "reference": "62eddfcbf377353777742b3ceaf2b75dc81178e3"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/yiisoft/yii2-gii/zipball/70edab5a7938b5bf4b5dc3ad1e1c3ce673552f48",
-            "reference": "70edab5a7938b5bf4b5dc3ad1e1c3ce673552f48",
+            "url": "https://api.github.com/repos/yiisoft/yii2-gii/zipball/62eddfcbf377353777742b3ceaf2b75dc81178e3",
+            "reference": "62eddfcbf377353777742b3ceaf2b75dc81178e3",
             "shasum": ""
         },
         "require": {
@@ -1219,12 +1219,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/mpdf/mpdf.git",
-            "reference": "9f2d761e7ac1d89a6752a18036a597fa9ce2d8c7"
+            "reference": "27641244fbd6c42e875b2ef3625bc7aa1db8af8f"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mpdf/mpdf/zipball/9f2d761e7ac1d89a6752a18036a597fa9ce2d8c7",
-            "reference": "9f2d761e7ac1d89a6752a18036a597fa9ce2d8c7",
+            "url": "https://api.github.com/repos/mpdf/mpdf/zipball/27641244fbd6c42e875b2ef3625bc7aa1db8af8f",
+            "reference": "27641244fbd6c42e875b2ef3625bc7aa1db8af8f",
             "shasum": ""
         },
         "require": {
@@ -1312,6 +1312,140 @@
             "mpdf",
             "pdf",
             "utf8",
+            "yii2"
+        ]
+    },
+    {
+        "name": "kartik-v/yii2-widget-select2",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/kartik-v/yii2-widget-select2.git",
+            "reference": "6919d5096ca83ab4a1b163fcd09fb023814d1003"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/6919d5096ca83ab4a1b163fcd09fb023814d1003",
+            "reference": "6919d5096ca83ab4a1b163fcd09fb023814d1003",
+            "shasum": ""
+        },
+        "require": {
+            "kartik-v/yii2-krajee-base": "~1.7"
+        },
+        "time": "2016-04-19 13:22:56",
+        "type": "yii2-extension",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "kartik\\select2\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Kartik Visweswaran",
+                "email": "kartikv2@gmail.com",
+                "homepage": "http://www.krajee.com/"
+            }
+        ],
+        "description": "Enhanced Yii2 wrapper for the Select2 jQuery plugin (sub repo split from yii2-widgets).",
+        "homepage": "https://github.com/kartik-v/yii2-widget-select2",
+        "keywords": [
+            "dropdown",
+            "extension",
+            "form",
+            "jquery",
+            "plugin",
+            "select2",
+            "widget",
+            "yii2"
+        ]
+    },
+    {
+        "name": "bower-asset/jquery-ui",
+        "version": "1.11.4",
+        "version_normalized": "1.11.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/components/jqueryui.git",
+            "reference": "c34f8dbf3ba57b3784b93f26119f436c0e8288e1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/components/jqueryui/zipball/c34f8dbf3ba57b3784b93f26119f436c0e8288e1",
+            "reference": "c34f8dbf3ba57b3784b93f26119f436c0e8288e1",
+            "shasum": ""
+        },
+        "require": {
+            "bower-asset/jquery": ">=1.6"
+        },
+        "type": "bower-asset-library",
+        "extra": {
+            "bower-asset-main": [
+                "jquery-ui.js"
+            ],
+            "bower-asset-ignore": []
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "yiisoft/yii2-jui",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/yiisoft/yii2-jui.git",
+            "reference": "9ab9a2cb17cd7f13921339e11e5146295cf39083"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/yiisoft/yii2-jui/zipball/9ab9a2cb17cd7f13921339e11e5146295cf39083",
+            "reference": "9ab9a2cb17cd7f13921339e11e5146295cf39083",
+            "shasum": ""
+        },
+        "require": {
+            "bower-asset/jquery-ui": "1.11.*@stable",
+            "yiisoft/yii2": ">=2.0.4"
+        },
+        "time": "2016-04-14 08:48:18",
+        "type": "yii2-extension",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.0.x-dev"
+            },
+            "asset-installer-paths": {
+                "npm-asset-library": "vendor/npm",
+                "bower-asset-library": "vendor/bower"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "yii\\jui\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Qiang Xue",
+                "email": "qiang.xue@gmail.com"
+            }
+        ],
+        "description": "The Jquery UI extension for the Yii framework",
+        "keywords": [
+            "jQuery UI",
             "yii2"
         ]
     }

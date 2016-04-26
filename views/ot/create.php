@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Ot */
 
-$this->title = 'Create Ot';
-$this->params['breadcrumbs'][] = ['label' => 'Ots', 'url' => ['index']];
+$this->title = 'Presupuesto';
+$this->params['breadcrumbs'][] = ['label' => 'Presupuestos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="ot-create">
@@ -17,6 +17,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $this->render('_form', [
         'model' => $model,
         'modelsDesabolladura' => $modelsDesabolladura,
+        'modelsPintura' => $modelsPintura,
+        'modelsInsumo' => $modelsInsumo,
+        'modelsServicios' => $modelsServicios,
     ]) ?>
 
 </div>

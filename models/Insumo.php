@@ -49,13 +49,13 @@ class Insumo extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'INS_ID' => 'Ins  ID',
-            'OT_ID' => 'Ot  ID',
-            'PAG_ID' => 'Pag  ID',
-            'INS_NOMBRE' => 'Ins  Nombre',
-            'INS_CANTIDAD' => 'Ins  Cantidad',
-            'INS_PRECIO_UNITARIO' => 'Ins  Precio  Unitario',
-            'INS_TOTAL' => 'Ins  Total',
+            'INS_ID' => 'ID',
+            'OT_ID' => 'Orden de Trabajo',
+            'PAG_ID' => 'Documento de Pago',
+            'INS_NOMBRE' => 'Nombre',
+            'INS_CANTIDAD' => 'Cantidad',
+            'INS_PRECIO_UNITARIO' => 'Precio  Unitario',
+            'INS_TOTAL' => 'Total',
         ];
     }
 

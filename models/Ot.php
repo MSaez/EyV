@@ -65,18 +65,18 @@ class Ot extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'OT_ID' => 'Ot  ID',
-            'OD_ID' => 'Od  ID',
-            'CBR_ID' => 'Cbr  ID',
-            'VEH_ID' => 'Veh  ID',
-            'CLI_ID' => 'Cli  ID',
-            'OT_INICIO' => 'Ot  Inicio',
-            'OT_ENTREGA' => 'Ot  Entrega',
-            'OT_OBSERVACIONES' => 'Ot  Observaciones',
-            'OT_SUBTOTAL' => 'Ot  Subtotal',
-            'OT_IVA' => 'Ot  Iva',
-            'OT_TOTAL' => 'Ot  Total',
-            'OT_TOTAL_HORAS' => 'Ot  Total  Horas',
+            'OT_ID' => 'ID',
+            'OD_ID' => 'Órden de Despacho',
+            'CBR_ID' => 'Órden de Cobro',
+            'VEH_ID' => 'Vehículo',
+            'CLI_ID' => 'Cliente',
+            'OT_INICIO' => 'Fecha Inicio',
+            'OT_ENTREGA' => 'Fecha de Entrega',
+            'OT_OBSERVACIONES' => 'Observaciones',
+            'OT_SUBTOTAL' => 'Subtotal',
+            'OT_IVA' => 'IVA',
+            'OT_TOTAL' => 'Total',
+            'OT_TOTAL_HORAS' => 'Total Horas',
         ];
     }
 

@@ -8,6 +8,12 @@ use app\models\OtSearch;
 use app\models\Model;
 use app\models\ActividadDesabolladura;
 use app\models\ActividadDesabolladuraSearch;
+use app\models\ActividadPintura;
+use app\models\ActividadPinturaSearch;
+use app\models\Insumo;
+use app\models\InsumoSearch;
+use app\models\OtrosServicios;
+use app\models\OtrosServiciosSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -59,18 +65,41 @@ class OtController extends Controller
     {
         $model = $this->findModel($id);
         $modelsDesabolladura = $model->actividadDesabolladuras;
+        $modelsPintura = $model->actividadPinturas;
+        $modelsInsumo = $model->insumos;
+        $modelsServicios = $model->otrosServicios;
         
-        $searchModel = new ActividadDesabolladuraSearch();
-        $searchModel->OT_ID = $model->OT_ID;
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $searchModelDesabolladura = new ActividadDesabolladuraSearch();
+        $searchModelDesabolladura->OT_ID = $model->OT_ID;
+        $dataProviderDesabolladura = $searchModelDesabolladura->search(Yii::$app->request->queryParams);
+        
+        $searchModelPintura = new ActividadPinturaSearch();
+        $searchModelPintura->OT_ID = $model->OT_ID;
+        $dataProviderPintura = $searchModelPintura->search(Yii::$app->request->queryParams);
+        
+        $searchModelInsumo = new InsumoSearch();
+        $searchModelInsumo->OT_ID = $model->OT_ID;
+        $dataProviderInsumo = $searchModelInsumo->search(Yii::$app->request->queryParams);
+        
+        $searchModelServicios = new OtrosServiciosSearch();
+        $searchModelServicios->OT_ID = $model->OT_ID;
+        $dataProviderServicios = $searchModelServicios->search(Yii::$app->request->queryParams);
         
         return Yii::$app->controller->render('view',[
 
             'model' => $model,
             'modelsDesabolladura' => $modelsDesabolladura,
-            'searchModel'=> $searchModel,
-            'dataProvider'=> $dataProvider,
-
+            'searchModelDesabolladura'=> $searchModelDesabolladura,
+            'dataProviderDesabolladura'=> $dataProviderDesabolladura,
+            'modelsPintura' => $modelsPintura,
+            'searchModelPintura' => $searchModelPintura,
+            'dataProviderPintura' => $dataProviderPintura,
+            'modelsInsumo' => $modelsInsumo,
+            'searchModelInsumo' => $searchModelInsumo,
+            'dataProviderInsumo' => $dataProviderInsumo,
+            'modelsServicios' => $modelsServicios,
+            'seachModelServicios' => $searchModelServicios,
+            'dataProviderServicios' => $dataProviderServicios
         ]);
         
     }
@@ -84,28 +113,53 @@ class OtController extends Controller
     {
         $model = new Ot();
         $modelsDesabolladura = [new ActividadDesabolladura];
+        $modelsPintura = [new ActividadPintura];
+        $modelsInsumo = [new Insumo];
+        $modelsServicios = [new OtrosServicios];
+        
         if ($model->load(Yii::$app->request->post())) {
 
+            // Para las actividades de desabolladura
             $modelsDesabolladura = Model::createMultiple(ActividadDesabolladura::classname());
             Model::loadMultiple($modelsDesabolladura, Yii::$app->request->post());
+            
+            // Para las actividades de pintura
+            $modelsPintura = Model::createMultiple(ActividadPintura::classname());
+            Model::loadMultiple($modelsPintura, Yii::$app->request->post());
+            
+            // Para los insumos
+            $modelsInsumo = Model::createMultiple(Insumo::classname());
+            Model::loadMultiple($modelsInsumo, Yii::$app->request->post());
+            
+            // Para los servicios externos
+            $modelsServicios = Model::createMultiple(OtrosServicios::classname());
+            Model::loadMultiple($modelsServicios, Yii::$app->request->post());
 
-            // ajax validation
+            // Validación AJAX
             if (Yii::$app->request->isAjax) {
                 Yii::$app->response->format = Response::FORMAT_JSON;
                 return ArrayHelper::merge(
                     ActiveForm::validateMultiple($modelsDesabolladura),
+                    ActiveForm::validateMultiple($modelsPintura),
+                    ActiveForm::validateMultiple($modelsInsumo),
+                    ActiveForm::validateMultiple($modelsServicios),
                     ActiveForm::validate($model)
                 );
             }
 
-            // validate all models
+            // Validamos todos los modelos
             $valid = $model->validate();
-            $valid = Model::validateMultiple($modelsDesabolladura) && $valid;
+            $valid = Model::validateMultiple($modelsDesabolladura) &&
+                     Model::validateMultiple($modelsPintura) &&
+                     Model::validateMultiple($modelsInsumo) &&
+                     Model::validateMultiple($modelsServicios) && $valid;
+            
 
             if ($valid) {
                 $transaction = \Yii::$app->db->beginTransaction();
                 try {
                     if ($flag = $model->save(false)) {
+                        
                         foreach ($modelsDesabolladura as $modelDesabolladura) {
                             $modelDesabolladura->OT_ID = $model->OT_ID;
                             if (! ($flag = $modelDesabolladura->save(false))) {
@@ -113,6 +167,39 @@ class OtController extends Controller
                                 break;
                             }
                         }
+                        
+                        /* ************************************************ */
+                        
+                        foreach ($modelsPintura as $modelPintura) {
+                            $modelPintura->OT_ID = $model->OT_ID;
+                            if (! ($flag = $modelPintura->save(false))) {
+                                $transaction->rollBack();
+                                break;
+                            }
+                        }
+                        
+                        /* ************************************************ */
+                        
+                        foreach ($modelsInsumo as $modelInsumo) {
+                            $modelInsumo->OT_ID = $model->OT_ID;
+                            if (! ($flag = $modelInsumo->save(false))) {
+                                $transaction->rollBack();
+                                break;
+                            }
+                        }
+                        
+                        /* ************************************************ */
+                        
+                        foreach ($modelsServicios as $modelServicios) {
+                            $modelServicios->OT_ID = $model->OT_ID;
+                            if (! ($flag = $modelServicios->save(false))) {
+                                $transaction->rollBack();
+                                break;
+                            }
+                        }
+                        
+                        /* ************************************************ */
+                        
                     }
                     if ($flag) {
                         $transaction->commit();
@@ -126,7 +213,10 @@ class OtController extends Controller
 
         return $this->render('create', [
             'model' => $model,
-            'modelsDesabolladura' => (empty($modelsDesabolladura)) ? [new ActividadDesabolladura] : $modelsDesabolladura
+            'modelsDesabolladura' => (empty($modelsDesabolladura)) ? [new ActividadDesabolladura] : $modelsDesabolladura,
+            'modelsPintura' => (empty($modelsPintura)) ? [new ActividadPintura] : $modelsPintura,
+            'modelsInsumo' => (empty($modelsInsumo)) ? [new Insumo] : $modelsInsumo,
+            'modelsServicios' => (empty($modelsServicios)) ? [new OtrosServicios] : $modelsServicios
         ]);
     }
     
@@ -139,15 +229,132 @@ class OtController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $model = $this -> findModel($id);
+        $modelsDesabolladura = $model -> actividadDesabolladuras;
+        $modelsPintura = $model -> actividadPinturas;
+        $modelsInsumo = $model -> insumos;
+        $modelsServicios = $model -> otrosServicios;
+        if ($model -> load(Yii::$app -> request -> post())){
+            
+            $oldIDsDesabolladura = ArrayHelper::map($modelsDesabolladura, 'DES_ID', 'DES_ID');
+            $modelsDesabolladura = Model::createMultiple(ActividadDesabolladura::classname(), $modelsDesabolladura);
+            Model::loadMultiple($modelsDesabolladura, Yii::$app->request->post());
+            $deletedIDsDesabolladura = array_diff($oldIDsDesabolladura, array_filter(ArrayHelper::map($modelsDesabolladura, 'DES_ID', 'DES_ID')));
+            
+            /* ************************************ */
+            
+            $oldIDsPintura = ArrayHelper::map($modelsPintura, 'PIN_ID', 'PIN_ID');
+            $modelsPintura = Model::createMultiple(ActividadPintura::classname(), $modelsPintura);
+            Model::loadMultiple($modelsPintura, Yii::$app->request->post());
+            $deletedIDsPintura = array_diff($oldIDsPintura, array_filter(ArrayHelper::map($modelsPintura, 'PIN_ID', 'PIN_ID')));
+            
+            /* ************************************ */
+            
+            $oldIDsInsumo = ArrayHelper::map($modelsInsumo, 'INS_ID', 'INS_ID');
+            $modelsInsumo = Model::createMultiple(Insumo::classname(), $modelsInsumo);
+            Model::loadMultiple($modelsInsumo, Yii::$app->request->post());
+            $deletedIDsInsumo = array_diff($oldIDsInsumo, array_filter(ArrayHelper::map($modelsInsumo, 'INS_ID', 'INS_ID')));
+            
+            /* ************************************ */
+            
+            $oldIDsServicios = ArrayHelper::map($modelsServicios, 'OS_ID', 'OS_ID');
+            $modelsServicios = Model::createMultiple(OtrosServicios::classname(), $modelsServicios);
+            Model::loadMultiple($modelsServicios, Yii::$app->request->post());
+            $deletedIDsServicios = array_diff($oldIDsServicios, array_filter(ArrayHelper::map($modelsServicios, 'OS_ID', 'OS_ID')));
+            
+            // Validación AJAX
+            if (Yii::$app->request->isAjax) {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return ArrayHelper::merge(
+                    ActiveForm::validateMultiple($modelsDesabolladura),
+                    ActiveForm::validateMultiple($modelsPintura),
+                    ActiveForm::validateMultiple($modelsInsumo),
+                    ActiveForm::validateMultiple($modelsServicios),
+                    ActiveForm::validate($model)
+                );
+            }
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->OT_ID]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+            // Validamos todos los modelos
+            $valid = $model->validate();
+            $valid = Model::validateMultiple($modelsDesabolladura) &&
+                     Model::validateMultiple($modelsPintura) &&
+                     Model::validateMultiple($modelsInsumo) &&
+                     Model::validateMultiple($modelsServicios) && $valid;
+            
+             if ($valid) 
+            {
+                 $transaction = \Yii::$app->db->beginTransaction();
+                 try {
+                     if ($flag = $model -> save(false)){
+                        
+                        // Actividad de Desabolladura
+                        if (! empty($deletedIDsDesabolladura)) {
+                            ActividadDesabolladura::deleteAll(['DES_ID' => $deletedIDsDesabolladura]);
+                        }
+                        foreach ($modelsDesabolladura as $modelcom_desabolladura) {
+                            $modelcom_desabolladura->com_id = $model->OT_ID;
+                            if (! ($flag = $modelcom_desabolladura->save(false))) {
+                                $transaction->rollBack();
+                                break;
+                            }
+                        }
+                        
+                        // Actividad de Pintura
+                        
+                        if (! empty($deletedIDsPintura)) {
+                            ActividadPintura::deleteAll(['PIN_ID' => $deletedIDsPintura]);
+                        }
+                        foreach ($modelsPintura as $modelcom_pintura) {
+                            $modelcom_pintura->com_id = $model->OT_ID;
+                            if (! ($flag = $modelcom_pintura->save(false))) {
+                                $transaction->rollBack();
+                                break;
+                            }
+                        }
+                        
+                        // Insumo
+                        
+                        if (! empty($deletedIDsInsumo)) {
+                            Insumo::deleteAll(['INS_ID' => $deletedIDsInsumo]);
+                        }
+                        foreach ($modelsInsumo as $modelcom_insumo) {
+                            $modelcom_insumo->com_id = $model->OT_ID;
+                            if (! ($flag = $modelcom_insumo->save(false))) {
+                                $transaction->rollBack();
+                                break;
+                            }
+                        }
+                        
+                        // Servicio Externo
+                        
+                        if (! empty($deletedIDsServicios)) {
+                            OtrosServicios::deleteAll(['OS_ID' => $deletedIDsServicios]);
+                        }
+                        foreach ($modelsServicios as $modelcom_servicios) {
+                            $modelcom_servicios->com_id = $model->OT_ID;
+                            if (! ($flag = $modelcom_servicios->save(false))) {
+                                $transaction->rollBack();
+                                break;
+                            }
+                        }
+                     }
+                     if ($flag) {
+                        $transaction->commit();
+                        return $this->redirect(['view', 'id' => $model->OT_ID]);
+                     }
+                 } catch (Exception $e) {
+                     $transaction->rollBack();
+                 }
+            }
         }
+        
+        return $this->render('update', [
+            'model' => $model,
+            'modelsDesabolladura' => (empty($modelsDesabolladura)) ? [new ActividadDesabolladura] : $modelsDesabolladura,
+            'modelsPintura' => (empty($modelsPintura)) ? [new ActividadPintura] : $modelsPintura,
+            'modelsInsumo' => (empty($modelsInsumo)) ? [new Insumo] : $modelsInsumo,
+            'modelsServicios' => (empty($modelsServicios)) ? [new OtrosServicios] : $modelsServicios
+        ]);
     }
 
     /**

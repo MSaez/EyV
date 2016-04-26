@@ -15,6 +15,7 @@ class ComposerStaticInit5b36e36e8a642c9b70fba14929a8f42a
         'y' => 
         array (
             'yii\\swiftmailer\\' => 16,
+            'yii\\jui\\' => 8,
             'yii\\gii\\' => 8,
             'yii\\faker\\' => 10,
             'yii\\debug\\' => 10,
@@ -29,6 +30,7 @@ class ComposerStaticInit5b36e36e8a642c9b70fba14929a8f42a
         ),
         'k' => 
         array (
+            'kartik\\select2\\' => 15,
             'kartik\\mpdf\\' => 12,
             'kartik\\grid\\' => 12,
             'kartik\\base\\' => 12,
@@ -47,6 +49,10 @@ class ComposerStaticInit5b36e36e8a642c9b70fba14929a8f42a
         'yii\\swiftmailer\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2-swiftmailer',
+        ),
+        'yii\\jui\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-jui',
         ),
         'yii\\gii\\' => 
         array (
@@ -79,6 +85,10 @@ class ComposerStaticInit5b36e36e8a642c9b70fba14929a8f42a
         'wbraganca\\dynamicform\\' => 
         array (
             0 => __DIR__ . '/..' . '/wbraganca/yii2-dynamicform/src',
+        ),
+        'kartik\\select2\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-select2',
         ),
         'kartik\\mpdf\\' => 
         array (

@@ -121,4 +121,28 @@ class VehiculoController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+    
+    public function actionList($id)
+    {
+        $countVehiculos = Vehiculo::find()
+            ->where(['CLI_ID' =>$id])
+            ->count();
+
+        $vehiculos = Vehiculo::find()
+            ->where(['CLI_ID' =>$id])
+            ->all();
+
+        echo "<option value=''>Seleccione un vehículo</option>";
+
+        if( $countModelos > 0 )
+        {
+            foreach ($vehiculos as $vehiculo) {
+                echo "<option value='".$vehiculo->VEH_ID."'>".$modelo->VEH_PARENTE."</option>";                
+            }
+        }
+        else
+        {
+            echo "<option>-</option>";
+        }
+    }
 }

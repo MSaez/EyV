@@ -50,13 +50,13 @@ class ActividadPintura extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'PIN_ID' => 'Pin  ID',
-            'EMP_RUT' => 'Emp  Rut',
-            'OT_ID' => 'Ot  ID',
-            'PIN_DESCRIPCION' => 'Pin  Descripcion',
-            'PIN_HORAS' => 'Pin  Horas',
-            'PIN_PRECIO' => 'Pin  Precio',
-            'PIN_ESTADO' => 'Pin  Estado',
+            'PIN_ID' => 'ID',
+            'EMP_RUT' => 'Empleado',
+            'OT_ID' => 'Orden de Trabajo',
+            'PIN_DESCRIPCION' => 'Descripción',
+            'PIN_HORAS' => 'Horas',
+            'PIN_PRECIO' => 'Precio',
+            'PIN_ESTADO' => 'Estado',
         ];
     }
 

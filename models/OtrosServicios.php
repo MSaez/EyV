@@ -47,11 +47,11 @@ class OtrosServicios extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'OS_ID' => 'Os  ID',
-            'OT_ID' => 'Ot  ID',
-            'PAG_ID' => 'Pag  ID',
-            'OS_DESCRIPCION' => 'Os  Descripcion',
-            'OS_PRECIO' => 'Os  Precio',
+            'OS_ID' => 'ID',
+            'OT_ID' => 'Orden de Trabajo',
+            'PAG_ID' => 'Documento de Pago',
+            'OS_DESCRIPCION' => 'Descripción',
+            'OS_PRECIO' => 'Precio',
         ];
     }
 
