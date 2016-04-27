@@ -5,7 +5,10 @@ namespace app\controllers;
 use Yii;
 use app\models\Ot;
 use app\models\OtSearch;
-use app\models\Model;
+use app\models\OsModel;
+use app\models\InModel;
+use app\models\DesModel;
+use app\models\PinModel;
 use app\models\ActividadDesabolladura;
 use app\models\ActividadDesabolladuraSearch;
 use app\models\ActividadPintura;
@@ -120,20 +123,20 @@ class OtController extends Controller
         if ($model->load(Yii::$app->request->post())) {
 
             // Para las actividades de desabolladura
-            $modelsDesabolladura = Model::createMultiple(ActividadDesabolladura::classname());
-            Model::loadMultiple($modelsDesabolladura, Yii::$app->request->post());
+            $modelsDesabolladura = DesModel::createMultiple(ActividadDesabolladura::classname());
+            DesModel::loadMultiple($modelsDesabolladura, Yii::$app->request->post());
             
             // Para las actividades de pintura
-            $modelsPintura = Model::createMultiple(ActividadPintura::classname());
-            Model::loadMultiple($modelsPintura, Yii::$app->request->post());
+            $modelsPintura = PinModel::createMultiple(ActividadPintura::classname());
+            PinModel::loadMultiple($modelsPintura, Yii::$app->request->post());
             
             // Para los insumos
-            $modelsInsumo = Model::createMultiple(Insumo::classname());
-            Model::loadMultiple($modelsInsumo, Yii::$app->request->post());
+            $modelsInsumo = InModel::createMultiple(Insumo::classname());
+            InModel::loadMultiple($modelsInsumo, Yii::$app->request->post());
             
             // Para los servicios externos
-            $modelsServicios = Model::createMultiple(OtrosServicios::classname());
-            Model::loadMultiple($modelsServicios, Yii::$app->request->post());
+            $modelsServicios = OsModel::createMultiple(OtrosServicios::classname());
+            OsModel::loadMultiple($modelsServicios, Yii::$app->request->post());
 
             // Validación AJAX
             if (Yii::$app->request->isAjax) {
@@ -149,12 +152,11 @@ class OtController extends Controller
 
             // Validamos todos los modelos
             $valid = $model->validate();
-            $valid = Model::validateMultiple($modelsDesabolladura) &&
-                     Model::validateMultiple($modelsPintura) &&
-                     Model::validateMultiple($modelsInsumo) &&
-                     Model::validateMultiple($modelsServicios) && $valid;
+            $valid = DesModel::validateMultiple($modelsDesabolladura) &&
+                     PinModel::validateMultiple($modelsPintura) && 
+                     InModel::validateMultiple($modelsInsumo) && 
+                     OsModel::validateMultiple($modelsServicios) && $valid;
             
-
             if ($valid) {
                 $transaction = \Yii::$app->db->beginTransaction();
                 try {
@@ -229,37 +231,38 @@ class OtController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this -> findModel($id);
-        $modelsDesabolladura = $model -> actividadDesabolladuras;
-        $modelsPintura = $model -> actividadPinturas;
-        $modelsInsumo = $model -> insumos;
-        $modelsServicios = $model -> otrosServicios;
-        if ($model -> load(Yii::$app -> request -> post())){
+        $model=$this->findModel($id);
+        $modelsDesabolladura=$model->actividadDesabolladuras;
+        $modelsPintura=$model->actividadPinturas;
+        $modelsInsumo=$model->insumos;
+        $modelsServicios=$model->otrosServicios;
+
+        if ($model->load(Yii::$app->request -> post())){
             
             $oldIDsDesabolladura = ArrayHelper::map($modelsDesabolladura, 'DES_ID', 'DES_ID');
-            $modelsDesabolladura = Model::createMultiple(ActividadDesabolladura::classname(), $modelsDesabolladura);
-            Model::loadMultiple($modelsDesabolladura, Yii::$app->request->post());
+            $modelsDesabolladura = DesModel::createMultiple(ActividadDesabolladura::classname(), $modelsDesabolladura);
+            DesModel::loadMultiple($modelsDesabolladura, Yii::$app->request->post());
             $deletedIDsDesabolladura = array_diff($oldIDsDesabolladura, array_filter(ArrayHelper::map($modelsDesabolladura, 'DES_ID', 'DES_ID')));
             
             /* ************************************ */
             
             $oldIDsPintura = ArrayHelper::map($modelsPintura, 'PIN_ID', 'PIN_ID');
-            $modelsPintura = Model::createMultiple(ActividadPintura::classname(), $modelsPintura);
-            Model::loadMultiple($modelsPintura, Yii::$app->request->post());
+            $modelsPintura = PinModel::createMultiple(ActividadPintura::classname(), $modelsPintura);
+            PinModel::loadMultiple($modelsPintura, Yii::$app->request->post());
             $deletedIDsPintura = array_diff($oldIDsPintura, array_filter(ArrayHelper::map($modelsPintura, 'PIN_ID', 'PIN_ID')));
             
             /* ************************************ */
             
             $oldIDsInsumo = ArrayHelper::map($modelsInsumo, 'INS_ID', 'INS_ID');
-            $modelsInsumo = Model::createMultiple(Insumo::classname(), $modelsInsumo);
-            Model::loadMultiple($modelsInsumo, Yii::$app->request->post());
+            $modelsInsumo = InModel::createMultiple(Insumo::classname(), $modelsInsumo);
+            InModel::loadMultiple($modelsInsumo, Yii::$app->request->post());
             $deletedIDsInsumo = array_diff($oldIDsInsumo, array_filter(ArrayHelper::map($modelsInsumo, 'INS_ID', 'INS_ID')));
             
             /* ************************************ */
             
             $oldIDsServicios = ArrayHelper::map($modelsServicios, 'OS_ID', 'OS_ID');
-            $modelsServicios = Model::createMultiple(OtrosServicios::classname(), $modelsServicios);
-            Model::loadMultiple($modelsServicios, Yii::$app->request->post());
+            $modelsServicios = OsModel::createMultiple(OtrosServicios::classname(), $modelsServicios);
+            OsModel::loadMultiple($modelsServicios, Yii::$app->request->post());
             $deletedIDsServicios = array_diff($oldIDsServicios, array_filter(ArrayHelper::map($modelsServicios, 'OS_ID', 'OS_ID')));
             
             // Validación AJAX
@@ -276,10 +279,10 @@ class OtController extends Controller
 
             // Validamos todos los modelos
             $valid = $model->validate();
-            $valid = Model::validateMultiple($modelsDesabolladura) &&
-                     Model::validateMultiple($modelsPintura) &&
-                     Model::validateMultiple($modelsInsumo) &&
-                     Model::validateMultiple($modelsServicios) && $valid;
+            $valid = DesModel::validateMultiple($modelsDesabolladura) &&
+                     PinModel::validateMultiple($modelsPintura) &&
+                     InModel::validateMultiple($modelsInsumo) &&
+                     OsModel::validateMultiple($modelsServicios) && $valid;
             
              if ($valid) 
             {
@@ -292,7 +295,7 @@ class OtController extends Controller
                             ActividadDesabolladura::deleteAll(['DES_ID' => $deletedIDsDesabolladura]);
                         }
                         foreach ($modelsDesabolladura as $modelcom_desabolladura) {
-                            $modelcom_desabolladura->com_id = $model->OT_ID;
+                            $modelcom_desabolladura->OT_ID = $model->OT_ID;
                             if (! ($flag = $modelcom_desabolladura->save(false))) {
                                 $transaction->rollBack();
                                 break;
@@ -305,7 +308,7 @@ class OtController extends Controller
                             ActividadPintura::deleteAll(['PIN_ID' => $deletedIDsPintura]);
                         }
                         foreach ($modelsPintura as $modelcom_pintura) {
-                            $modelcom_pintura->com_id = $model->OT_ID;
+                            $modelcom_pintura->OT_ID = $model->OT_ID;
                             if (! ($flag = $modelcom_pintura->save(false))) {
                                 $transaction->rollBack();
                                 break;
@@ -318,7 +321,7 @@ class OtController extends Controller
                             Insumo::deleteAll(['INS_ID' => $deletedIDsInsumo]);
                         }
                         foreach ($modelsInsumo as $modelcom_insumo) {
-                            $modelcom_insumo->com_id = $model->OT_ID;
+                            $modelcom_insumo->OT_ID = $model->OT_ID;
                             if (! ($flag = $modelcom_insumo->save(false))) {
                                 $transaction->rollBack();
                                 break;
@@ -331,7 +334,7 @@ class OtController extends Controller
                             OtrosServicios::deleteAll(['OS_ID' => $deletedIDsServicios]);
                         }
                         foreach ($modelsServicios as $modelcom_servicios) {
-                            $modelcom_servicios->com_id = $model->OT_ID;
+                            $modelcom_servicios->OT_ID = $model->OT_ID;
                             if (! ($flag = $modelcom_servicios->save(false))) {
                                 $transaction->rollBack();
                                 break;

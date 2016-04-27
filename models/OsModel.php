@@ -5,7 +5,7 @@ namespace app\models;
 use Yii;
 use yii\helpers\ArrayHelper;
 
-class Model extends \yii\base\Model
+class OsModel extends \yii\base\Model
 {
     /**
      * Creates and populates a set of models.
@@ -22,14 +22,14 @@ class Model extends \yii\base\Model
         $models   = [];
 
         if (! empty($multipleModels)) {
-            $keys = array_keys(ArrayHelper::map($multipleModels, 'id', 'id'));
+            $keys = array_keys(ArrayHelper::map($multipleModels, 'OS_ID', 'OS_ID'));
             $multipleModels = array_combine($keys, $multipleModels);
         }
 
         if ($post && is_array($post)) {
             foreach ($post as $i => $item) {
-                if (isset($item['id']) && !empty($item['id']) && isset($multipleModels[$item['id']])) {
-                    $models[] = $multipleModels[$item['id']];
+                if (isset($item['OS_ID']) && !empty($item['OS_ID']) && isset($multipleModels[$item['OS_ID']])) {
+                    $models[] = $multipleModels[$item['OS_ID']];
                 } else {
                     $models[] = new $modelClass;
                 }

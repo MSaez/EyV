@@ -65,4 +65,9 @@ class Empleado extends \yii\db\ActiveRecord
     {
         return $this->hasMany(ActividadPintura::className(), ['EMP_RUT' => 'EMP_RUT']);
     }
+
+    public function getNombreCompleto() // Función que obtiene el nombre completo de un registro en el modelo.
+    {
+        return $this->EMP_NOMBRES.' '.$this->EMP_PATERNO.' '.$this->EMP_MATERNO;
+    }
 }

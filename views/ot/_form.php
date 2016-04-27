@@ -6,6 +6,7 @@ use wbraganca\dynamicform\DynamicFormWidget;
 use kartik\select2\Select2;
 use app\models\Cliente;
 use app\models\Vehiculo;
+use app\models\Empleado;
 use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
@@ -95,7 +96,10 @@ use yii\helpers\ArrayHelper;
                                 echo Html::activeHiddenInput($modelDesabolladura, "[{$i}]DES_ID");
                             }
                         ?>
-                        <?= $form->field($modelDesabolladura, "[{$i}]EMP_RUT")->textInput(['maxlength' => true]) ?>
+                        <?= $form->field($modelDesabolladura, "[{$i}]EMP_RUT")->dropDownList(
+                                ArrayHelper::map(Empleado::find()->all(),'EMP_RUT','nombreCompleto'),
+                                            ['prompt' => 'Seleccione un empleado']
+                        ) ?>
                         <div class="row">
                             <div class="col-sm-6">
                                 <?= $form->field($modelDesabolladura, "[{$i}]DES_DESCRIPCION")->textInput(['maxlength' => true]) ?>
@@ -168,7 +172,10 @@ use yii\helpers\ArrayHelper;
                                 echo Html::activeHiddenInput($modelPintura, "[{$i}]PIN_ID");
                             }
                         ?>
-                        <?= $form->field($modelPintura, "[{$i}]EMP_RUT")->textInput(['maxlength' => true]) ?>
+                        <?= $form->field($modelPintura, "[{$i}]EMP_RUT")->dropDownList(
+                                ArrayHelper::map(Empleado::find()->all(),'EMP_RUT','nombreCompleto'),
+                                            ['prompt' => 'Seleccione un empleado']
+                        ) ?>
                         <div class="row">
                             <div class="col-sm-6">
                                 <?= $form->field($modelPintura, "[{$i}]PIN_DESCRIPCION")->textInput(['maxlength' => true]) ?>
@@ -272,7 +279,7 @@ use yii\helpers\ArrayHelper;
         'min' => 0, // 0 or 1 (default 1)
         'insertButton' => '.add-item_servicio', // css class
         'deleteButton' => '.remove-item_servicio', // css class
-        'model' => $modelsInsumo[0],
+        'model' => $modelsServicios[0],
         'formId' => 'dynamic-form',
         'formFields' => [
             'OS_DESCRIPCION',
