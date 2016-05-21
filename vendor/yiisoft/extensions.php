@@ -111,4 +111,13 @@ return array (
       '@yii/jui' => $vendorDir . '/yiisoft/yii2-jui',
     ),
   ),
+  'cornernote/yii2-linkall' => 
+  array (
+    'name' => 'cornernote/yii2-linkall',
+    'version' => '9999999-dev',
+    'alias' => 
+    array (
+      '@cornernote/linkall' => $vendorDir . '/cornernote/yii2-linkall/src',
+    ),
+  ),
 );

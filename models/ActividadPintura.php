@@ -16,7 +16,8 @@ use Yii;
  * @property string $PIN_ESTADO
  *
  * @property Ot $oT
- * @property Empleado $eMPRUT
+ * @property ResponsablePintura[] $responsablePinturas
+ * @property Empleado[] $eMPRUTs
  */
 class ActividadPintura extends \yii\db\ActiveRecord
 {
@@ -40,7 +41,6 @@ class ActividadPintura extends \yii\db\ActiveRecord
             [['EMP_RUT'], 'string', 'max' => 13],
             [['PIN_ESTADO'], 'string', 'max' => 20],
             [['OT_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Ot::className(), 'targetAttribute' => ['OT_ID' => 'OT_ID']],
-            [['EMP_RUT'], 'exist', 'skipOnError' => true, 'targetClass' => Empleado::className(), 'targetAttribute' => ['EMP_RUT' => 'EMP_RUT']],
         ];
     }
 
@@ -50,13 +50,13 @@ class ActividadPintura extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'PIN_ID' => 'ID',
-            'EMP_RUT' => 'Empleado',
-            'OT_ID' => 'Orden de Trabajo',
-            'PIN_DESCRIPCION' => 'Descripción',
-            'PIN_HORAS' => 'Horas',
-            'PIN_PRECIO' => 'Precio',
-            'PIN_ESTADO' => 'Estado',
+            'PIN_ID' => 'Pin  ID',
+            'EMP_RUT' => 'Emp  Rut',
+            'OT_ID' => 'Ot  ID',
+            'PIN_DESCRIPCION' => 'Pin  Descripcion',
+            'PIN_HORAS' => 'Pin  Horas',
+            'PIN_PRECIO' => 'Pin  Precio',
+            'PIN_ESTADO' => 'Pin  Estado',
         ];
     }
 
@@ -73,6 +73,14 @@ class ActividadPintura extends \yii\db\ActiveRecord
      */
     public function getEMPRUT()
     {
-        return $this->hasOne(Empleado::className(), ['EMP_RUT' => 'EMP_RUT']);
+        return $this->hasMany(ResponsablePintura::className(), ['PIN_ID' => 'PIN_ID']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getEmpleados()
+    {
+        return $this->hasMany(Empleado::className(), ['EMP_RUT' => 'EMP_RUT'])->viaTable('responsable_pintura', ['PIN_ID' => 'PIN_ID']);
     }
 }

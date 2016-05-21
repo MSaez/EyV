@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Ot;
 use app\models\OtSearch;
+use app\models\Empleado;
 use app\models\OsModel;
 use app\models\InModel;
 use app\models\DesModel;
@@ -23,6 +24,7 @@ use yii\filters\VerbFilter;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
+
 
 /**
  * OtController implements the CRUD actions for Ot model.
@@ -218,7 +220,7 @@ class OtController extends Controller
             'modelsDesabolladura' => (empty($modelsDesabolladura)) ? [new ActividadDesabolladura] : $modelsDesabolladura,
             'modelsPintura' => (empty($modelsPintura)) ? [new ActividadPintura] : $modelsPintura,
             'modelsInsumo' => (empty($modelsInsumo)) ? [new Insumo] : $modelsInsumo,
-            'modelsServicios' => (empty($modelsServicios)) ? [new OtrosServicios] : $modelsServicios
+            'modelsServicios' => (empty($modelsServicios)) ? [new OtrosServicios] : $modelsServicios,
         ]);
     }
     
@@ -372,6 +374,8 @@ class OtController extends Controller
 
         return $this->redirect(['index']);
     }
+    
+    
 
     /**
      * Finds the Ot model based on its primary key value.

@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use kartik\grid\GridView;
 use yii\widgets\Pjax;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Ot */
@@ -53,14 +54,31 @@ $this->params['breadcrumbs'][] = $this->title;
             //'filterModel' => $searchModel,
             'columns' => [
 
-                // ['class' => 'yii\grid\SerialColumn'],
+                 //['class' => 'yii\grid\SerialColumn'],
+                'DES_ID',
                 'EMP_RUT',
                 'DES_DESCRIPCION',
                 'DES_HORAS',
                 'DES_PRECIO',
                 'DES_ESTADO',
+                [
+                    'class' => '\kartik\grid\ActionColumn',
+                    'dropdown' => false,
+                    'template' => '{asignarTrabajadorDes} ',
+                    'buttons' => [
+                    'asignarTrabajadorDes' => function ($url, $model) {
+                                                    $title = 'Asignar Trabajador';
+                                                    $options = []; // you forgot to initialize this
+                                                    $icon = '<span class="glyphicon glyphicon-eye-open"></span>';
+                                                    $label = $icon . ' ' . $title;
+                                                    $url = Url::toRoute(['desabolladura/asignartrabajador','id'=>$model->DES_ID]);
+                                                    return Html::a($label, $url, $options);
+                                      },
+                    ]
+                ]
 
             ],
+            
 
         ]); ?>
    <?php Pjax::end(); ?>
@@ -74,13 +92,30 @@ $this->params['breadcrumbs'][] = $this->title;
             'columns' => [
 
                 // ['class' => 'yii\grid\SerialColumn'],
+                'PIN_ID',
                 'EMP_RUT',
                 'PIN_DESCRIPCION',
                 'PIN_HORAS',
                 'PIN_PRECIO',
                 'PIN_ESTADO',
+                [
+                    'class' => '\kartik\grid\ActionColumn',
+                    'dropdown' => false,
+                    'template' => '{asignarTrabajadorPin} ',
+                    'buttons' => [
+                    'asignarTrabajadorPin' => function ($url, $model) {
+                                                    $title = 'Asignar Trabajador';
+                                                    $options = []; // you forgot to initialize this
+                                                    $icon = '<span class="glyphicon glyphicon-eye-open"></span>';
+                                                    $label = $icon . ' ' . $title;
+                                                    $url = Url::toRoute(['pintura/asignartrabajador','id'=>$model->PIN_ID]);
+                                                    return Html::a($label, $url, $options);
+                                      },
+                    ]
+                ]
 
             ],
+            
 
         ]); ?>
    <?php Pjax::end(); ?>

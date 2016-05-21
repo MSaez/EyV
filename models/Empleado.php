@@ -12,8 +12,10 @@ use Yii;
  * @property string $EMP_PATERNO
  * @property string $EMP_MATERNO
  *
- * @property ActividadDesabolladura[] $actividadDesabolladuras
- * @property ActividadPintura[] $actividadPinturas
+ * @property ResponsableDesabolladura[] $responsableDesabolladuras
+ * @property ActividadDesabolladura[] $dESs
+ * @property ResponsablePintura[] $responsablePinturas
+ * @property ActividadPintura[] $pINs
  */
 class Empleado extends \yii\db\ActiveRecord
 {
@@ -53,20 +55,37 @@ class Empleado extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getActividadDesabolladuras()
+    public function getResponsableDesabolladuras()
     {
-        return $this->hasMany(ActividadDesabolladura::className(), ['EMP_RUT' => 'EMP_RUT']);
+        return $this->hasMany(ResponsableDesabolladura::className(), ['EMP_RUT' => 'EMP_RUT']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getActividadPinturas()
+    public function getDESABOLLADURAS()
     {
-        return $this->hasMany(ActividadPintura::className(), ['EMP_RUT' => 'EMP_RUT']);
+        return $this->hasMany(ActividadDesabolladura::className(), ['DES_ID' => 'DES_ID'])->viaTable('responsable_desabolladura', ['EMP_RUT' => 'EMP_RUT']);
     }
 
-    public function getNombreCompleto() // Función que obtiene el nombre completo de un registro en el modelo.
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getResponsablePinturas()
+    {
+        return $this->hasMany(ResponsablePintura::className(), ['EMP_RUT' => 'EMP_RUT']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPINTURAS()
+    {
+        return $this->hasMany(ActividadPintura::className(), ['PIN_ID' => 'PIN_ID'])->viaTable('responsable_pintura', ['EMP_RUT' => 'EMP_RUT']);
+    }
+    
+    // Función que obtiene el nombre completo de un registro en el modelo.
+    public function getNombreCompleto()             
     {
         return $this->EMP_NOMBRES.' '.$this->EMP_PATERNO.' '.$this->EMP_MATERNO;
     }

@@ -3,16 +3,19 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Vehiculo;
-use app\models\VehiculoSearch;
+use app\models\ActividadDesabolladura;
+use app\models\ActividadDesabolladuraSearch;
+use app\models\EmpleadoForm;
+use app\models\Empleado;
+use app\models\Ot;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * VehiculoController implements the CRUD actions for Vehiculo model.
+ * DesabolladuraController implements the CRUD actions for ActividadDesabolladura model.
  */
-class VehiculoController extends Controller
+class DesabolladuraController extends Controller
 {
     /**
      * @inheritdoc
@@ -30,12 +33,12 @@ class VehiculoController extends Controller
     }
 
     /**
-     * Lists all Vehiculo models.
+     * Lists all ActividadDesabolladura models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new VehiculoSearch();
+        $searchModel = new ActividadDesabolladuraSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,7 +48,7 @@ class VehiculoController extends Controller
     }
 
     /**
-     * Displays a single Vehiculo model.
+     * Displays a single ActividadDesabolladura model.
      * @param integer $id
      * @return mixed
      */
@@ -57,16 +60,16 @@ class VehiculoController extends Controller
     }
 
     /**
-     * Creates a new Vehiculo model.
+     * Creates a new ActividadDesabolladura model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Vehiculo();
+        $model = new ActividadDesabolladura();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->VEH_ID]);
+            return $this->redirect(['view', 'id' => $model->DES_ID]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -75,7 +78,7 @@ class VehiculoController extends Controller
     }
 
     /**
-     * Updates an existing Vehiculo model.
+     * Updates an existing ActividadDesabolladura model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -85,7 +88,7 @@ class VehiculoController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->VEH_ID]);
+            return $this->redirect(['view', 'id' => $model->DES_ID]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -94,7 +97,7 @@ class VehiculoController extends Controller
     }
 
     /**
-     * Deletes an existing Vehiculo model.
+     * Deletes an existing ActividadDesabolladura model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -105,44 +108,46 @@ class VehiculoController extends Controller
 
         return $this->redirect(['index']);
     }
+    
+    public function actionAsignartrabajador($id)
+    {
+        $model = new EmpleadoForm();
+        $ot = new Ot();
+        
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $empleado = Empleado::findOne(['EMP_RUT' => $model->EMP_RUT]);
+            $actDesabolladura = $this->findModel($id);
+            $ot = $actDesabolladura->getOT()->one();
+           
+            try{
+                $actDesabolladura->link('empleados', $empleado);
+            } catch (\yii\db\Exception $e) {
+                // setear un flash y volver a la pagina anterior
+                return $this->redirect(array('site/index'));
+                //return $this->redirect(array('ot/view','id'=>$ot->OT_ID)); 
+            }
+            // en caso de un enlace correcto volver a la pagina de la ot relacionada
+            return $this->redirect(array('ot/view','id'=>$ot->OT_ID));
+        } else {
+            // either the page is initially displayed or there is some validation error
+            return $this->render('asignar', ['model' => $model]);
+        }
+        
+    }
 
     /**
-     * Finds the Vehiculo model based on its primary key value.
+     * Finds the ActividadDesabolladura model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Vehiculo the loaded model
+     * @return ActividadDesabolladura the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Vehiculo::findOne($id)) !== null) {
+        if (($model = ActividadDesabolladura::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
-    
-    public function actionList($id)
-    {
-        $countVehiculos = Vehiculo::find()
-            ->where(['CLI_ID' =>$id])
-            ->count();
-
-        $vehiculos = Vehiculo::find()
-            ->where(['CLI_ID' =>$id])
-            ->all();
-
-        echo "<option value=''>Seleccione un vehículo</option>";
-
-        if( $countVehiculos > 0 )
-        {
-            foreach ($vehiculos as $vehiculo) {
-                echo "<option value='".$vehiculo->VEH_ID."'>".$vehiculo->VEH_PATENTE."</option>";                
-            }
-        }
-        else
-        {
-            echo "<option>-</option>";
         }
     }
 }

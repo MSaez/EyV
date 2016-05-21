@@ -96,10 +96,7 @@ use yii\helpers\ArrayHelper;
                                 echo Html::activeHiddenInput($modelDesabolladura, "[{$i}]DES_ID");
                             }
                         ?>
-                        <?= $form->field($modelDesabolladura, "[{$i}]EMP_RUT")->dropDownList(
-                                ArrayHelper::map(Empleado::find()->all(),'EMP_RUT','nombreCompleto'),
-                                            ['prompt' => 'Seleccione un empleado']
-                        ) ?>
+                                     
                         <div class="row">
                             <div class="col-sm-6">
                                 <?= $form->field($modelDesabolladura, "[{$i}]DES_DESCRIPCION")->textInput(['maxlength' => true]) ?>

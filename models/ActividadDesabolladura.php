@@ -16,7 +16,8 @@ use Yii;
  * @property string $DES_ESTADO
  *
  * @property Ot $oT
- * @property Empleado $eMPRUT
+ * @property ResponsableDesabolladura[] $responsableDesabolladuras
+ * @property Empleado[] $eMPRUTs
  */
 class ActividadDesabolladura extends \yii\db\ActiveRecord
 {
@@ -27,6 +28,8 @@ class ActividadDesabolladura extends \yii\db\ActiveRecord
     {
         return 'actividad_desabolladura';
     }
+    
+    
 
     /**
      * @inheritdoc
@@ -40,7 +43,6 @@ class ActividadDesabolladura extends \yii\db\ActiveRecord
             [['EMP_RUT'], 'string', 'max' => 13],
             [['DES_ESTADO'], 'string', 'max' => 20],
             [['OT_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Ot::className(), 'targetAttribute' => ['OT_ID' => 'OT_ID']],
-            [['EMP_RUT'], 'exist', 'skipOnError' => true, 'targetClass' => Empleado::className(), 'targetAttribute' => ['EMP_RUT' => 'EMP_RUT']],
         ];
     }
 
@@ -50,13 +52,13 @@ class ActividadDesabolladura extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'DES_ID' => 'ID',
-            'OT_ID' => 'Orden de Trabajo',
-            'EMP_RUT' => 'Empleado',
-            'DES_DESCRIPCION' => 'Descripción',
-            'DES_HORAS' => 'Horas de Trabajo',
-            'DES_PRECIO' => 'Precio',
-            'DES_ESTADO' => 'Estado',
+            'DES_ID' => 'Des  ID',
+            'OT_ID' => 'Ot  ID',
+            'EMP_RUT' => 'Emp  Rut',
+            'DES_DESCRIPCION' => 'Des  Descripcion',
+            'DES_HORAS' => 'Des  Horas',
+            'DES_PRECIO' => 'Des  Precio',
+            'DES_ESTADO' => 'Des  Estado',
         ];
     }
 
@@ -71,8 +73,16 @@ class ActividadDesabolladura extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getEMPRUT()
+    public function getResponsableDesabolladuras()
     {
-        return $this->hasOne(Empleado::className(), ['EMP_RUT' => 'EMP_RUT']);
+        return $this->hasMany(ResponsableDesabolladura::className(), ['DES_ID' => 'DES_ID']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getEmpleados()
+    {
+        return $this->hasMany(Empleado::className(), ['EMP_RUT' => 'EMP_RUT'])->viaTable('responsable_desabolladura', ['DES_ID' => 'DES_ID']);
     }
 }
