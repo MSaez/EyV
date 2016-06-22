@@ -46,6 +46,7 @@ AppAsset::register($this);
                                                 ['label' => 'Clientes', 'url' => ['/cliente']],
                                                 ['label' => 'Vehículos', 'url' => ['/vehiculo']],
                                                 ['label' => 'Empleados', 'url' => ['/empleado']],
+                                                ['label' => 'Presupuestos', 'url' => ['/ot']],
                                                 ['label' => 'Usuarios', 'url' => ['/usuario']],
                                 ],
                             ],
@@ -78,7 +79,7 @@ AppAsset::register($this);
     <div class="container">
         <p class="pull-left">&copy; Estrada y Veloso ltda. <?= date('Y') ?></p>
 
-        <p class="pull-right"><?= Yii::powered() ?></p>
+        <p class="pull-right"><?= Yii::powered().' '.Yii::getVersion() ?> </p>
     </div>
 </footer>
 

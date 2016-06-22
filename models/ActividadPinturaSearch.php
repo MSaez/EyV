@@ -19,7 +19,7 @@ class ActividadPinturaSearch extends ActividadPintura
     {
         return [
             [['PIN_ID', 'OT_ID', 'PIN_HORAS', 'PIN_PRECIO'], 'integer'],
-            [['EMP_RUT', 'PIN_DESCRIPCION', 'PIN_ESTADO'], 'safe'],
+            [['PIN_DESCRIPCION', 'PIN_ESTADO'], 'safe'],
         ];
     }
 
@@ -65,8 +65,7 @@ class ActividadPinturaSearch extends ActividadPintura
             'PIN_PRECIO' => $this->PIN_PRECIO,
         ]);
 
-        $query->andFilterWhere(['like', 'EMP_RUT', $this->EMP_RUT])
-            ->andFilterWhere(['like', 'PIN_DESCRIPCION', $this->PIN_DESCRIPCION])
+        $query->andFilterWhere(['like', 'PIN_DESCRIPCION', $this->PIN_DESCRIPCION])
             ->andFilterWhere(['like', 'PIN_ESTADO', $this->PIN_ESTADO]);
 
         return $dataProvider;

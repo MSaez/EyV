@@ -16,5 +16,11 @@ class EmpleadoForm extends Model
             ['EMP_RUT', 'required'],
         ];
     }
+    
+     public function attributeLabels()
+    {
+        return ['EMP_RUT' => 'Empleado'];
+    }
+            
 }
 

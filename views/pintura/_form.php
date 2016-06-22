@@ -12,20 +12,10 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'EMP_RUT')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'OT_ID')->textInput() ?>
-
-    <?= $form->field($model, 'PIN_DESCRIPCION')->textarea(['rows' => 6]) ?>
-
-    <?= $form->field($model, 'PIN_HORAS')->textInput() ?>
-
-    <?= $form->field($model, 'PIN_PRECIO')->textInput() ?>
-
     <?= $form->field($model, 'PIN_ESTADO')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton('Guardar', ['class' => 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

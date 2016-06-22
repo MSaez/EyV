@@ -9,7 +9,6 @@ use Yii;
  *
  * @property integer $DES_ID
  * @property integer $OT_ID
- * @property string $EMP_RUT
  * @property string $DES_DESCRIPCION
  * @property integer $DES_HORAS
  * @property integer $DES_PRECIO
@@ -28,8 +27,6 @@ class ActividadDesabolladura extends \yii\db\ActiveRecord
     {
         return 'actividad_desabolladura';
     }
-    
-    
 
     /**
      * @inheritdoc
@@ -40,7 +37,6 @@ class ActividadDesabolladura extends \yii\db\ActiveRecord
             [['OT_ID', 'DES_HORAS', 'DES_PRECIO'], 'integer'],
             [['DES_DESCRIPCION', 'DES_HORAS', 'DES_PRECIO', 'DES_ESTADO'], 'required'],
             [['DES_DESCRIPCION'], 'string'],
-            [['EMP_RUT'], 'string', 'max' => 13],
             [['DES_ESTADO'], 'string', 'max' => 20],
             [['OT_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Ot::className(), 'targetAttribute' => ['OT_ID' => 'OT_ID']],
         ];
@@ -52,13 +48,12 @@ class ActividadDesabolladura extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'DES_ID' => 'Des  ID',
-            'OT_ID' => 'Ot  ID',
-            'EMP_RUT' => 'Emp  Rut',
-            'DES_DESCRIPCION' => 'Des  Descripcion',
-            'DES_HORAS' => 'Des  Horas',
-            'DES_PRECIO' => 'Des  Precio',
-            'DES_ESTADO' => 'Des  Estado',
+            'DES_ID' => 'ID',
+            'OT_ID' => 'Orden de Trabajo',
+            'DES_DESCRIPCION' => 'Descripción',
+            'DES_HORAS' => 'Horas',
+            'DES_PRECIO' => 'Precio',
+            'DES_ESTADO' => 'Estado',
         ];
     }
 

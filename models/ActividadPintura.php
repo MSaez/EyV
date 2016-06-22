@@ -8,7 +8,6 @@ use Yii;
  * This is the model class for table "actividad_pintura".
  *
  * @property integer $PIN_ID
- * @property string $EMP_RUT
  * @property integer $OT_ID
  * @property string $PIN_DESCRIPCION
  * @property integer $PIN_HORAS
@@ -38,7 +37,6 @@ class ActividadPintura extends \yii\db\ActiveRecord
             [['OT_ID', 'PIN_HORAS', 'PIN_PRECIO'], 'integer'],
             [['PIN_DESCRIPCION', 'PIN_HORAS', 'PIN_PRECIO', 'PIN_ESTADO'], 'required'],
             [['PIN_DESCRIPCION'], 'string'],
-            [['EMP_RUT'], 'string', 'max' => 13],
             [['PIN_ESTADO'], 'string', 'max' => 20],
             [['OT_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Ot::className(), 'targetAttribute' => ['OT_ID' => 'OT_ID']],
         ];
@@ -50,13 +48,12 @@ class ActividadPintura extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'PIN_ID' => 'Pin  ID',
-            'EMP_RUT' => 'Emp  Rut',
-            'OT_ID' => 'Ot  ID',
-            'PIN_DESCRIPCION' => 'Pin  Descripcion',
-            'PIN_HORAS' => 'Pin  Horas',
-            'PIN_PRECIO' => 'Pin  Precio',
-            'PIN_ESTADO' => 'Pin  Estado',
+            'PIN_ID' => 'ID',
+            'OT_ID' => 'Orden de Trabajo',
+            'PIN_DESCRIPCION' => 'Descripción',
+            'PIN_HORAS' => 'Horas',
+            'PIN_PRECIO' => 'Precio',
+            'PIN_ESTADO' => 'Estado',
         ];
     }
 
@@ -71,7 +68,7 @@ class ActividadPintura extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getEMPRUT()
+    public function getResponsablePinturas()
     {
         return $this->hasMany(ResponsablePintura::className(), ['PIN_ID' => 'PIN_ID']);
     }

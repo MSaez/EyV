@@ -19,7 +19,7 @@ class ActividadDesabolladuraSearch extends ActividadDesabolladura
     {
         return [
             [['DES_ID', 'OT_ID', 'DES_HORAS', 'DES_PRECIO'], 'integer'],
-            [['EMP_RUT', 'DES_DESCRIPCION', 'DES_ESTADO'], 'safe'],
+            [['DES_DESCRIPCION', 'DES_ESTADO'], 'safe'],
         ];
     }
 
@@ -65,8 +65,7 @@ class ActividadDesabolladuraSearch extends ActividadDesabolladura
             'DES_PRECIO' => $this->DES_PRECIO,
         ]);
 
-        $query->andFilterWhere(['like', 'EMP_RUT', $this->EMP_RUT])
-            ->andFilterWhere(['like', 'DES_DESCRIPCION', $this->DES_DESCRIPCION])
+        $query->andFilterWhere(['like', 'DES_DESCRIPCION', $this->DES_DESCRIPCION])
             ->andFilterWhere(['like', 'DES_ESTADO', $this->DES_ESTADO]);
 
         return $dataProvider;

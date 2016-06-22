@@ -56,7 +56,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
                  //['class' => 'yii\grid\SerialColumn'],
                 'DES_ID',
-                'EMP_RUT',
                 'DES_DESCRIPCION',
                 'DES_HORAS',
                 'DES_PRECIO',
@@ -64,14 +63,30 @@ $this->params['breadcrumbs'][] = $this->title;
                 [
                     'class' => '\kartik\grid\ActionColumn',
                     'dropdown' => false,
-                    'template' => '{asignarTrabajadorDes} ',
+                    'template' => '{asignarTrabajadorDes}{mostrarTrabajadoresDes}{actualizarEstadoDes} ',
                     'buttons' => [
                     'asignarTrabajadorDes' => function ($url, $model) {
-                                                    $title = 'Asignar Trabajador';
-                                                    $options = []; // you forgot to initialize this
-                                                    $icon = '<span class="glyphicon glyphicon-eye-open"></span>';
+                                                    $title = null;
+                                                    $options = ['title' => 'Asignar Trabajador']; 
+                                                    $icon = '<span class="glyphicon glyphicon-pencil"></span>';
                                                     $label = $icon . ' ' . $title;
                                                     $url = Url::toRoute(['desabolladura/asignartrabajador','id'=>$model->DES_ID]);
+                                                    return Html::a($label, $url, $options);
+                                      },
+                    'mostrarTrabajadoresDes' => function ($url, $model) {
+                                                    $title = null;
+                                                    $options = ['title' => 'Ver Trabajadores']; 
+                                                    $icon = '<span class="glyphicon glyphicon-eye-open"></span>';
+                                                    $label = $icon . ' ' . $title;
+                                                    $url = Url::toRoute(['desabolladura/vertrabajadores','id'=>$model->DES_ID]);
+                                                    return Html::a($label, $url, $options);
+                                      },
+                    'actualizarEstadoDes' => function ($url, $model) {
+                                                    $title = null;
+                                                    $options = ['title' => 'Actualizar Estado']; 
+                                                    $icon = '<span class="glyphicon glyphicon-refresh"></span>';
+                                                    $label = $icon . ' ' . $title;
+                                                    $url = Url::toRoute(['desabolladura/actualizarestado','id'=>$model->DES_ID]);
                                                     return Html::a($label, $url, $options);
                                       },
                     ]
@@ -93,7 +108,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 // ['class' => 'yii\grid\SerialColumn'],
                 'PIN_ID',
-                'EMP_RUT',
                 'PIN_DESCRIPCION',
                 'PIN_HORAS',
                 'PIN_PRECIO',
@@ -101,16 +115,32 @@ $this->params['breadcrumbs'][] = $this->title;
                 [
                     'class' => '\kartik\grid\ActionColumn',
                     'dropdown' => false,
-                    'template' => '{asignarTrabajadorPin} ',
+                    'template' => '{asignarTrabajadorPin}{mostrarTrabajadoresPin}{actualizarEstadoPin} ',
                     'buttons' => [
                     'asignarTrabajadorPin' => function ($url, $model) {
-                                                    $title = 'Asignar Trabajador';
-                                                    $options = []; // you forgot to initialize this
-                                                    $icon = '<span class="glyphicon glyphicon-eye-open"></span>';
+                                                    $title = null;
+                                                    $options = ['title' => 'Asignar Trabajador'];
+                                                    $icon = '<span class="glyphicon glyphicon-pencil"></span>';
                                                     $label = $icon . ' ' . $title;
                                                     $url = Url::toRoute(['pintura/asignartrabajador','id'=>$model->PIN_ID]);
                                                     return Html::a($label, $url, $options);
                                       },
+                    'mostrarTrabajadoresPin' => function ($url, $model) {
+                                                    $title = null;
+                                                    $options = ['title' => 'Ver Trabajadores']; 
+                                                    $icon = '<span class="glyphicon glyphicon-eye-open"></span>';
+                                                    $label = $icon . ' ' . $title;
+                                                    $url = Url::toRoute(['pintura/vertrabajadores','id'=>$model->PIN_ID]);
+                                                    return Html::a($label, $url, $options);
+                                      },
+                    'actualizarEstadoPin' => function ($url, $model) {
+                                                    $title = null;
+                                                    $options = ['title' => 'Actualizar Estado']; 
+                                                    $icon = '<span class="glyphicon glyphicon-refresh"></span>';
+                                                    $label = $icon . ' ' . $title;
+                                                    $url = Url::toRoute(['pintura/actualizarestado','id'=>$model->PIN_ID]);
+                                                    return Html::a($label, $url, $options);
+                                      }
                     ]
                 ]
 

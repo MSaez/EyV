@@ -14,7 +14,7 @@ use kartik\select2\Select2;
     ]); ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
+        <?= Html::submitButton('Guardar', ['class' => 'btn btn-primary']) ?>
     </div>
 
 <?php ActiveForm::end(); ?>
