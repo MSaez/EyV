@@ -34,7 +34,9 @@ class Empleado extends \yii\db\ActiveRecord
     {
         return [
             [['EMP_RUT', 'EMP_NOMBRES', 'EMP_PATERNO', 'EMP_MATERNO'], 'required'],
-            [['EMP_RUT'], 'string', 'max' => 13],
+            [['EMP_RUT'], 'string', 'min' => 11],
+            [['EMP_RUT'], 'string', 'max' => 12],
+            [['EMP_RUT'], \sateler\rut\RutValidator::className()],
             [['EMP_NOMBRES', 'EMP_PATERNO', 'EMP_MATERNO'], 'string', 'max' => 128],
         ];
     }

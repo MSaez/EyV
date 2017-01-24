@@ -18,7 +18,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'CLI_MATERNO')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'CLI_RUT')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'CLI_RUT')->textInput(['data-rut' => 'true', 'maxlength' => true]) ?>
 
     <?= $form->field($model, 'CLI_TELEFONO')->textInput(['maxlength' => true]) ?>
 

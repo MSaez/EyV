@@ -7,7 +7,7 @@ use yii\helpers\Html;
 
 $this->title = 'Actualizar Cliente: ' . $model->CLI_RUT;
 $this->params['breadcrumbs'][] = ['label' => 'Clientes', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->CLI_RUT, 'url' => ['view', 'id' => $model->CLI_ID]];
+$this->params['breadcrumbs'][] = ['label' => Yii::$app->formatter->asRut($model->CLI_RUT), 'url' => ['view', 'id' => $model->CLI_ID]];
 $this->params['breadcrumbs'][] = 'Actualizar';
 ?>
 <div class="cliente-update">

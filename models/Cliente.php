@@ -38,7 +38,9 @@ class Cliente extends \yii\db\ActiveRecord
             [['CLI_NOMBRES', 'CLI_PATERNO', 'CLI_MATERNO', 'CLI_RUT', 'CLI_TELEFONO', 'CLI_DIRECCION'], 'required'],
             [['CLI_DIRECCION'], 'string'],
             [['CLI_NOMBRES', 'CLI_PATERNO', 'CLI_MATERNO'], 'string', 'max' => 128],
+            [['CLI_RUT'], 'string', 'min' => 11],
             [['CLI_RUT'], 'string', 'max' => 12],
+            [['CLI_RUT'], \sateler\rut\RutValidator::className()],
             [['CLI_TELEFONO'], 'string', 'max' => 20],
             [['CLI_IND_CONDUCTA'], 'string', 'max' => 10],
         ];

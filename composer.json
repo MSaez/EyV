@@ -23,6 +23,7 @@
         "kartik-v/yii2-mpdf": "^1.0",
         "kartik-v/yii2-widget-select2": "@dev",
         "yiisoft/yii2-jui": "^2.0",
+        "sateler/yii2-rut": "^1.2"
         },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

@@ -6,12 +6,32 @@ use wbraganca\dynamicform\DynamicFormWidget;
 use kartik\select2\Select2;
 use app\models\Cliente;
 use app\models\Vehiculo;
-use app\models\Empleado;
 use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Ot */
 /* @var $form yii\widgets\ActiveForm */
+$JS = 'function sumar_total(){
+				var flag_cont = $( "#contador" ).val();
+				var cont=1;
+				var val_dato= "";
+				for(var suma = 0; cont <= flag_cont; cont++)
+				{
+					suma = parseFloat($( "#actividaddesabolladura-"+cont+"-des_precio" ).val()) + parseFloat(suma);
+					if(isNaN(suma)){
+					$("#actividaddesabolladura-"+cont+"-des_precio").val(0);
+					}
+				}
+				if(isNaN(suma))
+				{
+				$( "#ot-ot_total" ).text( val_dato );
+				}
+				else{
+				$( "#ot-ot_total" ).text( suma );
+				}
+			}';
+
+$this->registerJs($JS);
 ?>
 
 <div class="ot-form">
@@ -63,7 +83,6 @@ use yii\helpers\ArrayHelper;
         'model' => $modelsDesabolladura[0],
         'formId' => 'dynamic-form',
         'formFields' => [
-            'EMP_RUT',
             'DES_DESCRIPCION',
             'DES_HORAS',
             'DES_PRECIO',
@@ -98,22 +117,21 @@ use yii\helpers\ArrayHelper;
                         ?>
                                      
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <?= $form->field($modelDesabolladura, "[{$i}]DES_DESCRIPCION")->textInput(['maxlength' => true]) ?>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-2">
                                 <?= $form->field($modelDesabolladura, "[{$i}]DES_HORAS")->textInput(['maxlength' => true]) ?>
                             </div>
-                        </div><!-- .row -->
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <?= $form->field($modelDesabolladura, "[{$i}]DES_PRECIO")->textInput(['maxlength' => true]) ?>
+                            <div class="col-sm-3">
+                                <?= $form->field($modelDesabolladura, "[{$i}]DES_PRECIO")->textInput(['maxlength' => true,
+                                                                       'onChange' => 'sumar_total()']) ?>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <?= $form->field($modelDesabolladura, "[{$i}]DES_ESTADO")->textInput(['maxlength' => true]) ?>
                             </div>
-                            
-                        </div><!-- .row -->
+                        </div><!-- .row -->    
+                        
                     </div>
                 </div>
             <?php endforeach; ?>
@@ -136,7 +154,6 @@ use yii\helpers\ArrayHelper;
         'model' => $modelsPintura[0],
         'formId' => 'dynamic-form',
         'formFields' => [
-            'EMP_RUT',
             'PIN_DESCRIPCION',
             'PIN_HORAS',
             'PIN_PRECIO',
@@ -169,26 +186,20 @@ use yii\helpers\ArrayHelper;
                                 echo Html::activeHiddenInput($modelPintura, "[{$i}]PIN_ID");
                             }
                         ?>
-                        <?= $form->field($modelPintura, "[{$i}]EMP_RUT")->dropDownList(
-                                ArrayHelper::map(Empleado::find()->all(),'EMP_RUT','nombreCompleto'),
-                                            ['prompt' => 'Seleccione un empleado']
-                        ) ?>
+                        
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <?= $form->field($modelPintura, "[{$i}]PIN_DESCRIPCION")->textInput(['maxlength' => true]) ?>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-2">
                                 <?= $form->field($modelPintura, "[{$i}]PIN_HORAS")->textInput(['maxlength' => true]) ?>
                             </div>
-                        </div><!-- .row -->
-                        <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <?= $form->field($modelPintura, "[{$i}]PIN_PRECIO")->textInput(['maxlength' => true]) ?>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <?= $form->field($modelPintura, "[{$i}]PIN_ESTADO")->textInput(['maxlength' => true]) ?>
                             </div>
-                            
                         </div><!-- .row -->
                     </div>
                 </div>
@@ -204,7 +215,7 @@ use yii\helpers\ArrayHelper;
         'widgetContainer' => 'dynamicform_wrapper_insumo', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
         'widgetBody' => '.container-items_insumo', // required: css class selector
         'widgetItem' => '.item_insumo', // required: css class
-        'limit' => 4, // the maximum times, an element can be added (default 999)
+        'limit' => 99, // the maximum times, an element can be added (default 999)
         'min' => 0, // 0 or 1 (default 1)
         'insertButton' => '.add-item_insumo', // css class
         'deleteButton' => '.remove-item_insumo', // css class
@@ -243,18 +254,23 @@ use yii\helpers\ArrayHelper;
                                 echo Html::activeHiddenInput($modelInsumo, "[{$i}]INS_ID");
                             }
                         ?>
-                        <?= $form->field($modelInsumo, "[{$i}]INS_NOMBRE")->textInput(['maxlength' => true]) ?>
+                        
                         <div class="row">
-                            <div class="col-sm-6">
-                                <?= $form->field($modelInsumo, "[{$i}]INS_CANTIDAD")->textInput(['maxlength' => true]) ?>
-                            </div>
-                            <div class="col-sm-6">
-                                <?= $form->field($modelInsumo, "[{$i}]INS_PRECIO_UNITARIO")->textInput(['maxlength' => true]) ?>
-                            </div>
+                            <div class="col-sm-12">
+                                <?= $form->field($modelInsumo, "[{$i}]INS_NOMBRE")->textInput(['maxlength' => true]) ?>
+                            </div>    
                         </div><!-- .row -->
                         <div class="row">
                             <div class="col-sm-4">
-                                <?= $form->field($modelInsumo, "[{$i}]INS_TOTAL")->textInput(['maxlength' => true]) ?>
+                                <?= $form->field($modelInsumo, "[{$i}]INS_CANTIDAD")->textInput(['maxlength' => true]) ?>
+                            </div>
+                            <div class="col-sm-4">
+                                <?= $form->field($modelInsumo, "[{$i}]INS_PRECIO_UNITARIO")->textInput(['maxlength' => true,
+                                                                                                        ]) ?>
+                            </div>
+                            <div class="col-sm-4">
+                                <?= $form->field($modelInsumo, "[{$i}]INS_TOTAL")->textInput(['maxlength' => true,
+                                                                                              'style' => 'text-align: right']) ?>
                             </div>
                                                         
                         </div><!-- .row -->
@@ -309,9 +325,12 @@ use yii\helpers\ArrayHelper;
                                 echo Html::activeHiddenInput($modelServicio, "[{$i}]OS_ID");
                             }
                         ?>
-                        <?= $form->field($modelServicio, "[{$i}]OS_DESCRIPCION")->textInput(['maxlength' => true]) ?>
+                        
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-10">
+                                <?= $form->field($modelServicio, "[{$i}]OS_DESCRIPCION")->textInput(['maxlength' => true]) ?>
+                            </div>
+                            <div class="col-sm-2">
                                 <?= $form->field($modelServicio, "[{$i}]OS_PRECIO")->textInput(['maxlength' => true]) ?>
                             </div>
                             
@@ -341,8 +360,12 @@ use yii\helpers\ArrayHelper;
         </div>
     </div>
 
-
-    
+    <!-- test -->
+    <div class="totalexterno">
+        <div class='text'>Suma Total:</div>
+        <div class="total">0</div>
+    </div>
+    <!-- end test -->
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Guardar' : 'Guardar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

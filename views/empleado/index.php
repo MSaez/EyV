@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'EMP_RUT',
+            'EMP_RUT:rut',
             'EMP_NOMBRES',
             'EMP_PATERNO',
             'EMP_MATERNO',

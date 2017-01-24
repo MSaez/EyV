@@ -6,13 +6,11 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Usuario */
 
-$this->title = $model->US_RUT;
+$this->title = Yii::$app->formatter->asRut($model->US_RUT);
 $this->params['breadcrumbs'][] = ['label' => 'Usuarios', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="usuario-view">
-
-    
 
     <p>
         <?= Html::a('Actualizar', ['update', 'id' => $model->US_ID], ['class' => 'btn btn-primary']) ?>
@@ -30,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'US_ID',
             'US_USERNAME',
-            'US_RUT',
+            'US_RUT:rut',
             'US_NOMBRES',
             'US_PATERNO',
             'US_MATERNO',

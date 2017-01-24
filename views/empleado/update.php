@@ -7,7 +7,7 @@ use yii\helpers\Html;
 
 $this->title = 'Actualizar Empleado: ' . $model->EMP_RUT;
 $this->params['breadcrumbs'][] = ['label' => 'Empleados', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->EMP_RUT, 'url' => ['view', 'id' => $model->EMP_RUT]];
+$this->params['breadcrumbs'][] = ['label' => Yii::$app->formatter->asRut($model->EMP_RUT), 'url' => ['view', 'id' => $model->EMP_RUT]];
 $this->params['breadcrumbs'][] = 'Actualizar';
 ?>
 <div class="empleado-update">

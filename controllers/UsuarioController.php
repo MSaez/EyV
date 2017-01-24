@@ -116,6 +116,30 @@ class UsuarioController extends Controller
         return $this->redirect(['index']);
     }
 
+    
+    /* Función para reestablecer la contraseña */
+    public function actionResetPass($id)
+    {
+        $model = $this->findModel($id);
+        $pass = "";
+        $pass = rand(10000, 99999999);
+        $msj = "Clave Cambiada. Nueva Clave Enviada al Correo: $model->US_EMAIL";
+        Yii::$app->session->setFlash('success', $msj);
+        $model->US_PASSWORD = $pass;
+        if($model->save()){ // ver como usar el codigo de envio de emails
+            Yii::$app->mail->compose()
+            ->setFrom([\Yii::$app->params['supportEmail'] => 'Test Mail'])
+            ->setTo($model->US_EMAIL)
+            ->setSubject('Reseteo de contraseña' )
+            ->setHtmlBody('<h2>Cambio de Clave de Acceso</h1><br><br>
+            <h4>{$model->US_NOMBRES} {$model->US_PATERNO}: <br> &nbsp;Se realizó el cambio en su clave de acceso al sistema. Su nueva clave es {$model->US_PASSWORD} </h4><br>
+            <h5>Se Recomienda por temas de seguridad, que cambie la clave de acceso. </h5>"')
+            ->send();
+        }
+               		
+        $this->redirect("index.php?r=usuario/admin");      
+    }
+    
     /**
      * Finds the Usuario model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -123,6 +147,7 @@ class UsuarioController extends Controller
      * @return Usuario the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
+    
     protected function findModel($id)
     {
         if (($model = Usuario::findOne($id)) !== null) {

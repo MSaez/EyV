@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\ActividadPintura;
-use app\models\ActividadPinturaSearch;
+use yii\data\SqlDataProvider;
 use app\models\EmpleadoForm;
 use app\models\Empleado;
 use app\models\Ot;
@@ -50,14 +50,31 @@ class PinturaController extends Controller
     }
     
     public function actionVertrabajadores($id){
-        $model = $this->findModel($id);
-        $modelsEmpleados = $model->empleados;
-        $searchModelEmpleado = new EmpleadoSearch();
-        $searchModelEmpleado->EMP_RUT = $model->DES_ID;
-        $dataProvider = $searchModelEmpleado->search(Yii::$app->request->queryParams);
+        
+        
+        $count = Yii::$app->db->createCommand('
+            SELECT COUNT(*) 
+            FROM empleado, responsable_pintura 
+            WHERE responsable_pintura.PIN_ID =:id AND empleado.EMP_RUT = responsable_pintura.EMP_RUT
+            ', [':id' => $id])->queryScalar();
+        
+        $dataProvider = new SqlDataProvider([
+            'sql' => 'SELECT empleado.EMP_RUT, empleado.EMP_NOMBRES, empleado.EMP_PATERNO, empleado.EMP_MATERNO FROM empleado, responsable_pintura WHERE responsable_pintura.PIN_ID =:id AND empleado.EMP_RUT = responsable_pintura.EMP_RUT',
+            'params' => [':id' => $id],
+            'totalCount' => $count,
+            
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+        
+        
+                
+        
+        
          
          
-         return $this->render('trabajadores', ['model' => $model,
+         return $this->render('trabajadores', [/*'model' => $model,*/
                                                'dataProvider' => $dataProvider]);
         
     }

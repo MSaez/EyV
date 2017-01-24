@@ -40,6 +40,10 @@ $config = [
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),
+        'formatter' => [
+            'class' => \yii\i18n\Formatter::className(),
+            'as rutFormatter' => \sateler\rut\RutFormatBehavior::className(),
+        ],
         /*
         'urlManager' => [
             'enablePrettyUrl' => true,

@@ -9,6 +9,9 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 
+
+
+
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
@@ -37,8 +40,8 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Inicio', 'url' => ['/site/index']],
-            ['label' => 'Sobre mí', 'url' => ['/site/about']],
-            ['label' => 'Contacto', 'url' => ['/site/contact']],
+            /*['label' => 'Sobre mí', 'url' => ['/site/about']],*/
+            /*['label' => 'Contacto', 'url' => ['/site/contact']],*/
             ['label' => 'Administrar', 
                                 'items' => [
                                                 ['label' => 'Marcas', 'url' => ['/marca']],
@@ -66,11 +69,29 @@ AppAsset::register($this);
     ]);
     NavBar::end();
     ?>
-
+    
+    
+    
     <div class="container">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
+        
+        <?php if (Yii::$app->session->hasFlash('danger')): ?>
+            <div class="alert alert-danger alert-dismissable">
+                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                <?= Yii::$app->session->getFlash('danger') ?>
+            </div>
+        <?php endif; ?>
+    
+        <?php if (Yii::$app->session->hasFlash('success')): ?>
+            <div class="alert alert-success alert-dismissable">
+                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                <?= Yii::$app->session->getFlash('success') ?>
+            </div>
+        <?php endif; ?>
+        
+        
         <?= $content ?>
     </div>
 </div>

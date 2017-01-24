@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             //'US_ID',
             'US_USERNAME',
-            'US_RUT',
+            'US_RUT:rut',
             'US_NOMBRES',
             'US_PATERNO',
             'US_MATERNO',

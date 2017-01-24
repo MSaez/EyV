@@ -4,8 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9c05d044474ff0bae1181647b715744f",
-    "content-hash": "b979d9f8a64dbfc56b8937e38bef9dce",
+    "content-hash": "611356ba9e78dfb6b21e09eace9195d7",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -291,55 +290,7 @@
                 "markdown",
                 "markdown-extra"
             ],
-            "time": "2016-03-18 13:28:11"
-        },
-        {
-            "name": "cornernote/yii2-linkall",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/cornernote/yii2-linkall.git",
-                "reference": "7488756f6bff3757a6ed28abb3af4ae56bfc47de"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/cornernote/yii2-linkall/zipball/7488756f6bff3757a6ed28abb3af4ae56bfc47de",
-                "reference": "7488756f6bff3757a6ed28abb3af4ae56bfc47de",
-                "shasum": ""
-            },
-            "require": {
-                "yiisoft/yii2": "*"
-            },
-            "require-dev": {
-                "phpunit/dbunit": "~1.0",
-                "phpunit/phpunit": "4.*",
-                "scrutinizer/ocular": "~1.1"
-            },
-            "type": "yii2-extension",
-            "autoload": {
-                "psr-4": {
-                    "cornernote\\linkall\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Brett O'Donnell",
-                    "email": "cornernote@gmail.com",
-                    "homepage": "http://mrphp.com.au/"
-                }
-            ],
-            "description": "Behavior to handle saving multiple many to many related records in Yii2.",
-            "keywords": [
-                "link",
-                "linkall",
-                "many to many",
-                "yii2"
-            ],
-            "time": "2015-06-22 12:05:49"
+            "time": "2016-03-18T13:28:11+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -383,7 +334,7 @@
             "keywords": [
                 "html"
             ],
-            "time": "2015-08-05 01:03:42"
+            "time": "2015-08-05T01:03:42+00:00"
         },
         {
             "name": "kartik-v/yii2-grid",
@@ -432,7 +383,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-04-19 12:53:07"
+            "time": "2016-04-19T12:53:07+00:00"
         },
         {
             "name": "kartik-v/yii2-krajee-base",
@@ -483,7 +434,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-04-19 12:39:22"
+            "time": "2016-04-19T12:39:22+00:00"
         },
         {
             "name": "kartik-v/yii2-mpdf",
@@ -535,7 +486,7 @@
                 "utf8",
                 "yii2"
             ],
-            "time": "2016-04-09 18:17:46"
+            "time": "2016-04-09T18:17:46+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-select2",
@@ -588,7 +539,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-04-19 13:22:56"
+            "time": "2016-04-19T13:22:56+00:00"
         },
         {
             "name": "mpdf/mpdf",
@@ -635,7 +586,43 @@
                 "php",
                 "utf-8"
             ],
-            "time": "2015-06-17 07:26:51"
+            "time": "2015-06-17T07:26:51+00:00"
+        },
+        {
+            "name": "sateler/yii2-rut",
+            "version": "1.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sateler/yii2-rut.git",
+                "reference": "16c8aa6377bd5a58c9a7f45fbf18177b1f40a22d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sateler/yii2-rut/zipball/16c8aa6377bd5a58c9a7f45fbf18177b1f40a22d",
+                "reference": "16c8aa6377bd5a58c9a7f45fbf18177b1f40a22d",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "~2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "sateler\\rut\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD 3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Felipe Sateler",
+                    "email": "fsateler@gmail.com"
+                }
+            ],
+            "description": "Add chilean RUT formatting and validation",
+            "time": "2015-08-10T15:20:30+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -688,7 +675,7 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2016-01-03 15:42:47"
+            "time": "2016-01-03T15:42:47+00:00"
         },
         {
             "name": "symfony/css-selector",
@@ -742,7 +729,7 @@
             ],
             "description": "Symfony CssSelector Component",
             "homepage": "https://symfony.com",
-            "time": "2015-05-15 13:32:45"
+            "time": "2015-05-15T13:32:45+00:00"
         },
         {
             "name": "symfony/dom-crawler",
@@ -796,7 +783,7 @@
             ],
             "description": "Symfony DomCrawler Component",
             "homepage": "https://symfony.com",
-            "time": "2015-07-09 16:02:48"
+            "time": "2015-07-09T16:02:48+00:00"
         },
         {
             "name": "wbraganca/yii2-dynamicform",
@@ -847,7 +834,7 @@
                 "yii2 dynamic form",
                 "yii2-dynamicform"
             ],
-            "time": "2015-05-26 12:06:27"
+            "time": "2015-05-26T12:06:27+00:00"
         },
         {
             "name": "yiisoft/yii2",
@@ -941,7 +928,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2016-04-19 08:59:16"
+            "time": "2016-04-19T08:59:16+00:00"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -991,7 +978,7 @@
                 "bootstrap",
                 "yii2"
             ],
-            "time": "2016-04-18 20:34:24"
+            "time": "2016-04-18T20:34:24+00:00"
         },
         {
             "name": "yiisoft/yii2-composer",
@@ -1038,7 +1025,7 @@
                 "extension installer",
                 "yii2"
             ],
-            "time": "2016-04-14 08:46:37"
+            "time": "2016-04-14T08:46:37+00:00"
         },
         {
             "name": "yiisoft/yii2-jui",
@@ -1088,7 +1075,7 @@
                 "jQuery UI",
                 "yii2"
             ],
-            "time": "2016-04-14 08:48:18"
+            "time": "2016-04-14T08:48:18+00:00"
         },
         {
             "name": "yiisoft/yii2-swiftmailer",
@@ -1138,7 +1125,7 @@
                 "swiftmailer",
                 "yii2"
             ],
-            "time": "2016-04-14 08:50:13"
+            "time": "2016-04-14T08:50:13+00:00"
         }
     ],
     "packages-dev": [
@@ -1168,6 +1155,54 @@
             "extra": {
                 "bower-asset-main": "dist/typeahead.bundle.js"
             }
+        },
+        {
+            "name": "cornernote/yii2-linkall",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cornernote/yii2-linkall.git",
+                "reference": "7488756f6bff3757a6ed28abb3af4ae56bfc47de"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cornernote/yii2-linkall/zipball/7488756f6bff3757a6ed28abb3af4ae56bfc47de",
+                "reference": "7488756f6bff3757a6ed28abb3af4ae56bfc47de",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "require-dev": {
+                "phpunit/dbunit": "~1.0",
+                "phpunit/phpunit": "4.*",
+                "scrutinizer/ocular": "~1.1"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "cornernote\\linkall\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Brett O'Donnell",
+                    "email": "cornernote@gmail.com",
+                    "homepage": "http://mrphp.com.au/"
+                }
+            ],
+            "description": "Behavior to handle saving multiple many to many related records in Yii2.",
+            "keywords": [
+                "link",
+                "linkall",
+                "many to many",
+                "yii2"
+            ],
+            "time": "2015-06-22T12:05:49+00:00"
         },
         {
             "name": "fzaninotto/faker",
@@ -1217,7 +1252,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2016-04-13 06:45:05"
+            "time": "2016-04-13T06:45:05+00:00"
         },
         {
             "name": "phpspec/php-diff",
@@ -1255,7 +1290,7 @@
                 }
             ],
             "description": "A comprehensive library for generating differences between two hashable objects (strings or arrays).",
-            "time": "2016-04-07 12:29:16"
+            "time": "2016-04-07T12:29:16+00:00"
         },
         {
             "name": "yiisoft/yii2-codeception",
@@ -1300,7 +1335,7 @@
                 "codeception",
                 "yii2"
             ],
-            "time": "2016-04-14 08:46:27"
+            "time": "2016-04-14T08:46:27+00:00"
         },
         {
             "name": "yiisoft/yii2-debug",
@@ -1347,7 +1382,7 @@
                 "debugger",
                 "yii2"
             ],
-            "time": "2016-04-14 08:47:01"
+            "time": "2016-04-14T08:47:01+00:00"
         },
         {
             "name": "yiisoft/yii2-faker",
@@ -1394,7 +1429,7 @@
                 "faker",
                 "yii2"
             ],
-            "time": "2016-04-14 08:47:34"
+            "time": "2016-04-14T08:47:34+00:00"
         },
         {
             "name": "yiisoft/yii2-gii",
@@ -1447,7 +1482,7 @@
                 "gii",
                 "yii2"
             ],
-            "time": "2016-04-14 16:29:07"
+            "time": "2016-04-14T16:29:07+00:00"
         }
     ],
     "aliases": [],

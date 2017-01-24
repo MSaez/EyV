@@ -5,6 +5,7 @@ use yii\widgets\DetailView;
 use kartik\grid\GridView;
 use yii\widgets\Pjax;
 use yii\helpers\Url;
+use kartik\widgets\Alert;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Ot */
@@ -12,9 +13,10 @@ use yii\helpers\Url;
 $this->title = 'Presupuesto cód. : '.$model->OT_ID;
 $this->params['breadcrumbs'][] = ['label' => 'Ots', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="ot-view">
-
+        
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>

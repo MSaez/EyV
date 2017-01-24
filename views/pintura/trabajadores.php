@@ -18,12 +18,14 @@ use yii\widgets\Pjax;
                 'EMP_NOMBRES',
                 'EMP_PATERNO',
                 'EMP_MATERNO',
-                
+                //['class' => 'yii\grid\ActionColumn'],
 
             ],
             
 
-        ]); ?>
+        ]);
+        
+?>
 
 <?php Pjax::end(); ?>
 

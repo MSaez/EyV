@@ -28,6 +28,10 @@ class ComposerStaticInit5b36e36e8a642c9b70fba14929a8f42a
         array (
             'wbraganca\\dynamicform\\' => 22,
         ),
+        's' => 
+        array (
+            'sateler\\rut\\' => 12,
+        ),
         'k' => 
         array (
             'kartik\\select2\\' => 15,
@@ -37,6 +41,7 @@ class ComposerStaticInit5b36e36e8a642c9b70fba14929a8f42a
         ),
         'c' => 
         array (
+            'cornernote\\linkall\\' => 19,
             'cebe\\markdown\\' => 14,
         ),
         'F' => 
@@ -86,6 +91,10 @@ class ComposerStaticInit5b36e36e8a642c9b70fba14929a8f42a
         array (
             0 => __DIR__ . '/..' . '/wbraganca/yii2-dynamicform/src',
         ),
+        'sateler\\rut\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/sateler/yii2-rut',
+        ),
         'kartik\\select2\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-select2',
@@ -101,6 +110,10 @@ class ComposerStaticInit5b36e36e8a642c9b70fba14929a8f42a
         'kartik\\base\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-krajee-base',
+        ),
+        'cornernote\\linkall\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/cornernote/yii2-linkall/src',
         ),
         'cebe\\markdown\\' => 
         array (

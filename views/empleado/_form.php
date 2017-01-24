@@ -12,7 +12,7 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'EMP_RUT')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'EMP_RUT')->textInput(['data-rut' => 'true', 'maxlength' => true]) ?>
 
     <?= $form->field($model, 'EMP_NOMBRES')->textInput(['maxlength' => true]) ?>
 

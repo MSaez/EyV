@@ -55,13 +55,13 @@ class EmpleadoSearch extends Empleado
             // $query->where('0=1');
             return $dataProvider;
         }
-
+        
         // grid filtering conditions
         $query->andFilterWhere(['like', 'EMP_RUT', $this->EMP_RUT])
             ->andFilterWhere(['like', 'EMP_NOMBRES', $this->EMP_NOMBRES])
             ->andFilterWhere(['like', 'EMP_PATERNO', $this->EMP_PATERNO])
             ->andFilterWhere(['like', 'EMP_MATERNO', $this->EMP_MATERNO]);
-
+        
         return $dataProvider;
     }
 }

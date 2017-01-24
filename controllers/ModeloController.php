@@ -66,6 +66,7 @@ class ModeloController extends Controller
         $model = new Modelo();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'El nuevo modelo ha sido creado exitosamente!');
             return $this->redirect(['view', 'id' => $model->MOD_ID]);
         } else {
             return $this->render('create', [
@@ -85,6 +86,7 @@ class ModeloController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'El nuevo modelo ha sido actualizado exitosamente!');
             return $this->redirect(['view', 'id' => $model->MOD_ID]);
         } else {
             return $this->render('update', [

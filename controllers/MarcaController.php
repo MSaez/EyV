@@ -66,6 +66,7 @@ class MarcaController extends Controller
         $model = new Marca();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'La nueva marca ha sido creada exitosamente!');
             return $this->redirect(['view', 'id' => $model->MAR_ID]);
         } else {
             return $this->render('create', [
@@ -85,6 +86,7 @@ class MarcaController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'La nueva marca ha sido actualizada exitosamente!');
             return $this->redirect(['view', 'id' => $model->MAR_ID]);
         } else {
             return $this->render('update', [
