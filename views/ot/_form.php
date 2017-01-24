@@ -11,27 +11,118 @@ use yii\helpers\ArrayHelper;
 /* @var $this yii\web\View */
 /* @var $model app\models\Ot */
 /* @var $form yii\widgets\ActiveForm */
-$JS = 'function sumar_total(){
-				var flag_cont = $( "#contador" ).val();
-				var cont=1;
-				var val_dato= "";
-				for(var suma = 0; cont <= flag_cont; cont++)
-				{
-					suma = parseFloat($( "#actividaddesabolladura-"+cont+"-des_precio" ).val()) + parseFloat(suma);
-					if(isNaN(suma)){
-					$("#actividaddesabolladura-"+cont+"-des_precio").val(0);
-					}
-				}
-				if(isNaN(suma))
-				{
-				$( "#ot-ot_total" ).text( val_dato );
-				}
-				else{
-				$( "#ot-ot_total" ).text( suma );
-				}
-			}';
+$JS_DESABOLLADURA = 'function sumar_total_desabolladura(){
 
-$this->registerJs($JS);
+	id = 0;
+	suma = 0;
+	existe = true;
+	while(existe){
+
+		var idFull = "actividaddesabolladura-"+id+"-des_precio";
+		try{campo = document.getElementById(idFull);
+			if(document.getElementById(idFull).value!=""){
+				suma = suma + parseInt(document.getElementById(idFull).value);
+			}
+		id = id+1;
+    	}catch(e){
+       		existe = false;
+    	}  
+	}
+        console.log(suma);
+	document.getElementById("ot-ot_subtotal").value=suma;
+
+}';
+
+$JS_PINTURA = 'function sumar_total_pintura(){
+
+	id = 0;
+	suma = 0;
+	existe = true;
+	while(existe){
+
+		var idFull = "actividadpintura-"+id+"-pin_precio";
+		try{campo = document.getElementById(idFull);
+			if(document.getElementById(idFull).value!=""){
+				suma = suma + parseInt(document.getElementById(idFull).value);
+			}
+		id = id+1;
+    	}catch(e){
+       		existe = false;
+    	}  
+	}
+        console.log(suma);
+	document.getElementById("ot-ot_subtotal").value=suma;
+
+}';
+
+$JS_INSUMOS = 'function sumar_total_insumos(){
+
+	id = 0;
+	suma = 0;
+	ptotal = 0;
+	existe = true;
+	while(existe){
+
+		var idPrecio = "insumo-"+id+"-ins_precio_unitario";
+		var idCantidad = "insumo-"+id+"-ins_cantidad";
+		var idTotal = "insumo-"+id+"-ins_total";
+		try{campo = document.getElementById(idPrecio);
+			if(document.getElementById(idPrecio).value!="" && document.getElementById(idCantidad).value!=""){
+				ptotal = parseInt(document.getElementById(idPrecio).value) * parseInt(document.getElementById(idCantidad).value)
+				document.getElementById(idTotal).value=ptotal;
+				suma = suma + ptotal;
+			}
+		id = id+1;
+    	}catch(e){
+       		existe = false;
+    	}  
+	}
+        console.log(suma);
+	document.getElementById("ot-ot_subtotal").value=suma;
+
+}';
+
+$JS_SERVICIOS = 'function sumar_total_servicio(){
+
+	id = 0;
+	suma = 0;
+	existe = true;
+	while(existe){
+
+		var idFull = "otrosservicios-"+id+"-os_precio";
+		try{campo = document.getElementById(idFull);
+			if(document.getElementById(idFull).value!=""){
+				suma = suma + parseInt(document.getElementById(idFull).value);
+			}
+		id = id+1;
+    	}catch(e){
+       		existe = false;
+    	}  
+	}
+        console.log(suma);
+	document.getElementById("ot-ot_subtotal").value=suma;
+
+}';
+
+$JS_IVA = 'function calcular_iva(){
+                iva = 0;
+                iva = parseInt(document.getElementById("ot-ot_subtotal").value) * 0.19;
+                document.getElementById("ot-ot_iva").value=iva;
+}';
+
+$JS_TOTAL = 'function calcular_total(){
+                total = 0;
+                total = parseInt(document.getElementById("ot-ot_subtotal").value) + parseInt(document.getElementById("ot-ot_iva").value=iva);
+                console.log(total);
+                document.getElementById("ot-ot_total").value=total;
+}';
+
+
+
+$this->registerJs($JS_DESABOLLADURA, \yii\web\VIEW::POS_HEAD);
+$this->registerJs($JS_IVA, \yii\web\VIEW::POS_HEAD);
+$this->registerJs($JS_TOTAL, \yii\web\VIEW::POS_HEAD);
+
 ?>
 
 <div class="ot-form">
@@ -124,8 +215,7 @@ $this->registerJs($JS);
                                 <?= $form->field($modelDesabolladura, "[{$i}]DES_HORAS")->textInput(['maxlength' => true]) ?>
                             </div>
                             <div class="col-sm-3">
-                                <?= $form->field($modelDesabolladura, "[{$i}]DES_PRECIO")->textInput(['maxlength' => true,
-                                                                       'onChange' => 'sumar_total()']) ?>
+                                <?= $form->field($modelDesabolladura, "[{$i}]DES_PRECIO")->textInput(['maxlength' => true, 'onBlur'=>'sumar_total_desabolladura();calcular_iva();calcular_total();']) ?>
                             </div>
                             <div class="col-sm-3">
                                 <?= $form->field($modelDesabolladura, "[{$i}]DES_ESTADO")->textInput(['maxlength' => true]) ?>
@@ -347,25 +437,19 @@ $this->registerJs($JS);
     
     <div class="row">
         <div class="col-sm-3">
-            <?= $form->field($model, 'OT_SUBTOTAL')->textInput(['size' => 8]) ?>
+            <?= $form->field($model, 'OT_SUBTOTAL')->textInput(['size' => 8, 'value' => '0']) ?>
         </div>
         <div class="col-sm-3">
-            <?= $form->field($model, 'OT_IVA')->textInput(['size' => 8]) ?>
+            <?= $form->field($model, 'OT_IVA')->textInput(['size' => 8, 'value' => '0']) ?>
         </div>
         <div class="col-sm-3">
-            <?= $form->field($model, 'OT_TOTAL')->textInput(['size' => 8]) ?>
+            <?= $form->field($model, 'OT_TOTAL')->textInput(['size' => 8, 'value' => '0']) ?>
         </div>
         <div class="col-sm-3">
             <?= $form->field($model, 'OT_TOTAL_HORAS')->textInput() ?>
         </div>
     </div>
 
-    <!-- test -->
-    <div class="totalexterno">
-        <div class='text'>Suma Total:</div>
-        <div class="total">0</div>
-    </div>
-    <!-- end test -->
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Guardar' : 'Guardar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
