@@ -45,10 +45,10 @@ class Despacho extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'OD_ID' => 'Od  ID',
-            'OT_ID' => 'Ot  ID',
-            'OD_FECHA' => 'Od  Fecha',
-            'OD_OBSERVACINES' => 'Od  Observacines',
+            'OD_ID' => 'Número de Orden',
+            'OT_ID' => 'Código Orden de Trabajo',
+            'OD_FECHA' => 'Fecha',
+            'OD_OBSERVACINES' => 'Observacines',
         ];
     }
 

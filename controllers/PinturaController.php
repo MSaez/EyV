@@ -62,19 +62,14 @@ class PinturaController extends Controller
             'sql' => 'SELECT empleado.EMP_RUT, empleado.EMP_NOMBRES, empleado.EMP_PATERNO, empleado.EMP_MATERNO FROM empleado, responsable_pintura WHERE responsable_pintura.PIN_ID =:id AND empleado.EMP_RUT = responsable_pintura.EMP_RUT',
             'params' => [':id' => $id],
             'totalCount' => $count,
-            
             'pagination' => [
                 'pageSize' => 10,
             ],
         ]);
         
+        $dataProvider->key = 'EMP_RUT';
         
-                
-        
-        
-         
-         
-         return $this->render('trabajadores', [/*'model' => $model,*/
+        return $this->render('trabajadores', [/*'model' => $model,*/
                                                'dataProvider' => $dataProvider]);
         
     }

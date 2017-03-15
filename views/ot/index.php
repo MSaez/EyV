@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'OT_IVA',
             'OT_TOTAL',
             // 'OT_TOTAL_HORAS',
-
+            // agregar estado al modelo
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
