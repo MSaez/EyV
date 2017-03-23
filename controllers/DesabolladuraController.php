@@ -12,6 +12,7 @@ use app\models\Ot;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\data\SqlDataProvider;
 
 
 /**
@@ -51,15 +52,30 @@ class DesabolladuraController extends Controller
     }
     
     public function actionVertrabajadores($id){
-        $model = $this->findModel($id);
-        //$modelsEmpleados = $model->empleados;
-        $searchModelEmpleado = new EmpleadoSearch();
-        $searchModelEmpleado->EMP_RUT = $model->DES_ID;
-        $dataProvider = $searchModelEmpleado->search(Yii::$app->request->queryParams);
-         
-         
-         return $this->render('trabajadores', ['model' => $model,
-                                               'dataProvider' => $dataProvider]);
+        
+        
+        $count = Yii::$app->db->createCommand('
+            SELECT COUNT(*) 
+            FROM empleado, responsable_desabolladura 
+            WHERE responsable_desabolladura.DES_ID =:id AND empleado.EMP_RUT = responsable_desabolladura.EMP_RUT
+            ', [':id' => $id])->queryScalar();
+        
+        $dataProvider = new SqlDataProvider([
+            'sql' => 'SELECT empleado.EMP_RUT, empleado.EMP_NOMBRES, empleado.EMP_PATERNO, empleado.EMP_MATERNO FROM empleado, responsable_desabolladura WHERE responsable_desabolladura.DES_ID =:id AND empleado.EMP_RUT = responsable_desabolladura.EMP_RUT',
+            'params' => [':id' => $id],
+            'totalCount' => $count,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+        
+        $dataProvider->key = 'EMP_RUT';
+        $session = Yii::$app->session;
+        $session['desabolladuraId'] = $id;
+
+        
+        return $this->render('trabajadores', [/*'model' => $model,*/
+                                             'dataProvider' => $dataProvider]);
         
     }
 
@@ -91,6 +107,28 @@ class DesabolladuraController extends Controller
             return $this->render('asignar', ['model' => $model]);
         }
         
+    }
+    
+    // Función para eliminar una asignación de un Empleado a una Actividad
+    public function actionEliminar($idDesabolladura, $empRut){
+        $ot = new Ot();
+        $actDesabolladura = $this->findModel($idDesabolladura);
+        $empleado = Empleado::findOne(['EMP_RUT' => $empRut]);
+        //eliminamos variable de sesion
+        $session = Yii::$app->session;
+        $session->remove('desabolladuraId');
+        $ot = $actDesabolladura->getOT()->one();
+        try{
+            // eliminamos de la tabla relacional
+            $actDesabolladura->unlink('empleados', $empleado, $delete = true);
+        }catch(\yii\db\Exception $e) {
+            // setear un flash y volver a la pagina anterior
+            Yii::$app->session->setFlash('danger', 'No se puede realizar esta operación');
+            return $this->redirect(array('ot/view','id'=>$ot->OT_ID));
+        }
+        // en caso de una eliminación correcta volver a la pagina de la ot relacionada
+            Yii::$app->session->setFlash('success', 'Trabajador desvinculado de la actividad exitosamente!');
+            return $this->redirect(array('ot/view','id'=>$ot->OT_ID));
     }
 
     /**

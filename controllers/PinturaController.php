@@ -68,9 +68,12 @@ class PinturaController extends Controller
         ]);
         
         $dataProvider->key = 'EMP_RUT';
+        $session = Yii::$app->session;
+        $session['pinturaId'] = $id;
+
         
         return $this->render('trabajadores', [/*'model' => $model,*/
-                                               'dataProvider' => $dataProvider]);
+                                             'dataProvider' => $dataProvider]);
         
     }
 
@@ -99,6 +102,29 @@ class PinturaController extends Controller
             return $this->render('asignar', ['model' => $model]);
         }
         
+    }
+    
+    // Función para eliminar una asignación de un Empleado a una Actividad
+    public function actionEliminar($idPintura, $empRut){
+        $ot = new Ot();
+        $actPintura = $this->findModel($idPintura);
+        $empleado = Empleado::findOne(['EMP_RUT' => $empRut]);
+        //eliminamos variable de sesion
+        $session = Yii::$app->session;
+        $session->remove('pinturaId');
+
+        $ot = $actPintura->getOT()->one();
+        try{
+            // eliminamos de la tabla relacional
+            $actPintura->unlink('empleados', $empleado, $delete = true);
+        }catch(\yii\db\Exception $e) {
+            // setear un flash y volver a la pagina anterior
+            Yii::$app->session->setFlash('danger', 'No se puede realizar esta operación');
+            return $this->redirect(array('ot/view','id'=>$ot->OT_ID));
+        }
+        // en caso de una eliminación correcta volver a la pagina de la ot relacionada
+            Yii::$app->session->setFlash('success', 'Trabajador desvinculado de la actividad exitosamente!');
+            return $this->redirect(array('ot/view','id'=>$ot->OT_ID));
     }
 
     /**

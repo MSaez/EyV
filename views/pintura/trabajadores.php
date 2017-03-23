@@ -7,7 +7,7 @@ use yii\helpers\Url;
 
 ?>
 <h1>Trabajadores asignados a esta actividad:</h1>
-<?php Pjax::begin(); ?>
+<?php Pjax::begin();?>
 
 <?= GridView::widget([
             'dataProvider' => $dataProvider,
@@ -21,14 +21,15 @@ use yii\helpers\Url;
                 [
                     'class' => '\kartik\grid\ActionColumn',
                     'dropdown' => false,
-                    'template' => '{asignarTrabajadorDes}',
+                    'template' => '{eliminarTrabajadorPin}',
                     'buttons' => [
-                    'asignarTrabajadorDes' => function ($url, $model, $key) { // cambiar la funcion por la de desasignacion
+                    'eliminarTrabajadorPin' => function ($url, $model, $key) { // cambiar la funcion por la de desasignacion
                                                     $title = null;
                                                     $options = ['title' => 'Asignar Trabajador']; 
-                                                    $icon = '<span class="glyphicon glyphicon-pencil"></span>';
+                                                    $icon = '<span class="glyphicon glyphicon-trash"></span>';
                                                     $label = $icon . ' ' . $title;
-                                                    $url = Url::toRoute(['desabolladura/asignartrabajador','id'=>$key]);
+                                                    $session = Yii::$app->session;
+                                                    $url = Url::to(['pintura/eliminar', 'idPintura' => $session['pinturaId'], 'empRut'=>$key]);
                                                     return Html::a($label, $url, $options);
                                       },
                    
