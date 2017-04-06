@@ -31,6 +31,7 @@ class Marca extends \yii\db\ActiveRecord
         return [
             [['MAR_NOMBRE'], 'required'],
             [['MAR_NOMBRE'], 'string', 'max' => 128],
+            [['MAR_NOMBRE'], 'match', 'pattern' => '/^[a-zA-Z0-9áéíóúAÉÍÓÚÑñ]+$/', 'message'=>'Nombre de Marca Inválido. Por favor ingrese solo caracteres alfanuméricos.'],
         ];
     }
 

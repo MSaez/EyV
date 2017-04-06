@@ -43,6 +43,13 @@ class Cliente extends \yii\db\ActiveRecord
             [['CLI_RUT'], \sateler\rut\RutValidator::className()],
             [['CLI_TELEFONO'], 'string', 'max' => 20],
             [['CLI_IND_CONDUCTA'], 'string', 'max' => 10],
+            // Valida que no se ingresen caracteres especiales o numeros en los campos nombres, apellido paterno y apellido materno
+            ['CLI_NOMBRES', 'match', 'pattern' => '/^[a-zA-ZáéíóúAÉÍÓÚÑñ\s]+$/', 'message'=>'Nombre Inválido. Por favor ingrese solo caracteres alfabeticos.'],
+            ['CLI_PATERNO', 'match', 'pattern' => '/^[a-zA-ZáéíóúAÉÍÓÚÑñ]+$/', 'message'=>'Apellido Paterno Inválido. Por favor ingrese solo caracteres alfabeticos.'],
+            ['CLI_MATERNO', 'match', 'pattern' => '/^[a-zA-ZáéíóúAÉÍÓÚÑñ]+$/', 'message'=>'Apellido Materno Inválido. Por favor ingrese solo caracteres alfabeticos.'],
+            ['CLI_TELEFONO', 'match', 'pattern' => '/^[+0-9]+$/', 'message'=>'Número telefónico Inválido. Por favor ingrese solo caracteres numéricos.'],
+            ['CLI_DIRECCION', 'match', 'pattern' => '/^[a-zA-Z0-9áéíóúAÉÍÓÚÑñ.,:;-]+$/', 'message'=>'Dirección Inválida. Por favor ingrese solo caracteres alfanuméricos y signos de puntuación.'],
+            
         ];
     }
 

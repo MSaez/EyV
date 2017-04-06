@@ -35,6 +35,7 @@ class Modelo extends \yii\db\ActiveRecord
             [['MAR_ID'], 'integer'],
             [['MOD_NOMBRE', 'MOD_VARIANTE'], 'string', 'max' => 128],
             [['MAR_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Marca::className(), 'targetAttribute' => ['MAR_ID' => 'MAR_ID']],
+            [['MOD_NOMBRE', 'MOD_VARIANTE'], 'match', 'pattern' => '/^[a-zA-Z0-9áéíóúAÉÍÓÚÑñ]+$/', 'message'=>'Nombre de Modelo Inválido. Por favor ingrese solo caracteres alfanuméricos.'],
         ];
     }
 
