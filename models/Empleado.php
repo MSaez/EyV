@@ -38,6 +38,9 @@ class Empleado extends \yii\db\ActiveRecord
             [['EMP_RUT'], 'string', 'max' => 12],
             [['EMP_RUT'], \sateler\rut\RutValidator::className()],
             [['EMP_NOMBRES', 'EMP_PATERNO', 'EMP_MATERNO'], 'string', 'max' => 128],
+            [['EMP_NOMBRES'], 'match', 'pattern' => '/^[a-zA-ZáéíóúAÉÍÓÚÑñ\s]+$/', 'message'=>'Nombre Inválido. Por favor ingrese solo caracteres alfabeticos.'],
+            [['EMP_PATERNO'], 'match', 'pattern' => '/^[a-zA-ZáéíóúAÉÍÓÚÑñ]+$/', 'message'=>'Apellido Paterno Inválido. Por favor ingrese solo caracteres alfabeticos.'],
+            [['EMP_MATERNO'], 'match', 'pattern' => '/^[a-zA-ZáéíóúAÉÍÓÚÑñ]+$/', 'message'=>'Apellido Materno Inválido. Por favor ingrese solo caracteres alfabeticos.'],
         ];
     }
 

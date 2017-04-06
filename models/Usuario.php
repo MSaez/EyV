@@ -46,7 +46,11 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             [['US_EMAIL'], 'email'],
             [['US_NOMBRES', 'US_PATERNO', 'US_MATERNO', 'US_EMAIL'], 'string', 'max' => 80],
             [['US_PASSWORD', 'US_AUTHKEY'], 'string', 'max' => 250],
-            [['US_PASSWORD'], 'match', 'pattern' => "/^.{7,16}$/", 'message' => 'Mínimo 7 y máximo 16 caracteres'],
+            [['US_USERNAME'], 'match', 'pattern' => '/^[a-z\d_]{4,15}$/i'],
+            [['US_PASSWORD'], 'match', 'pattern' => '/^.{7,16}$/', 'message' => 'Mínimo 7 y máximo 16 caracteres'],
+            [['US_NOMBRES'], 'match', 'pattern' => '/^[a-zA-ZáéíóúAÉÍÓÚÑñ\s]+$/', 'message'=>'Nombre Inválido. Por favor ingrese solo caracteres alfabeticos.'],
+            [['US_PATERNO'], 'match', 'pattern' => '/^[a-zA-ZáéíóúAÉÍÓÚÑñ]+$/', 'message'=>'Apellido Paterno Inválido. Por favor ingrese solo caracteres alfabeticos.'],
+            [['US_MATERNO'], 'match', 'pattern' => '/^[a-zA-ZáéíóúAÉÍÓÚÑñ]+$/', 'message'=>'Apellido Materno Inválido. Por favor ingrese solo caracteres alfabeticos.'],
         ];
     }
 
