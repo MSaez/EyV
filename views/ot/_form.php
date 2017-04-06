@@ -149,7 +149,7 @@ $this->registerJs($JS_TOTAL, \yii\web\VIEW::POS_HEAD);
     <?= $form->field($model, 'OT_INICIO')->widget(\yii\jui\DatePicker::classname(), [
             //'language' => 'ru',
             'dateFormat' => 'yyyy-MM-dd',
-            'options' => ['class' => 'form-control', 'style' => 'width:25%']
+            'options' => ['class' => 'form-control', 'style' => 'width:25%',]
     ]) ?>
     
     <?= $form->field($model, 'OT_ENTREGA')->widget(\yii\jui\DatePicker::classname(), [

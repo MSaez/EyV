@@ -37,6 +37,7 @@ class Pagos extends \yii\db\ActiveRecord
             [['OS_ID', 'INS_ID', 'PAG_VALOR'], 'integer'],
             [['PAG_VALOR'], 'required'],
             [['PAG_FECHA'], 'safe'],
+            [['PAG_FECHA'], 'date'],
             [['INS_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Insumo::className(), 'targetAttribute' => ['INS_ID' => 'INS_ID']],
             [['OS_ID'], 'exist', 'skipOnError' => true, 'targetClass' => OtrosServicios::className(), 'targetAttribute' => ['OS_ID' => 'OS_ID']],
         ];
@@ -48,11 +49,11 @@ class Pagos extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'PAG_ID' => 'Pag  ID',
-            'OS_ID' => 'Os  ID',
-            'INS_ID' => 'Ins  ID',
-            'PAG_VALOR' => 'Pag  Valor',
-            'PAG_FECHA' => 'Pag  Fecha',
+            'PAG_ID' => 'Código Pago',
+            'OS_ID' => 'Código Servicio Externo',
+            'INS_ID' => 'Código Insumo',
+            'PAG_VALOR' => 'Valor',
+            'PAG_FECHA' => 'Fecha',
         ];
     }
 

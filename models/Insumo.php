@@ -38,6 +38,7 @@ class Insumo extends \yii\db\ActiveRecord
             [['OT_ID', 'PAG_ID', 'INS_CANTIDAD', 'INS_PRECIO_UNITARIO', 'INS_TOTAL'], 'integer'],
             [['INS_NOMBRE', 'INS_CANTIDAD', 'INS_PRECIO_UNITARIO', 'INS_TOTAL'], 'required'],
             [['INS_NOMBRE'], 'string', 'max' => 128],
+            [['INS_NOMBRE'], 'match', 'pattern' => '/^[a-zA-Z0-9áéíóúAÉÍÓÚÑñ.,:;-]+$/', 'message'=>'Nombre de Insumo Inválido. Por favor ingrese solo caracteres alfanuméricos y signos de puntuación.'],
             [['PAG_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Pagos::className(), 'targetAttribute' => ['PAG_ID' => 'PAG_ID']],
             [['OT_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Ot::className(), 'targetAttribute' => ['OT_ID' => 'OT_ID']],
         ];

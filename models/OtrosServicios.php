@@ -36,6 +36,7 @@ class OtrosServicios extends \yii\db\ActiveRecord
             [['OT_ID', 'PAG_ID', 'OS_PRECIO'], 'integer'],
             [['OS_DESCRIPCION', 'OS_PRECIO'], 'required'],
             [['OS_DESCRIPCION'], 'string'],
+            [['OS_DESCRIPCION'], 'match', 'pattern' => '/^[a-zA-Z0-9áéíóúAÉÍÓÚÑñ.,:;-]+$/', 'message'=>'Descripción Inválida. Por favor ingrese solo caracteres alfanuméricos y signos de puntuación.'],
             [['OT_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Ot::className(), 'targetAttribute' => ['OT_ID' => 'OT_ID']],
             [['PAG_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Pagos::className(), 'targetAttribute' => ['PAG_ID' => 'PAG_ID']],
         ];

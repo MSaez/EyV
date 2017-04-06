@@ -37,6 +37,7 @@ class ActividadDesabolladura extends \yii\db\ActiveRecord
             [['OT_ID', 'DES_HORAS', 'DES_PRECIO'], 'integer'],
             [['DES_DESCRIPCION', 'DES_HORAS', 'DES_PRECIO', 'DES_ESTADO'], 'required'],
             [['DES_DESCRIPCION'], 'string'],
+            [['DES_DESCRIPCION'], 'match', 'pattern' => '/^[a-zA-Z0-9áéíóúAÉÍÓÚÑñ.,:;-]+$/', 'message'=>'Descripción Inválida. Por favor ingrese solo caracteres alfanuméricos y signos de puntuación.'],
             [['DES_ESTADO'], 'string', 'max' => 20],
             [['OT_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Ot::className(), 'targetAttribute' => ['OT_ID' => 'OT_ID']],
         ];

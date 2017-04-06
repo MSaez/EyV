@@ -34,7 +34,9 @@ class Despacho extends \yii\db\ActiveRecord
             [['OT_ID'], 'integer'],
             [['OD_FECHA', 'OD_OBSERVACINES'], 'required'],
             [['OD_FECHA'], 'safe'],
+            [['OD_FECHA'], 'date'],
             [['OD_OBSERVACINES'], 'string'],
+            [['OD_OBSERVACIONES'], 'match', 'pattern' => '/^[a-zA-Z0-9áéíóúAÉÍÓÚÑñ.,:;-]+$/', 'message'=>'Por favor ingrese solo caracteres alfanuméricos y signos de puntuación.'],
             [['OT_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Ot::className(), 'targetAttribute' => ['OT_ID' => 'OT_ID']],
         ];
     }
