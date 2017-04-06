@@ -15,6 +15,7 @@ use Yii;
  * @property string $OT_INICIO
  * @property string $OT_ENTREGA
  * @property string $OT_OBSERVACIONES
+ * @property string $OT_ESTADO
  * @property integer $OT_SUBTOTAL
  * @property integer $OT_IVA
  * @property integer $OT_TOTAL
@@ -49,9 +50,8 @@ class Ot extends \yii\db\ActiveRecord
     {
         return [
             [['OD_ID', 'CBR_ID', 'VEH_ID', 'CLI_ID', 'OT_SUBTOTAL', 'OT_IVA', 'OT_TOTAL', 'OT_TOTAL_HORAS'], 'integer'],
-            [['VEH_ID', 'CLI_ID', 'OT_INICIO', 'OT_ENTREGA', 'OT_OBSERVACIONES', 'OT_SUBTOTAL', 'OT_IVA', 'OT_TOTAL', 'OT_TOTAL_HORAS'], 'required'],
+            [['VEH_ID', 'CLI_ID', 'OT_INICIO', 'OT_ENTREGA', 'OT_OBSERVACIONES', 'OT_ESTADO', 'OT_SUBTOTAL', 'OT_IVA', 'OT_TOTAL', 'OT_TOTAL_HORAS'], 'required'],
             [['OT_INICIO', 'OT_ENTREGA'], 'safe'],
-            [['OT_INICIO', 'OT_ENTREGA'], 'date'],
             [['OT_ENTREGA'], 'compare', 'compareAttribute' => 'OT_INICIO', 'operator' => '>=', 'message' => 'La fecha de entrega no puede ser menor a la fecha de inicio'],
             [['OT_OBSERVACIONES'], 'string'],
             [['OT_OBSERVACIONES'], 'match', 'pattern' => '/^[a-zA-Z0-9áéíóúAÉÍÓÚÑñ.,:;-]+$/', 'message'=>'Por favor ingrese solo caracteres alfanuméricos y signos de puntuación.'],
@@ -76,6 +76,7 @@ class Ot extends \yii\db\ActiveRecord
             'OT_INICIO' => 'Fecha Inicio',
             'OT_ENTREGA' => 'Fecha de Entrega',
             'OT_OBSERVACIONES' => 'Observaciones',
+            'OT_ESTADO' => 'Estado',
             'OT_SUBTOTAL' => 'Subtotal',
             'OT_IVA' => 'IVA',
             'OT_TOTAL' => 'Total',

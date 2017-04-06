@@ -158,6 +158,11 @@ $this->registerJs($JS_TOTAL, \yii\web\VIEW::POS_HEAD);
             'options' => ['class' => 'form-control', 'style' => 'width:25%']
     ]) ?>
     
+    <?= $form->field($model, 'OT_ESTADO')->dropDownList(['Presupuesto' => 'Presupuesto',
+                                                         'Pendiente' => 'Pendiente',
+                                                         'OT' => 'En ejecución',
+                                                         'Terminado' => 'Terminado',
+                                                         'Cancelado' => 'Cancelado'],['prompt'=>'Seleccione un estado']); ?>
 
     <?= $form->field($model, 'OT_OBSERVACIONES')->textarea(['rows' => 6]) ?>
     

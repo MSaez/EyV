@@ -41,6 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'OT_INICIO',
             'OT_ENTREGA',
             'OT_OBSERVACIONES:ntext',
+            'OT_ESTADO',
             'OT_SUBTOTAL',
             'OT_IVA',
             'OT_TOTAL',
