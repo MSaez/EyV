@@ -14,7 +14,6 @@ use Yii;
  * @property string $CLI_RUT
  * @property string $CLI_TELEFONO
  * @property string $CLI_DIRECCION
- * @property string $CLI_IND_CONDUCTA
  *
  * @property Ot[] $ots
  * @property Vehiculo[] $vehiculos
@@ -42,7 +41,6 @@ class Cliente extends \yii\db\ActiveRecord
             [['CLI_RUT'], 'string', 'max' => 12],
             [['CLI_RUT'], \sateler\rut\RutValidator::className()],
             [['CLI_TELEFONO'], 'string', 'max' => 20],
-            [['CLI_IND_CONDUCTA'], 'string', 'max' => 10],
             // Valida que no se ingresen caracteres especiales o numeros en los campos nombres, apellido paterno y apellido materno
             ['CLI_NOMBRES', 'match', 'pattern' => '/^[a-zA-ZáéíóúAÉÍÓÚÑñ\s]+$/', 'message'=>'Nombre Inválido. Por favor ingrese solo caracteres alfabeticos.'],
             ['CLI_PATERNO', 'match', 'pattern' => '/^[a-zA-ZáéíóúAÉÍÓÚÑñ]+$/', 'message'=>'Apellido Paterno Inválido. Por favor ingrese solo caracteres alfabeticos.'],
@@ -66,7 +64,6 @@ class Cliente extends \yii\db\ActiveRecord
             'CLI_RUT' => 'Rut',
             'CLI_TELEFONO' => 'Teléfono',
             'CLI_DIRECCION' => 'Dirección',
-            'CLI_IND_CONDUCTA' => 'Indicador de Conducta',
         ];
     }
 

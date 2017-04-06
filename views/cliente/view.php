@@ -24,7 +24,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'CLI_RUT:rut',
             'CLI_TELEFONO',
             'CLI_DIRECCION:ntext',
-            'CLI_IND_CONDUCTA',
         ],
     ]) ?>
     

@@ -28,10 +28,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'CLI_NOMBRES',
             'CLI_PATERNO',
             'CLI_MATERNO',
-            // 'CLI_TELEFONO',
+            'CLI_TELEFONO',
             // 'CLI_DIRECCION:ntext',
-            // 'CLI_IND_CONDUCTA',
-
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
