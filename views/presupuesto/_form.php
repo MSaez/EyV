@@ -442,16 +442,16 @@ $this->registerJs($JS_TOTAL, \yii\web\VIEW::POS_HEAD);
     
     <div class="row">
         <div class="col-sm-3">
-            <?= $form->field($model, 'OT_SUBTOTAL')->textInput(['disabled' => 'disabled', 'size' => 8, 'value' => '0']) ?>
+            <?= $form->field($model, 'OT_SUBTOTAL')->textInput(['size' => 8, 'value' => '0']) ?>
         </div>
         <div class="col-sm-3">
-            <?= $form->field($model, 'OT_IVA')->textInput(['disabled' => 'disabled', 'size' => 8, 'value' => '0']) ?>
+            <?= $form->field($model, 'OT_IVA')->textInput(['size' => 8, 'value' => '0']) ?>
         </div>
         <div class="col-sm-3">
-            <?= $form->field($model, 'OT_TOTAL')->textInput(['disabled' => 'disabled', 'size' => 8, 'value' => '0']) ?>
+            <?= $form->field($model, 'OT_TOTAL')->textInput(['size' => 8, 'value' => '0']) ?>
         </div>
         <div class="col-sm-3">
-            <?= $form->field($model, 'OT_TOTAL_HORAS')->textInput(['disabled' => 'disabled', 'size' => 8, 'value' => '0']) ?>
+            <?= $form->field($model, 'OT_TOTAL_HORAS')->textInput(['size' => 8, 'value' => '0']) ?>
         </div>
     </div>
 

@@ -25,10 +25,11 @@ use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 
 
+
 /**
- * OtController implements the CRUD actions for Ot model.
+ * PresupuestoController implements the CRUD actions for Ot model.
  */
-class OtController extends Controller
+class PresupuestoController extends Controller
 {
     /**
      * @inheritdoc

@@ -5,7 +5,7 @@ use yii\widgets\DetailView;
 use kartik\grid\GridView;
 use yii\widgets\Pjax;
 use yii\helpers\Url;
-use kartik\widgets\Alert;
+
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Ot */
