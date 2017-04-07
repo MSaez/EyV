@@ -10,8 +10,8 @@ use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $model app\models\Ot */
 
-$this->title = 'Presupuesto cód. : '.$model->OT_ID;
-$this->params['breadcrumbs'][] = ['label' => 'Ots', 'url' => ['index']];
+$this->title = 'Orden de Trabajo cód. : '.$model->OT_ID;
+$this->params['breadcrumbs'][] = ['label' => 'Ordenes de Trabajo', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
