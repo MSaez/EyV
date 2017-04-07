@@ -375,6 +375,19 @@ class PresupuestoController extends Controller
         return $this->redirect(['index']);
     }
     
+    /**
+     * Función que confirma un presupuesto para su ejecución
+     */
+    
+    public function actionConfirmar($id)
+    {
+        $model = $this->findModel($id);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(array('ot/view','id'=>$model->OT_ID));
+        }else{
+            return $this->renderPartial('_statusForm', ['model' => $model,]);
+        }
+    }
     
 
     /**

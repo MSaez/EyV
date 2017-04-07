@@ -16,7 +16,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Nuevo Presupuesto', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+<?php
+    yii\bootstrap\Modal::begin(['header' => '<h2>Confirmar Presupuesto</h2>','id' =>'modal']);
+    yii\bootstrap\Modal::end();
+?>
+<?php Pjax::begin(); ?>    
+    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
@@ -29,7 +34,26 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'OT_IVA',
             'OT_TOTAL',
             'OT_TOTAL_HORAS',
-            ['class' => 'yii\grid\ActionColumn'],
+            //['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn',
+            'buttons' => [
+                'confirmar' => function ($url, $model, $key) {
+                    return Html::a('<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> ', ['presupuesto/confirmar','id'=>$model->OT_ID], ['id' => 'popupModal']);
+                },
+            ],
+            'template' => '{update} {view} {delete} {confirmar}'
+            ],
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>
+
+<?php $this->registerJs("$(function() {
+   $('#popupModal').click(function(e) {
+     e.preventDefault();
+     $('#modal').modal('show').find('.modal-body')
+     .load($(this).attr('href'));
+   });
+});"); ?>
+
+
+
