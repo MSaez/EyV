@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\ActionColumn',
             'buttons' => [
                 'confirmar' => function ($url, $model, $key) {
-                    return Html::a('<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> ', ['presupuesto/confirmar','id'=>$model->OT_ID], ['id' => 'popupModal']);
+                    return Html::a('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> ', ['presupuesto/confirmar','id'=>$model->OT_ID], ['title' => 'Confirmar Presupuesto','id' => 'popupModal']);
                 },
             ],
             'template' => '{update} {view} {delete} {confirmar}'
