@@ -20,7 +20,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Actualizar', ['update', 'id' => $model->OT_ID], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Actualizar', ['update', 'id' => $model->OT_ID], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Confirmar Presupuesto', ['confirmar', 'id' => $model->OT_ID], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('<span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir',['imprimir', 'id'=>$model->OT_ID] , ['class' => 'btn btn-primary']) ?>
     </p>
     
     <?= DetailView::widget([

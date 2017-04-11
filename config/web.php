@@ -41,6 +41,7 @@ $config = [
         ],
         'db' => require(__DIR__ . '/db.php'),
         'formatter' => [
+            'dateFormat' => 'dd/MM/yyyy',
             'class' => \yii\i18n\Formatter::className(),
             'as rutFormatter' => \sateler\rut\RutFormatBehavior::className(),
         ],

@@ -5,6 +5,7 @@ use yii\grid\GridView;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $searchModel app\models\PresupuestoSearch */ 
 
 $this->title = 'Presupuestos';
 $this->params['breadcrumbs'][] = $this->title;
@@ -16,29 +17,26 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Nuevo Presupuesto', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-<?php
-    yii\bootstrap\Modal::begin(['header' => '<h2>Confirmar Presupuesto</h2>','id' =>'modal']);
-    yii\bootstrap\Modal::end();
-?>
+
 <?php Pjax::begin(); ?>    
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel, 
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             'VEH_ID',
             'CLI_ID',
-            'OT_INICIO',
-            'OT_ENTREGA',
+            'OT_INICIO:Date',
+            'OT_ENTREGA:Date',
             // 'OT_OBSERVACIONES:ntext',
             // 'OT_SUBTOTAL',
             // 'OT_IVA',
             'OT_TOTAL',
             'OT_TOTAL_HORAS',
-            //['class' => 'yii\grid\ActionColumn'],
             ['class' => 'yii\grid\ActionColumn',
             'buttons' => [
                 'confirmar' => function ($url, $model, $key) {
-                    return Html::a('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> ', ['presupuesto/confirmar','id'=>$model->OT_ID], ['title' => 'Confirmar Presupuesto','id' => 'popupModal']);
+                    return Html::a('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> ', ['presupuesto/confirmar','id'=>$model->OT_ID], ['title' => 'Confirmar Presupuesto']);
                 },
             ],
             'template' => '{update} {view} {delete} {confirmar}'
@@ -47,13 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
     ]); ?>
 <?php Pjax::end(); ?></div>
 
-<?php $this->registerJs("$(function() {
-   $('#popupModal').click(function(e) {
-     e.preventDefault();
-     $('#modal').modal('show').find('.modal-body')
-     .load($(this).attr('href'));
-   });
-});"); ?>
+
 
 
 

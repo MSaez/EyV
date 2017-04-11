@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Ot;
-use app\models\OtSearch;
+use app\models\PresupuestoSearch;
 use app\models\OsModel;
 use app\models\InModel;
 use app\models\DesModel;
@@ -23,6 +23,7 @@ use yii\filters\VerbFilter;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
+use kartik\mpdf\Pdf;
 
 
 
@@ -52,7 +53,7 @@ class PresupuestoController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new OtSearch();
+        $searchModel = new PresupuestoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -382,15 +383,84 @@ class PresupuestoController extends Controller
     public function actionConfirmar($id)
     {
         $model = $this->findModel($id);
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(array('ot/view','id'=>$model->OT_ID));
-        }else{
-            return $this->renderPartial('_statusForm', ['model' => $model,]);
-        }
+        $model->OT_ESTADO = "OT";
+        $model->save();
+        return $this->redirect(array('ot/view','id'=>$model->OT_ID));
+        
     }
     
+    public function actionImprimir($id) {
+        $model = $this->findModel($id);
+        $modelsDesabolladura = $model->actividadDesabolladuras;
+        $modelsPintura = $model->actividadPinturas;
+        $modelsInsumo = $model->insumos;
+        $modelsServicios = $model->otrosServicios;
+        
+        $searchModelDesabolladura = new ActividadDesabolladuraSearch();
+        $searchModelDesabolladura->OT_ID = $model->OT_ID;
+        $dataProviderDesabolladura = $searchModelDesabolladura->search(Yii::$app->request->queryParams);
+        
+        $searchModelPintura = new ActividadPinturaSearch();
+        $searchModelPintura->OT_ID = $model->OT_ID;
+        $dataProviderPintura = $searchModelPintura->search(Yii::$app->request->queryParams);
+        
+        $searchModelInsumo = new InsumoSearch();
+        $searchModelInsumo->OT_ID = $model->OT_ID;
+        $dataProviderInsumo = $searchModelInsumo->search(Yii::$app->request->queryParams);
+        
+        $searchModelServicios = new OtrosServiciosSearch();
+        $searchModelServicios->OT_ID = $model->OT_ID;
+        $dataProviderServicios = $searchModelServicios->search(Yii::$app->request->queryParams);
+        // get your HTML raw content without any layouts or scripts
+        $content = $this->renderPartial('view',[
 
-    /**
+            'model' => $model,
+            'modelsDesabolladura' => $modelsDesabolladura,
+            'searchModelDesabolladura'=> $searchModelDesabolladura,
+            'dataProviderDesabolladura'=> $dataProviderDesabolladura,
+            'modelsPintura' => $modelsPintura,
+            'searchModelPintura' => $searchModelPintura,
+            'dataProviderPintura' => $dataProviderPintura,
+            'modelsInsumo' => $modelsInsumo,
+            'searchModelInsumo' => $searchModelInsumo,
+            'dataProviderInsumo' => $dataProviderInsumo,
+            'modelsServicios' => $modelsServicios,
+            'seachModelServicios' => $searchModelServicios,
+            'dataProviderServicios' => $dataProviderServicios
+        ]);
+        
+        // setup kartik\mpdf\Pdf component
+        $pdf = new Pdf([
+            // set to use core fonts only
+            'mode' => Pdf::MODE_CORE, 
+            // A4 paper format
+            'format' => Pdf::FORMAT_A4, 
+            // portrait orientation
+            'orientation' => Pdf::ORIENT_PORTRAIT, 
+            // stream to browser inline
+            'destination' => Pdf::DEST_DOWNLOAD, 
+            // your html content input
+            'content' => $content,  
+            // format content from your own css file if needed or use the
+            // enhanced bootstrap css built by Krajee for mPDF formatting 
+            'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
+            // any css to be embedded if required
+            'cssInline' => '.kv-heading-1{font-size:18px}', 
+            // set mPDF properties on the fly
+            'options' => ['title' => 'Krajee Report Title'],
+            // call mPDF methods on the fly
+            'methods' => [ 
+                'SetHeader'=>['Krajee Report Header'], 
+                'SetFooter'=>['{PAGENO}'],
+            ]
+        ]);
+    
+        // return the pdf output as per the destination setting
+        return $pdf->render(); 
+    }
+
+
+        /**
      * Finds the Ot model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id

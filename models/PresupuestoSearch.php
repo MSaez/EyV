@@ -8,9 +8,9 @@ use yii\data\ActiveDataProvider;
 use app\models\Ot;
 
 /**
- * OtSearch represents the model behind the search form about `app\models\Ot`.
+ * PresupuestoSearch represents the model behind the search form about `app\models\Ot`.
  */
-class OtSearch extends Ot
+class PresupuestoSearch extends Ot
 {
     /**
      * @inheritdoc
@@ -19,7 +19,7 @@ class OtSearch extends Ot
     {
         return [
             [['OT_ID', 'OD_ID', 'CBR_ID', 'VEH_ID', 'CLI_ID', 'OT_SUBTOTAL', 'OT_IVA', 'OT_TOTAL', 'OT_TOTAL_HORAS'], 'integer'],
-            [['OT_INICIO', 'OT_ENTREGA', 'OT_OBSERVACIONES'], 'safe'],
+            [['OT_INICIO', 'OT_ENTREGA', 'OT_OBSERVACIONES', 'OT_ESTADO'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class OtSearch extends Ot
      */
     public function search($params)
     {
-        $query = Ot::find()->where('OT_ESTADO != "Presupuesto"');
+        $query = Ot::find()->where('OT_ESTADO = "Presupuesto"');
 
         // add conditions that should always apply here
 
@@ -70,11 +70,10 @@ class OtSearch extends Ot
             'OT_IVA' => $this->OT_IVA,
             'OT_TOTAL' => $this->OT_TOTAL,
             'OT_TOTAL_HORAS' => $this->OT_TOTAL_HORAS,
-            'OT_ESTADO' => $this->OT_ESTADO
         ]);
 
         $query->andFilterWhere(['like', 'OT_OBSERVACIONES', $this->OT_OBSERVACIONES])
-                ->andFilterWhere(['like', 'Presupuesto', $this->OT_ESTADO]);;
+            ->andFilterWhere(['like', 'Presupuesto', $this->OT_ESTADO]);
 
         return $dataProvider;
     }
