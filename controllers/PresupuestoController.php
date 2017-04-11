@@ -412,7 +412,7 @@ class PresupuestoController extends Controller
         $searchModelServicios->OT_ID = $model->OT_ID;
         $dataProviderServicios = $searchModelServicios->search(Yii::$app->request->queryParams);
         // get your HTML raw content without any layouts or scripts
-        $content = $this->renderPartial('view',[
+        $content = $this->renderPartial('imprimir',[
 
             'model' => $model,
             'modelsDesabolladura' => $modelsDesabolladura,
@@ -438,7 +438,9 @@ class PresupuestoController extends Controller
             // portrait orientation
             'orientation' => Pdf::ORIENT_PORTRAIT, 
             // stream to browser inline
-            'destination' => Pdf::DEST_DOWNLOAD, 
+            'destination' => Pdf::DEST_DOWNLOAD,
+            // Nombre del archivo
+            'filename' => 'Presupuesto_id_'.$model->OT_ID.'.pdf',
             // your html content input
             'content' => $content,  
             // format content from your own css file if needed or use the
@@ -450,8 +452,8 @@ class PresupuestoController extends Controller
             'options' => ['title' => 'Krajee Report Title'],
             // call mPDF methods on the fly
             'methods' => [ 
-                'SetHeader'=>['Krajee Report Header'], 
-                'SetFooter'=>['{PAGENO}'],
+                //'SetHeader'=>['Krajee Report Header'], 
+                //'SetFooter'=>['{PAGENO}'],
             ]
         ]);
     
