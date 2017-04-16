@@ -19,7 +19,7 @@ class ClienteSearch extends Cliente
     {
         return [
             [['CLI_ID'], 'integer'],
-            [['CLI_NOMBRES', 'CLI_PATERNO', 'CLI_MATERNO', 'CLI_RUT', 'CLI_TELEFONO', 'CLI_DIRECCION', 'CLI_IND_CONDUCTA'], 'safe'],
+            [['CLI_NOMBRES', 'CLI_PATERNO', 'CLI_MATERNO', 'CLI_RUT', 'CLI_TELEFONO', 'CLI_DIRECCION'], 'safe'],
         ];
     }
 
@@ -67,8 +67,7 @@ class ClienteSearch extends Cliente
             ->andFilterWhere(['like', 'CLI_MATERNO', $this->CLI_MATERNO])
             ->andFilterWhere(['like', 'CLI_RUT', $this->CLI_RUT])
             ->andFilterWhere(['like', 'CLI_TELEFONO', $this->CLI_TELEFONO])
-            ->andFilterWhere(['like', 'CLI_DIRECCION', $this->CLI_DIRECCION])
-            ->andFilterWhere(['like', 'CLI_IND_CONDUCTA', $this->CLI_IND_CONDUCTA]);
+            ->andFilterWhere(['like', 'CLI_DIRECCION', $this->CLI_DIRECCION]);
 
         return $dataProvider;
     }
