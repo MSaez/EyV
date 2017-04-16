@@ -15,8 +15,14 @@ $this->title = 'Orden de Compra'; ?>
         'model' => $ot,
         'attributes' => [
             'OT_ID',
-            'VEH_ID',
-            'CLI_ID',
+            [                      
+                'label' => 'Vehículo', 
+                'value' => $ot->vEH->VEH_PATENTE,
+            ],
+            [                      
+                'label' => 'Cliente', 
+                'value' => $ot->cLI->CLI_NOMBRES.' '.$ot->cLI->CLI_PATERNO.' '.$ot->cLI->CLI_MATERNO,
+            ],
             'OT_INICIO',
             'OT_ENTREGA',
             'OT_OBSERVACIONES:ntext',

@@ -15,8 +15,14 @@ $this->title = 'Presupuesto'; ?>
         'model' => $model,
         'attributes' => [
             'OT_ID',
-            'VEH_ID',
-            'CLI_ID',
+            [                      
+                'label' => 'Vehículo', 
+                'value' => $model->vEH->VEH_PATENTE,
+            ],
+            [                      
+                'label' => 'Cliente', 
+                'value' => $model->cLI->CLI_NOMBRES.' '.$model->cLI->CLI_PATERNO.' '.$model->cLI->CLI_MATERNO,
+            ],
             'OT_INICIO',
             'OT_ENTREGA',
             'OT_OBSERVACIONES:ntext',
