@@ -21,8 +21,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'VEH_ID',
-            'CLI_ID',
+            [
+                'attribute' => 'VEH_ID', 
+                'value' => 'vEH.VEH_PATENTE'
+            ],
+            [
+                'attribute' => 'CLI_ID', 
+                'value' => 'cLI.nombreCompleto'
+            ],
             'OT_INICIO',
             'OT_ENTREGA',
             // 'OT_OBSERVACIONES:ntext',

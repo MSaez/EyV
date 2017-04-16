@@ -23,6 +23,7 @@ use yii\filters\VerbFilter;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
+use kartik\mpdf\Pdf;
 
 
 /**
@@ -68,6 +69,7 @@ class OtController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
+        
         $modelsDesabolladura = $model->actividadDesabolladuras;
         $modelsPintura = $model->actividadPinturas;
         $modelsInsumo = $model->insumos;
@@ -257,6 +259,57 @@ class OtController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+    
+    public function actionGenordencompra($id)
+    {
+        // Cargamos los datos de la OT seleccionada
+        $ot = $this->findModel($id);
+        // Cargamos los insumos pertenecientes a la OT
+        $modelsInsumo = $ot->insumos;
+        $searchModelInsumo = new InsumoSearch();
+        $searchModelInsumo->OT_ID = $ot->OT_ID;
+        $dataProviderInsumo = $searchModelInsumo->search(Yii::$app->request->queryParams);
+        // Generamos la vista parcial de la Orden de compra
+        $content = $this->renderPartial('imprimir',[
+
+            'ot' => $ot,
+            'modelsInsumo' => $modelsInsumo,
+            'searchModelInsumo' => $searchModelInsumo,
+            'dataProviderInsumo' => $dataProviderInsumo,
+        ]);
+        
+        // setup kartik\mpdf\Pdf component
+        $pdf = new Pdf([
+            // set to use core fonts only
+            'mode' => Pdf::MODE_CORE, 
+            // A4 paper format
+            'format' => Pdf::FORMAT_A4, 
+            // portrait orientation
+            'orientation' => Pdf::ORIENT_PORTRAIT, 
+            // stream to browser inline
+            'destination' => Pdf::DEST_DOWNLOAD,
+            // Nombre del archivo
+            'filename' => 'Orden_de_Compra_OT_id_'.$ot->OT_ID.'.pdf',
+            // your html content input
+            'content' => $content,  
+            // format content from your own css file if needed or use the
+            // enhanced bootstrap css built by Krajee for mPDF formatting 
+            'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
+            // any css to be embedded if required
+            'cssInline' => '.kv-heading-1{font-size:18px}', 
+            // set mPDF properties on the fly
+            'options' => ['title' => 'Krajee Report Title'],
+            // call mPDF methods on the fly
+            'methods' => [ 
+                //'SetHeader'=>['Krajee Report Header'], 
+                //'SetFooter'=>['{PAGENO}'],
+            ]
+        ]);
+    
+        // return the pdf output as per the destination setting
+        return $pdf->render();
+        
     }
     
     

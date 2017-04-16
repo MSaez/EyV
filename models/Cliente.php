@@ -87,4 +87,6 @@ class Cliente extends \yii\db\ActiveRecord
     {
         return $this->CLI_NOMBRES.' '.$this->CLI_PATERNO.' '.$this->CLI_MATERNO;
     }
+    
+    
 }

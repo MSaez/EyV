@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'VEH_ID',
+            'VEH_PATENTE',
             [
                 'attribute' => 'MAR_ID', // se modifica la columna para que muestre los nombres de marca referenciando el nombre de la relación
                 'value' => 'mAR.MAR_NOMBRE'
@@ -41,8 +41,6 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'VEH_CHASIS',
             // 'VEH_MOTOR',
             // 'VEH_COLOR',
-            // 'VEH_PATENTE',
-
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

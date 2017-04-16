@@ -20,7 +20,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Actualizar', ['update', 'id' => $model->OT_ID], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Actualizar', ['update', 'id' => $model->OT_ID], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('<span class="glyphicon glyphicon-print" aria-hidden="true"></span> Generar Orden de Compra', ['genordencompra', 'id' => $model->OT_ID], ['class' => 'btn btn-primary']) ?>
 
     </p>
     
@@ -30,8 +31,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'OT_ID',
             'OD_ID',
             'CBR_ID',
-            'VEH_ID',
-            'CLI_ID',
+            [                      
+                'label' => 'Vehículo', 
+                'value' => $model->vEH->VEH_PATENTE,
+            ],
+            [                      
+                'label' => 'Cliente', 
+                'value' => $model->cLI->CLI_NOMBRES.' '.$model->cLI->CLI_PATERNO.' '.$model->cLI->CLI_MATERNO,
+            ],
             'OT_INICIO',
             'OT_ENTREGA',
             'OT_OBSERVACIONES:ntext',
