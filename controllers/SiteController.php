@@ -8,6 +8,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\Ot;
 
 class SiteController extends Controller
 {
@@ -49,7 +50,22 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+        // consulta para mostrar los trabajos fuera de plazo
+        $atrasados = OT::find()
+        ->where(['OT_ESTADO'=>'OT'])
+        ->andWhere(['<','DATEDIFF(OT_ENTREGA,NOW())','0'])
+        ->count();
+        // consulta para mostrar los trabajos en ejecución
+        $activos = OT::find()
+        ->where(['OT_ESTADO'=>'OT'])
+        ->andWhere(['>=','DATEDIFF(OT_ENTREGA,NOW())','0'])
+        ->count();
+        
+        $presupuestos = OT::find()
+        ->where(['OT_ESTADO'=>'Presupuesto'])
+        ->count();
+        
+        return $this->render('index', ['atrasados'=>$atrasados, 'activos'=>$activos, 'presupuestos'=>$presupuestos]);
     }
 
     public function actionLogin()

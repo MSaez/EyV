@@ -29,7 +29,7 @@ $JS_DESABOLLADURA = 'function sumar_total_desabolladura(){
     	}  
 	}
         console.log(suma);
-	document.getElementById("ot-ot_subtotal").value=suma;
+	document.getElementById("ot-ot_tdesabolladura").value=suma;
 
 }';
 
@@ -51,7 +51,7 @@ $JS_PINTURA = 'function sumar_total_pintura(){
     	}  
 	}
         console.log(suma);
-	document.getElementById("ot-ot_subtotal").value=suma;
+	document.getElementById("ot-ot_tpintura").value=suma;
 
 }';
 
@@ -78,7 +78,7 @@ $JS_INSUMOS = 'function sumar_total_insumos(){
     	}  
 	}
         console.log(suma);
-	document.getElementById("ot-ot_subtotal").value=suma;
+	document.getElementById("ot-ot_tinsumo").value=suma;
 
 }';
 
@@ -100,13 +100,73 @@ $JS_SERVICIOS = 'function sumar_total_servicio(){
     	}  
 	}
         console.log(suma);
-	document.getElementById("ot-ot_subtotal").value=suma;
+	document.getElementById("ot-ot_texterno").value=suma;
 
 }';
 
+$JS_HORAS_DESABOLLADURA = 'function sumar_total_horas_desabolladura(){
+
+	id = 0;
+	suma = 0;
+	existe = true;
+	while(existe){
+
+		var idFull = "actividaddesabolladura-"+id+"-des_horas";
+		try{campo = document.getElementById(idFull);
+			if(document.getElementById(idFull).value!=""){
+				suma = suma + parseInt(document.getElementById(idFull).value);
+			}
+		id = id+1;
+    	}catch(e){
+       		existe = false;
+    	}  
+	}
+        console.log(suma);
+	return suma;
+
+}';
+
+$JS_HORAS_PINTURA = 'function sumar_total_horas_pintura(){
+
+	id = 0;
+	suma = 0;
+	existe = true;
+	while(existe){
+
+		var idFull = "actividadpintura-"+id+"-pin_horas";
+		try{campo = document.getElementById(idFull);
+			if(document.getElementById(idFull).value!=""){
+				suma = suma + parseInt(document.getElementById(idFull).value);
+			}
+		id = id+1;
+    	}catch(e){
+       		existe = false;
+    	}  
+	}
+        console.log(suma);
+	return suma;
+
+}';
+
+$JS_TOTAL_HORAS ='function total_horas(){
+                    total = 0;
+                    total = sumar_total_horas_desabolladura() + sumar_total_horas_pintura();
+                    document.getElementById("ot-ot_total_horas").value=total;
+}';
+
+$JS_SUBTOTAL = 'function calcular_subtotal(){
+                    subtotal = 0;
+                    subtotal = parseInt(document.getElementById("ot-ot_tdesabolladura").value) + parseInt(document.getElementById("ot-ot_tpintura").value) + parseInt(document.getElementById("ot-ot_tinsumo").value) + parseInt(document.getElementById("ot-ot_texterno").value);
+                    document.getElementById("ot-ot_subtotal").value=subtotal;
+}';
+    
+        
+        
+       
+
 $JS_IVA = 'function calcular_iva(){
                 iva = 0;
-                iva = parseInt(document.getElementById("ot-ot_subtotal").value) * 0.19;
+                iva = Math.round(parseInt(document.getElementById("ot-ot_subtotal").value) * 0.19);
                 document.getElementById("ot-ot_iva").value=iva;
 }';
 
@@ -120,6 +180,13 @@ $JS_TOTAL = 'function calcular_total(){
 
 
 $this->registerJs($JS_DESABOLLADURA, \yii\web\VIEW::POS_HEAD);
+$this->registerJs($JS_PINTURA, \yii\web\VIEW::POS_HEAD);
+$this->registerJs($JS_INSUMOS, \yii\web\VIEW::POS_HEAD);
+$this->registerJs($JS_SERVICIOS, \yii\web\VIEW::POS_HEAD);
+$this->registerJs($JS_HORAS_DESABOLLADURA, \yii\web\VIEW::POS_HEAD);
+$this->registerJs($JS_HORAS_PINTURA, \yii\web\VIEW::POS_HEAD);
+$this->registerJs($JS_TOTAL_HORAS, \yii\web\VIEW::POS_HEAD);
+$this->registerJs($JS_SUBTOTAL, \yii\web\VIEW::POS_HEAD);
 $this->registerJs($JS_IVA, \yii\web\VIEW::POS_HEAD);
 $this->registerJs($JS_TOTAL, \yii\web\VIEW::POS_HEAD);
 
@@ -217,10 +284,10 @@ $this->registerJs($JS_TOTAL, \yii\web\VIEW::POS_HEAD);
                                 <?= $form->field($modelDesabolladura, "[{$i}]DES_DESCRIPCION")->textInput(['maxlength' => true]) ?>
                             </div>
                             <div class="col-sm-2">
-                                <?= $form->field($modelDesabolladura, "[{$i}]DES_HORAS")->textInput(['maxlength' => true]) ?>
+                                <?= $form->field($modelDesabolladura, "[{$i}]DES_HORAS")->textInput(['maxlength' => true, 'onkeyup' => 'sumar_total_horas_desabolladura();total_horas();']) ?>
                             </div>
                             <div class="col-sm-3">
-                                <?= $form->field($modelDesabolladura, "[{$i}]DES_PRECIO")->textInput(['maxlength' => true, 'onBlur'=>'sumar_total_desabolladura();calcular_iva();calcular_total();']) ?>
+                                <?= $form->field($modelDesabolladura, "[{$i}]DES_PRECIO")->textInput(['maxlength' => true, 'onkeyup'=>'sumar_total_desabolladura();sumar_total_pintura();sumar_total_insumos();sumar_total_servicio();calcular_subtotal();calcular_iva();calcular_total();']) ?>
                             </div>
                             <div class="col-sm-3">
                                 <?= $form->field($modelDesabolladura, "[{$i}]DES_ESTADO")->textInput(['maxlength' => true]) ?>
@@ -287,10 +354,10 @@ $this->registerJs($JS_TOTAL, \yii\web\VIEW::POS_HEAD);
                                 <?= $form->field($modelPintura, "[{$i}]PIN_DESCRIPCION")->textInput(['maxlength' => true]) ?>
                             </div>
                             <div class="col-sm-2">
-                                <?= $form->field($modelPintura, "[{$i}]PIN_HORAS")->textInput(['maxlength' => true]) ?>
+                                <?= $form->field($modelPintura, "[{$i}]PIN_HORAS")->textInput(['maxlength' => true, 'onkeyup' => 'sumar_total_horas_pintura(),total_horas();']) ?>
                             </div>
                             <div class="col-sm-3">
-                                <?= $form->field($modelPintura, "[{$i}]PIN_PRECIO")->textInput(['maxlength' => true]) ?>
+                                <?= $form->field($modelPintura, "[{$i}]PIN_PRECIO")->textInput(['maxlength' => true, 'onkeyup'=>'sumar_total_desabolladura();sumar_total_pintura();sumar_total_insumos();sumar_total_servicio();calcular_subtotal();calcular_iva();calcular_total();']) ?>
                             </div>
                             <div class="col-sm-3">
                                 <?= $form->field($modelPintura, "[{$i}]PIN_ESTADO")->textInput(['maxlength' => true]) ?>
@@ -361,7 +428,8 @@ $this->registerJs($JS_TOTAL, \yii\web\VIEW::POS_HEAD);
                             </div>
                             <div class="col-sm-4">
                                 <?= $form->field($modelInsumo, "[{$i}]INS_PRECIO_UNITARIO")->textInput(['maxlength' => true,
-                                                                                                        ]) ?>
+                                                                                                        'onkeyup'=>'sumar_total_desabolladura();sumar_total_pintura();sumar_total_insumos();sumar_total_servicio();calcular_subtotal();calcular_iva();calcular_total();'
+                                                                                                       ]) ?>
                             </div>
                             <div class="col-sm-4">
                                 <?= $form->field($modelInsumo, "[{$i}]INS_TOTAL")->textInput(['maxlength' => true,
@@ -426,7 +494,7 @@ $this->registerJs($JS_TOTAL, \yii\web\VIEW::POS_HEAD);
                                 <?= $form->field($modelServicio, "[{$i}]OS_DESCRIPCION")->textInput(['maxlength' => true]) ?>
                             </div>
                             <div class="col-sm-2">
-                                <?= $form->field($modelServicio, "[{$i}]OS_PRECIO")->textInput(['maxlength' => true]) ?>
+                                <?= $form->field($modelServicio, "[{$i}]OS_PRECIO")->textInput(['maxlength' => true, 'onkeyup'=>'sumar_total_desabolladura();sumar_total_pintura();sumar_total_insumos();sumar_total_servicio();calcular_subtotal();calcular_iva();calcular_total();']) ?>
                             </div>
                             
                         </div><!-- .row -->
@@ -439,19 +507,32 @@ $this->registerJs($JS_TOTAL, \yii\web\VIEW::POS_HEAD);
     </div><!-- .panel -->
     <?php DynamicFormWidget::end(); ?>
     <!-- fin codigo -->
-    
     <div class="row">
         <div class="col-sm-3">
-            <?= $form->field($model, 'OT_SUBTOTAL')->textInput(['disabled' => 'disabled', 'size' => 8, 'value' => '0']) ?>
+            <?= $form->field($model, 'OT_TDESABOLLADURA')->textInput(['size' => 8, 'value' => '0']) ?>
         </div>
         <div class="col-sm-3">
-            <?= $form->field($model, 'OT_IVA')->textInput(['disabled' => 'disabled', 'size' => 8, 'value' => '0']) ?>
+            <?= $form->field($model, 'OT_TPINTURA')->textInput(['size' => 8, 'value' => '0']) ?>
         </div>
         <div class="col-sm-3">
-            <?= $form->field($model, 'OT_TOTAL')->textInput(['disabled' => 'disabled', 'size' => 8, 'value' => '0']) ?>
+            <?= $form->field($model, 'OT_TINSUMO')->textInput(['size' => 8, 'value' => '0']) ?>
         </div>
         <div class="col-sm-3">
-            <?= $form->field($model, 'OT_TOTAL_HORAS')->textInput(['disabled' => 'disabled', 'size' => 8, 'value' => '0']) ?>
+            <?= $form->field($model, 'OT_TEXTERNO')->textInput(['size' => 8, 'value' => '0']) ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <?= $form->field($model, 'OT_SUBTOTAL')->textInput(['size' => 8,]) ?>
+        </div>
+        <div class="col-sm-3">
+            <?= $form->field($model, 'OT_IVA')->textInput(['size' => 8,]) ?>
+        </div>
+        <div class="col-sm-3">
+            <?= $form->field($model, 'OT_TOTAL')->textInput(['size' => 8,]) ?>
+        </div>
+        <div class="col-sm-3">
+            <?= $form->field($model, 'OT_TOTAL_HORAS')->textInput(['size' => 8,]) ?>
         </div>
     </div>
 

@@ -16,6 +16,10 @@ use Yii;
  * @property string $OT_ENTREGA
  * @property string $OT_OBSERVACIONES
  * @property string $OT_ESTADO
+ * @property integer $OT_TDESABOLLADURA
+ * @property integer $OT_TPINTURA
+ * @property integer $OT_TINSUMO
+ * @property integer $OT_TEXTERNO
  * @property integer $OT_SUBTOTAL
  * @property integer $OT_IVA
  * @property integer $OT_TOTAL
@@ -49,8 +53,8 @@ class Ot extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['OD_ID', 'CBR_ID', 'VEH_ID', 'CLI_ID', 'OT_SUBTOTAL', 'OT_IVA', 'OT_TOTAL', 'OT_TOTAL_HORAS'], 'integer'],
-            [['VEH_ID', 'CLI_ID', 'OT_INICIO', 'OT_ENTREGA', 'OT_OBSERVACIONES', 'OT_ESTADO', 'OT_SUBTOTAL', 'OT_IVA', 'OT_TOTAL', 'OT_TOTAL_HORAS'], 'required'],
+            [['OD_ID', 'CBR_ID', 'VEH_ID', 'CLI_ID', 'OT_TDESABOLLADURA', 'OT_TPINTURA', 'OT_TINSUMO', 'OT_TEXTERNO', 'OT_SUBTOTAL', 'OT_IVA', 'OT_TOTAL', 'OT_TOTAL_HORAS'], 'integer'],
+            [['VEH_ID', 'CLI_ID', 'OT_INICIO', 'OT_ENTREGA', 'OT_OBSERVACIONES', 'OT_ESTADO', 'OT_TDESABOLLADURA', 'OT_TPINTURA', 'OT_TINSUMO', 'OT_TEXTERNO', 'OT_SUBTOTAL', 'OT_IVA', 'OT_TOTAL', 'OT_TOTAL_HORAS'], 'required'],
             [['OT_INICIO', 'OT_ENTREGA'], 'safe'],
             [['OT_ENTREGA'], 'compare', 'compareAttribute' => 'OT_INICIO', 'operator' => '>=', 'message' => 'La fecha de entrega no puede ser menor a la fecha de inicio'],
             [['OT_OBSERVACIONES'], 'string'],
@@ -68,7 +72,7 @@ class Ot extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'OT_ID' => 'ID',
+            'OT_ID' => 'Folio',
             'OD_ID' => 'Órden de Despacho',
             'CBR_ID' => 'Órden de Cobro',
             'VEH_ID' => 'Vehículo',
@@ -77,6 +81,10 @@ class Ot extends \yii\db\ActiveRecord
             'OT_ENTREGA' => 'Fecha de Entrega',
             'OT_OBSERVACIONES' => 'Observaciones',
             'OT_ESTADO' => 'Estado',
+            'OT_TDESABOLLADURA' => 'Total Desabolladura',
+            'OT_TPINTURA' => 'Total Pintura',
+            'OT_TINSUMO' => 'Total Insumos',
+            'OT_TEXTERNO' => 'Total Servicios Externos',
             'OT_SUBTOTAL' => 'Subtotal',
             'OT_IVA' => 'IVA',
             'OT_TOTAL' => 'Total',
