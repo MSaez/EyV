@@ -249,7 +249,7 @@ $this->registerJs($JS_TOTAL, \yii\web\VIEW::POS_HEAD);
             'DES_DESCRIPCION',
             'DES_HORAS',
             'DES_PRECIO',
-            'DES_ESTADO',
+
         ],
     ]); ?>
 
@@ -289,9 +289,6 @@ $this->registerJs($JS_TOTAL, \yii\web\VIEW::POS_HEAD);
                             <div class="col-sm-3">
                                 <?= $form->field($modelDesabolladura, "[{$i}]DES_PRECIO")->textInput(['maxlength' => true, 'onkeyup'=>'sumar_total_desabolladura();sumar_total_pintura();sumar_total_insumos();sumar_total_servicio();calcular_subtotal();calcular_iva();calcular_total();']) ?>
                             </div>
-                            <div class="col-sm-3">
-                                <?= $form->field($modelDesabolladura, "[{$i}]DES_ESTADO")->textInput(['maxlength' => true]) ?>
-                            </div>
                         </div><!-- .row -->    
                         
                     </div>
@@ -319,7 +316,7 @@ $this->registerJs($JS_TOTAL, \yii\web\VIEW::POS_HEAD);
             'PIN_DESCRIPCION',
             'PIN_HORAS',
             'PIN_PRECIO',
-            'PIN_ESTADO',
+
         ],
     ]); ?>
 
@@ -358,10 +355,7 @@ $this->registerJs($JS_TOTAL, \yii\web\VIEW::POS_HEAD);
                             </div>
                             <div class="col-sm-3">
                                 <?= $form->field($modelPintura, "[{$i}]PIN_PRECIO")->textInput(['maxlength' => true, 'onkeyup'=>'sumar_total_desabolladura();sumar_total_pintura();sumar_total_insumos();sumar_total_servicio();calcular_subtotal();calcular_iva();calcular_total();']) ?>
-                            </div>
-                            <div class="col-sm-3">
-                                <?= $form->field($modelPintura, "[{$i}]PIN_ESTADO")->textInput(['maxlength' => true]) ?>
-                            </div>
+                            </div>                            
                         </div><!-- .row -->
                     </div>
                 </div>

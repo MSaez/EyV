@@ -12,7 +12,11 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'DES_ESTADO')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'DES_ESTADO')->dropDownList(['Pendiente' => 'Pendiente',
+                                                          'Ejecutando' => 'En ejecución',
+                                                          'Terminado' => 'Terminado',
+                                                          'Cancelado' => 'Cancelado'],
+                                                         ['prompt'=>'Seleccione un estado']) ?> 
 
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-primary']) ?>

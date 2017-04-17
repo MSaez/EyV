@@ -6,7 +6,7 @@ use yii\widgets\Pjax;
 use yii\helpers\Url;
 
 ?>
-<h1>Trabajadores asignados a esta actividad:</h1>
+<h3>Trabajadores asignados a esta actividad:</h3>
 <?php Pjax::begin();?>
 
 <?= GridView::widget([

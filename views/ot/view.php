@@ -5,6 +5,7 @@ use yii\widgets\DetailView;
 use kartik\grid\GridView;
 use yii\widgets\Pjax;
 use yii\helpers\Url;
+use yii\bootstrap\Modal;
 
 
 /* @var $this yii\web\View */
@@ -15,6 +16,64 @@ $this->params['breadcrumbs'][] = ['label' => 'Ordenes de Trabajo', 'url' => ['in
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
+<!-- Codigo modal -->
+
+<?php
+    Modal::begin([
+    'options' => [
+        'id' => 'modal-asignar-desabolladura',
+        'tabindex' => false // important for Select2 to work properly
+    ],
+    'header' => '<h2>Asignar Trabajador</h2>']);
+    Modal::end();
+?>
+<?php
+    Modal::begin([
+    'options' => [
+        'id' => 'modal-estado-desabolladura',
+        
+    ],
+    'header' => '<h2>Actualizar Estado</h2>']);
+    Modal::end();
+?>
+<?php
+    Modal::begin([
+    'options' => [
+        'id' => 'modal-asignados-desabolladura',
+        
+    ],
+    'header' => '<h2>Listado de Trabajadores Asignados</h2>']);
+    Modal::end();
+?>
+<?php
+    Modal::begin([
+    'options' => [
+        'id' => 'modal-asignar-pintura',
+        'tabindex' => false // important for Select2 to work properly
+    ],
+    'header' => '<h2>Asignar Trabajador</h2>']);
+    Modal::end();
+?>
+<?php
+    Modal::begin([
+    'options' => [
+        'id' => 'modal-estado-pintura',
+        
+    ],
+    'header' => '<h2>Actualizar Estado</h2>']);
+    Modal::end();
+?>
+<?php
+    Modal::begin([
+    'options' => [
+        'id' => 'modal-asignados-pintura',
+        
+    ],
+    'header' => '<h2>Listado de Trabajadores Asignados</h2>']);
+    Modal::end();
+?>
+<!-- ------------ -->
+
 <div class="ot-view">
         
     <h1><?= Html::encode($this->title) ?></h1>
@@ -71,7 +130,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'buttons' => [
                     'asignarTrabajadorDes' => function ($url, $model) {
                                                     $title = null;
-                                                    $options = ['title' => 'Asignar Trabajador']; 
+                                                    $options = ['title' => 'Asignar Trabajador','id' => 'popupModal-asignar-desabolladura']; 
                                                     $icon = '<span class="glyphicon glyphicon-pencil"></span>';
                                                     $label = $icon . ' ' . $title;
                                                     $url = Url::toRoute(['desabolladura/asignartrabajador','id'=>$model->DES_ID]);
@@ -79,7 +138,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                       },
                     'mostrarTrabajadoresDes' => function ($url, $model) {
                                                     $title = null;
-                                                    $options = ['title' => 'Ver Trabajadores']; 
+                                                    $options = ['title' => 'Ver Trabajadores', 'id' => 'popupModal-asignados-desabolladura']; 
                                                     $icon = '<span class="glyphicon glyphicon-eye-open"></span>';
                                                     $label = $icon . ' ' . $title;
                                                     $url = Url::toRoute(['desabolladura/vertrabajadores','id'=>$model->DES_ID]);
@@ -87,7 +146,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                       },
                     'actualizarEstadoDes' => function ($url, $model) {
                                                     $title = null;
-                                                    $options = ['title' => 'Actualizar Estado']; 
+                                                    $options = ['title' => 'Actualizar Estado', 'id' => 'popupModal-estado-desabolladura']; 
                                                     $icon = '<span class="glyphicon glyphicon-refresh"></span>';
                                                     $label = $icon . ' ' . $title;
                                                     $url = Url::toRoute(['desabolladura/actualizarestado','id'=>$model->DES_ID]);
@@ -123,7 +182,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'buttons' => [
                     'asignarTrabajadorPin' => function ($url, $model) {
                                                     $title = null;
-                                                    $options = ['title' => 'Asignar Trabajador'];
+                                                    $options = ['title' => 'Asignar Trabajador', 'id' => 'popupModal-asignar-pintura'];
                                                     $icon = '<span class="glyphicon glyphicon-pencil"></span>';
                                                     $label = $icon . ' ' . $title;
                                                     $url = Url::toRoute(['pintura/asignartrabajador','id'=>$model->PIN_ID]);
@@ -131,7 +190,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                       },
                     'mostrarTrabajadoresPin' => function ($url, $model) {
                                                     $title = null;
-                                                    $options = ['title' => 'Ver Trabajadores']; 
+                                                    $options = ['title' => 'Ver Trabajadores', 'id' => 'popupModal-asignados-pintura']; 
                                                     $icon = '<span class="glyphicon glyphicon-eye-open"></span>';
                                                     $label = $icon . ' ' . $title;
                                                     $url = Url::toRoute(['pintura/vertrabajadores','id'=>$model->PIN_ID]);
@@ -139,7 +198,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                       },
                     'actualizarEstadoPin' => function ($url, $model) {
                                                     $title = null;
-                                                    $options = ['title' => 'Actualizar Estado']; 
+                                                    $options = ['title' => 'Actualizar Estado', 'id' => 'popupModal-estado-pintura']; 
                                                     $icon = '<span class="glyphicon glyphicon-refresh"></span>';
                                                     $label = $icon . ' ' . $title;
                                                     $url = Url::toRoute(['pintura/actualizarestado','id'=>$model->PIN_ID]);
@@ -189,3 +248,48 @@ $this->params['breadcrumbs'][] = $this->title;
    <?php Pjax::end(); ?>
 
 </div>
+
+<?php $this->registerJs("$(function() {
+   $('#popupModal-asignar-desabolladura').click(function(e) {
+     e.preventDefault();
+     $('#modal-asignar-desabolladura').modal('show').find('.modal-body')
+     .load($(this).attr('href'));
+   });
+});"); ?>
+
+<?php $this->registerJs("$(function() {
+   $('#popupModal-estado-desabolladura').click(function(e) {
+     e.preventDefault();
+     $('#modal-estado-desabolladura').modal('show').find('.modal-body')
+     .load($(this).attr('href'));
+   });
+});"); ?>
+<?php $this->registerJs("$(function() {
+   $('#popupModal-asignados-desabolladura').click(function(e) {
+     e.preventDefault();
+     $('#modal-asignados-desabolladura').modal('show').find('.modal-body')
+     .load($(this).attr('href'));
+   });
+});"); ?>
+<?php $this->registerJs("$(function() {
+   $('#popupModal-asignar-pintura').click(function(e) {
+     e.preventDefault();
+     $('#modal-asignar-pintura').modal('show').find('.modal-body')
+     .load($(this).attr('href'));
+   });
+});"); ?>
+
+<?php $this->registerJs("$(function() {
+   $('#popupModal-estado-pintura').click(function(e) {
+     e.preventDefault();
+     $('#modal-estado-pintura').modal('show').find('.modal-body')
+     .load($(this).attr('href'));
+   });
+});"); ?>
+<?php $this->registerJs("$(function() {
+   $('#popupModal-asignados-pintura').click(function(e) {
+     e.preventDefault();
+     $('#modal-asignados-pintura').modal('show').find('.modal-body')
+     .load($(this).attr('href'));
+   });
+});"); ?>

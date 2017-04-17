@@ -35,7 +35,7 @@ class ActividadPintura extends \yii\db\ActiveRecord
     {
         return [
             [['OT_ID', 'PIN_HORAS', 'PIN_PRECIO'], 'integer'],
-            [['PIN_DESCRIPCION', 'PIN_HORAS', 'PIN_PRECIO', 'PIN_ESTADO'], 'required'],
+            [['PIN_DESCRIPCION', 'PIN_HORAS', 'PIN_PRECIO',], 'required'],
             [['PIN_DESCRIPCION'], 'string'],
             [['PIN_DESCRIPCION'], 'match', 'pattern' => '/^[a-zA-Z0-9áéíóúAÉÍÓÚÑñ\s.,:;-]+$/', 'message'=>'Descripción Inválida. Por favor ingrese solo caracteres alfanuméricos y signos de puntuación.'],
             [['PIN_ESTADO'], 'string', 'max' => 20],

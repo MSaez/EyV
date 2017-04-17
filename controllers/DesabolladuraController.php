@@ -45,7 +45,7 @@ class DesabolladuraController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(array('ot/view','id'=>$ot->OT_ID));
         } else {
-            return $this->render('_form', [
+            return $this->renderPartial('_form', [
                 'model' => $model,
             ]);
         }
@@ -74,7 +74,7 @@ class DesabolladuraController extends Controller
         $session['desabolladuraId'] = $id;
 
         
-        return $this->render('trabajadores', [/*'model' => $model,*/
+        return $this->renderPartial('trabajadores', [/*'model' => $model,*/
                                              'dataProvider' => $dataProvider]);
         
     }
@@ -104,7 +104,7 @@ class DesabolladuraController extends Controller
             return $this->redirect(array('ot/view','id'=>$ot->OT_ID));
         } else {
             // either the page is initially displayed or there is some validation error
-            return $this->render('asignar', ['model' => $model]);
+            return $this->renderAjax('asignar', ['model' => $model]);
         }
         
     }
