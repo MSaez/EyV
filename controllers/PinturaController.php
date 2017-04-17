@@ -92,10 +92,12 @@ class PinturaController extends Controller
                 $actPintura->link('empleados', $empleado);
             } catch (\yii\db\Exception $e) {
                 // setear un flash y volver a la pagina anterior
+                Yii::$app->session->setFlash('danger', 'El trabajador seleccionado ya  ha sido asignado a esta actividad.');
                 return $this->redirect(array('ot/view','id'=>$ot->OT_ID));
                 //return $this->redirect(array('ot/view','id'=>$ot->OT_ID)); 
             }
             // en caso de un enlace correcto volver a la pagina de la ot relacionada
+            Yii::$app->session->setFlash('success', 'Trabajador asignado exitosamente!');
             return $this->redirect(array('ot/view','id'=>$ot->OT_ID));
         } else {
             // either the page is initially displayed or there is some validation error
