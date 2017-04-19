@@ -1,50 +1,44 @@
-vendor
+# phpstorm project files
+.idea
 
+# netbeans project files
+nbproject
 
-# Windows image file caches
+# zend studio for eclipse project files
+.buildpath
+.project
+.settings
+
+# sublime text project / workspace files
+*.sublime-project
+*.sublime-workspace
+
+# windows thumbnail cache
 Thumbs.db
-ehthumbs.db
 
-# Folder config file
-Desktop.ini
+# composer vendor dir
+/vendor
+# cubrid install dir
+/cubrid
 
-# Recycle Bin used on file shares
-$RECYCLE.BIN/
+# composer itself is not needed
+composer.phar
 
-# Windows Installer files
-*.cab
-*.msi
-*.msm
-*.msp
+# composer.lock in applications is ignored since it's automatically created by composer when application is installed
+/apps/*/composer.lock
 
-# Windows shortcuts
-*.lnk
-
-# =========================
-# Operating System Files
-# =========================
-
-# OSX
-# =========================
-
+# Mac DS_Store Files
 .DS_Store
-.AppleDouble
-.LSOverride
 
-# Thumbnails
-._*
+# phpunit itself is not needed
+phpunit.phar
+# local phpunit config
+/phpunit.xml
 
-# Files that might appear in the root of a volume
-.DocumentRevisions-V100
-.fseventsd
-.Spotlight-V100
-.TemporaryItems
-.Trashes
-.VolumeIcon.icns
+# ignore dev installed apps and extensions
+/apps
+/extensions
 
-# Directories potentially created on remote AFP share
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
+# NPM packages
+/node_modules
+.env
