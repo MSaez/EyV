@@ -19,6 +19,8 @@
         "yiisoft/yii2-bootstrap": "*",
         "yiisoft/yii2-swiftmailer": "*",
         "wbraganca/yii2-dynamicform": "*",
+        "kartik-v/yii2-field-range": "*",
+        "kartik-v/yii2-widget-datepicker": "@dev",
         "kartik-v/yii2-grid": "@dev",
         "kartik-v/yii2-mpdf": "^1.0",
         "kartik-v/yii2-widget-select2": "@dev",
