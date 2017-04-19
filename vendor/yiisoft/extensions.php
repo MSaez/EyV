@@ -3,6 +3,33 @@
 $vendorDir = dirname(__DIR__);
 
 return array (
+  'kartik-v/yii2-field-range' => 
+  array (
+    'name' => 'kartik-v/yii2-field-range',
+    'version' => '9999999-dev',
+    'alias' => 
+    array (
+      '@kartik/field' => $vendorDir . '/kartik-v/yii2-field-range',
+    ),
+  ),
+  'kartik-v/yii2-dialog' => 
+  array (
+    'name' => 'kartik-v/yii2-dialog',
+    'version' => '9999999-dev',
+    'alias' => 
+    array (
+      '@kartik/dialog' => $vendorDir . '/kartik-v/yii2-dialog',
+    ),
+  ),
+  'yiisoft/yii2-bootstrap' => 
+  array (
+    'name' => 'yiisoft/yii2-bootstrap',
+    'version' => '9999999-dev',
+    'alias' => 
+    array (
+      '@yii/bootstrap' => $vendorDir . '/yiisoft/yii2-bootstrap',
+    ),
+  ),
   'wbraganca/yii2-dynamicform' => 
   array (
     'name' => 'wbraganca/yii2-dynamicform',
@@ -46,15 +73,6 @@ return array (
     'alias' => 
     array (
       '@yii/codeception' => $vendorDir . '/yiisoft/yii2-codeception',
-    ),
-  ),
-  'yiisoft/yii2-bootstrap' => 
-  array (
-    'name' => 'yiisoft/yii2-bootstrap',
-    'version' => '9999999-dev',
-    'alias' => 
-    array (
-      '@yii/bootstrap' => $vendorDir . '/yiisoft/yii2-bootstrap',
     ),
   ),
   'yiisoft/yii2-debug' => 
@@ -111,13 +129,13 @@ return array (
       '@yii/jui' => $vendorDir . '/yiisoft/yii2-jui',
     ),
   ),
-  'cornernote/yii2-linkall' => 
+  'kartik-v/yii2-widget-datepicker' => 
   array (
-    'name' => 'cornernote/yii2-linkall',
+    'name' => 'kartik-v/yii2-widget-datepicker',
     'version' => '9999999-dev',
     'alias' => 
     array (
-      '@cornernote/linkall' => $vendorDir . '/cornernote/yii2-linkall/src',
+      '@kartik/date' => $vendorDir . '/kartik-v/yii2-widget-datepicker',
     ),
   ),
 );

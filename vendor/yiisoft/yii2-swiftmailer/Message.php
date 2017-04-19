@@ -20,8 +20,15 @@ use yii\mail\BaseMessage;
  *
  * @method Mailer getMailer() returns mailer instance.
  *
+ * @property array $headers Custom header values of the message. This property is write-only.
+ * @property int $priority Priority value as integer in range: `1..5`, where 1 is the highest priority and
+ * 5 is the lowest.
+ * @property string $readReceiptTo Receipt receive email addresses. Note that the type of this property
+ * differs in getter and setter. See [[getReadReceiptTo()]] and [[setReadReceiptTo()]] for details.
+ * @property string $returnPath The bounce email address.
+ * @property array|callable|\Swift_Signer $signature Signature specification. See [[addSignature()]] for
+ * details on how it should be specified. This property is write-only.
  * @property \Swift_Message $swiftMessage Swift message instance. This property is read-only.
- * @property array|callable|\Swift_Signer $signature message signature. This property is write-only.
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0
@@ -37,6 +44,18 @@ class Message extends BaseMessage
      */
     private $signers = [];
 
+
+    /**
+     * This method is called after the object is created by cloning an existing one.
+     * It ensures [[swiftMessage]] is also cloned.
+     * @since 2.0.7
+     */
+    public function __clone()
+    {
+        if (is_object($this->_swiftMessage)) {
+            $this->_swiftMessage = clone $this->_swiftMessage;
+        }
+    }
 
     /**
      * @return \Swift_Message Swift message instance.
@@ -413,5 +432,147 @@ class Message extends BaseMessage
     protected function createSwiftMessage()
     {
         return new \Swift_Message();
+    }
+
+    // Headers setup :
+
+    /**
+     * Adds custom header value to the message.
+     * Several invocations of this method with the same name will add multiple header values.
+     * @param string $name header name.
+     * @param string $value header value.
+     * @return $this self reference.
+     * @since 2.0.6
+     */
+    public function addHeader($name, $value)
+    {
+        $this->getSwiftMessage()->getHeaders()->addTextHeader($name, $value);
+        return $this;
+    }
+
+    /**
+     * Sets custom header value to the message.
+     * @param string $name header name.
+     * @param string|array $value header value or values.
+     * @return $this self reference.
+     * @since 2.0.6
+     */
+    public function setHeader($name, $value)
+    {
+        $headerSet = $this->getSwiftMessage()->getHeaders();
+
+        if ($headerSet->has($name)) {
+            $headerSet->remove($name);
+        }
+
+        foreach ((array)$value as $v) {
+            $headerSet->addTextHeader($name, $v);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Returns all values for the specified header.
+     * @param string $name header name.
+     * @return array header values list.
+     * @since 2.0.6
+     */
+    public function getHeader($name)
+    {
+        $headerSet = $this->getSwiftMessage()->getHeaders();
+        if (!$headerSet->has($name)) {
+            return [];
+        }
+
+        $headers = [];
+        foreach ($headerSet->getAll($name) as $header) {
+            $headers[] = $header->getValue();
+        }
+        return $headers;
+    }
+
+    /**
+     * Sets custom header values to the message.
+     * @param array $headers headers in format: `[name => value]`.
+     * @return $this self reference.
+     * @since 2.0.7
+     */
+    public function setHeaders($headers)
+    {
+        foreach ($headers as $name => $value) {
+            $this->setHeader($name, $value);
+        }
+        return $this;
+    }
+
+    // SwiftMessage shortcuts :
+
+    /**
+     * Set the return-path (the bounce address) of this message.
+     * @param string $address the bounce email address.
+     * @return $this self reference.
+     * @since 2.0.6
+     */
+    public function setReturnPath($address)
+    {
+        $this->getSwiftMessage()->setReturnPath($address);
+        return $this;
+    }
+
+    /**
+     * Returns the return-path (the bounce address) of this message.
+     * @return string the bounce email address.
+     * @since 2.0.6
+     */
+    public function getReturnPath()
+    {
+        return $this->getSwiftMessage()->getReturnPath();
+    }
+
+    /**
+     * Set the priority of this message.
+     * @param int $priority priority value, should be an integer in range: `1..5`,
+     * where 1 is the highest priority and 5 is the lowest.
+     * @return $this self reference.
+     * @since 2.0.6
+     */
+    public function setPriority($priority)
+    {
+        $this->getSwiftMessage()->setPriority($priority);
+        return $this;
+    }
+
+    /**
+     * Returns the priority of this message.
+     * @return int priority value as integer in range: `1..5`,
+     * where 1 is the highest priority and 5 is the lowest.
+     * @since 2.0.6
+     */
+    public function getPriority()
+    {
+        return $this->getSwiftMessage()->getPriority();
+    }
+
+    /**
+     * Sets the ask for a delivery receipt from the recipient to be sent to $addresses.
+     * @param string|array $addresses receipt receive email address(es).
+     * @return $this self reference.
+     * @since 2.0.6
+     */
+    public function setReadReceiptTo($addresses)
+    {
+        $this->getSwiftMessage()->setReadReceiptTo($addresses);
+        return $this;
+    }
+
+    /**
+     * Get the addresses to which a read-receipt will be sent.
+     * @return string receipt receive email addresses.
+     * @since 2.0.6
+     */
+    public function getReadReceiptTo()
+    {
+        return $this->getSwiftMessage()->getReadReceiptTo();
     }
 }

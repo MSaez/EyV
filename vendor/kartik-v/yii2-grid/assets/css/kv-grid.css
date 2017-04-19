@@ -1,8 +1,8 @@
 /*!
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2016
- * @version   3.1.1
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2017
+ * @version   3.1.4
  *
  * Gridview widget styling and enhancements for Bootstrap.
  * Built for Yii Framework 2.0
@@ -334,8 +334,10 @@ td.kv-group-odd {
 }
 
 /**
- * Fix overflow and make responsive for mobile/small devices
+ * Fix overflow and make layout responsive for mobile/small devices
  */
-.grid-view .rc-handle-container {
-    overflow: hidden;
+@media (max-width:768px) {
+    .hide-resize .rc-handle-container {
+        overflow: hidden;
+    }
 }

@@ -1,6 +1,82 @@
 Change Log: `yii2-grid`
 =======================
 
+## Version 3.1.4
+
+**Date:** 11-Mar-2017
+
+1. (enh #542): More correct group summation.
+2. (enh #586, #587): Fix for expanding row on init.
+3. (enh #588): Update Hungarian Translations.
+4. (enh #592): Convert encoding for non UTF-8 content in CSV and Text exports.
+5. (enh #572, #601): Silently disable PDF when dependency is not available.
+6. (enh #600): Enhance security for ExportController actions using a stateless signature to prevent data tampering:
+    - New property `Module::exportEncryptSalt` available to generate a stateless hashed signature.
+    - If `exportEncryptSalt` is not set, it will be randomly generated and stored in a session variable.
+    - Export settings will be signed and the same data via POST will be cross checked using `yii\base\Security::hashData` and `yii\base\Security::validateData`.  
+7. (enh #604): Fix PDF class name check error.
+8. Code enhancements for grid group.
+9. (enh #619): Correct nested expanded rows using `GridView::ROW_EXPANDED`.
+10. (bug #624): Call floatThead('reflow') after resizing columns so that the floating head is also resized.
+11. (enh #626): Correct expand row jquery events to start with `kvexprow:` instead of `kvexprow.`.
+12. Updates to copyright year.
+
+## Version 3.1.3
+
+**Date:** 22-Oct-2016
+
+1. (enh #554): Add ability to configure delete confirmation message within `ActionColumn::deleteOptions`.
+2. (bug #556): Correct expandRow behavior when using with `detailUrl` pjax form.
+3. (bug #557): Update Ukranian Translations.
+4. (enh #561): Enhance `ExpandRowColumn` to better support nested grid views and nested tree expansion.
+5. (enh #562): Enhance `EditableColumnAction` to support model scenario as a parameter.
+6. (enh #564): Enhance page summary to render within table body and add new property`GridView::pageSummaryContainer`.
+7. Enhance PHP Documentation for all classes and methods in the extension.
+8. (enh #565): Better exported content parsing for header, footer, and page summary.
+9. (enh #578): Update Italian Translations.
+10. (enh #542, #579): Allow `thousandSep` config for grid group summary.
+11. (enh #580): Update Dutch Translations.
+12. (enh #581): Update Chinese Translations.
+13. (enh #583): Add Gujarati and Hindi Translations.
+14. (enh #584): Update Vietnamese Translations.
+15. Update message config to include all default standard translation files.
+
+## Version 3.1.2
+
+**Date:** 17-Aug-2016
+
+1. (enh #472): Having different editable models in one gridview column.
+2. (enh #472): Update Spanish translations.
+3. (enh #475): Correct grid grouping `formatNumber` JS method.
+4. (enh #476): Improve responsiveness and control resizable columns for smaller devices.
+5. (enh #479): Update default bootstrap css for HTML export of grid.
+6. (enh #480): Enhance `EditableColumnAction` to find model better.
+7. (enh #481): Add Ukranian translations.
+8. (enh #485): Add Estonian translations.
+9. (enh #490): Update Russian translations.
+10. (enh #494): Add Latvian translations.
+11. (enh #496): Add BOM to UTF-8 encoded text/CSV exports.
+12. (enh #498): Option to set the checkbox attribute of checkboxColumn.
+13. (enh #499): Option to set the value of the checkbox.
+14. (enh #500): Raw data value attribute for grid columns grouping.
+15. (bug #504): Fix toggle data minCount validation.
+16. (enh #505, #508): Replaced `ExportController::getPostData` by native `Yii::$app->request->post()`.
+17. (enh #506): Correct toggle data confirmation.
+18. (enh #507): Purify HTML content for GridView HTML export.
+19. (enh #510): Update French translations.
+20. (enh #511): Select all option in grid view.
+21. (enh #513): Fix `renderColumnGroup` for `DataColumn` with options and groupedRow.
+22. (enh #514): Implement Krajee Dialog for all alerts and confirmation.
+23. (enh #515): Implement ajax delete with pjax refresh for default delete action in `ActionColumn`.
+24. (enh #517): Allow nested grids as part of `ExpandRowColumn`.
+25. (enh #519): Toggle all data correction for non pjax grids.
+26. (kartik-v/yii2-editable#124): Set output value after model save in `EditableColumnAction`.
+27. (bug #532): Correct export download when using without confirm alert.
+28. Add github contribution and issue/PR logging templates.
+29. (bug #537): Correct export arg validation
+30. (bug #538): Correct export callback validation
+31. (enh #541, #543): Update French translations.
+
 ## Version 3.1.1
 
 **Date:** 10-Apr-2016

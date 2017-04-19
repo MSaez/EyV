@@ -19,7 +19,7 @@ class OtSearch extends Ot
     {
         return [
             [['OT_ID', 'OD_ID', 'CBR_ID', 'VEH_ID', 'CLI_ID', 'OT_SUBTOTAL', 'OT_IVA', 'OT_TOTAL', 'OT_TOTAL_HORAS'], 'integer'],
-            [['OT_INICIO', 'OT_ENTREGA', 'OT_OBSERVACIONES'], 'safe'],
+            [['OT_INICIO', 'OT_ENTREGA', 'OT_OBSERVACIONES', 'OT_ESTADO'], 'safe'],
         ];
     }
 
@@ -74,7 +74,7 @@ class OtSearch extends Ot
         ]);
 
         $query->andFilterWhere(['like', 'OT_OBSERVACIONES', $this->OT_OBSERVACIONES])
-                ->andFilterWhere(['like', 'Presupuesto', $this->OT_ESTADO]);;
+                ->andFilterWhere(['like', 'Presupuesto', $this->OT_ESTADO]);
 
         return $dataProvider;
     }

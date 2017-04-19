@@ -12,12 +12,13 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="cliente-view">
 
-
+    <p>
+        <?= Html::a('Actualizar', ['update', 'id' => $model->CLI_ID], ['class' => 'btn btn-primary']) ?>
+    </p>
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'CLI_ID',
             'CLI_NOMBRES',
             'CLI_PATERNO',
             'CLI_MATERNO',
@@ -27,15 +28,6 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
     
-        <p>
-        <?= Html::a('Actualizar', ['update', 'id' => $model->CLI_ID], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Eliminar', ['delete', 'id' => $model->CLI_ID], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
+
 
 </div>

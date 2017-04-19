@@ -1,10 +1,10 @@
 <?php
 
 /**
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2016
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2017
  * @package yii2-widgets
  * @subpackage yii2-widget-select2
- * @version 2.0.8
+ * @version 2.0.9
  */
 
 namespace kartik\select2;
@@ -29,27 +29,46 @@ use yii\web\View;
  */
 class Select2 extends InputWidget
 {
+    /**
+     * Select2 large input size
+     */
     const LARGE = 'lg';
+    /**
+     * Select2 medium input size (default)
+     */
     const MEDIUM = 'md';
+    /**
+     * Select2 small input size
+     */
     const SMALL = 'sm';
-
+    /**
+     * Select2 default theme
+     */
     const THEME_DEFAULT = 'default';
+    /**
+     * Select2 classic theme
+     */
     const THEME_CLASSIC = 'classic';
+    /**
+     * Select2 Bootstrap theme
+     */
     const THEME_BOOTSTRAP = 'bootstrap';
+    /**
+     * Select2 Krajee theme (default)
+     */
     const THEME_KRAJEE = 'krajee';
 
     /**
      * @var array $data the option data items. The array keys are option values, and the array values are the
-     *     corresponding option labels. The array can also be nested (i.e. some array values are arrays too). For each
-     *     sub-array, an option group will be generated whose label is the key associated with the sub-array. If you
-     *     have a list of data models, you may convert them into the format described above using
-     *     [[\yii\helpers\ArrayHelper::map()]].
+     * corresponding option labels. The array can also be nested (i.e. some array values are arrays too). For each
+     * sub-array, an option group will be generated whose label is the key associated with the sub-array. If you
+     * have a list of data models, you may convert them into the format described above using [[ArrayHelper::map()]].
      */
     public $data;
 
     /**
      * @var string the locale ID (e.g. 'fr', 'de') for the language to be used by the Select2 Widget. If this property
-     *     not set, then the current application language will be used.
+     * not set, then the current application language will be used.
      */
     public $language;
 
@@ -60,71 +79,71 @@ class Select2 extends InputWidget
 
     /**
      * @var string|array, the displayed text in the dropdown for the initial value when you do not set or provide
-     *     `data` (e.g. using with ajax). If options['multiple'] is set to `true`, you can set this as an array of text
-     *     descriptions for each item in the dropdown `value`.
+     * `data` (e.g. using with ajax). If options['multiple'] is set to `true`, you can set this as an array of text
+     * descriptions for each item in the dropdown `value`.
      */
     public $initValueText;
 
     /**
-     * @var bool whether to trigger change for Select2 input on form reset so the Select2 value is rightly reset.
+     * @var boolean whether to trigger change for Select2 input on form reset so the Select2 value is rightly reset.
      */
     public $changeOnReset = true;
 
     /**
-     * @var bool whether to hide the search control and render it as a simple select. Defaults to `false`.
+     * @var boolean whether to hide the search control and render it as a simple select.
      */
     public $hideSearch = false;
 
     /**
-     * @var bool whether to maintain the order of tag / option selected for a multiple select
+     * @var boolean whether to maintain the order of tag / option selected for a multiple select
      */
     public $maintainOrder = false;
 
     /**
-     * @var bool whether to show the toggle all button for selection all options in a multiple select.
+     * @var boolean whether to show the toggle all button for selection all options in a multiple select.
      */
     public $showToggleAll = true;
 
     /**
      * @var array the toggle all button settings for selecting/unselecting all the options. This is applicable only for
      * multiple select. The following array key properties can be set:
-     * - `selectLabel`: string, the markup to be shown to select all records. Defaults to `<i class="glyphicon
-     *     glyphicon-unchecked"></i> Select all`.
-     * - `unselectLabel`: string, the markup to be shown to unselect all records. Defaults to `<i class="glyphicon
-     *     glyphicon-checked"></i> Unselect all`.
-     * - `selectOptions`: array, the HTML attributes for the container wrapping the select label. Defaults to `[]`.
-     * - `unselectOptions`: array, the HTML attributes for the container wrapping the unselect label. Defaults to `[]`.
-     * - `options`: array, the HTML attributes for the toggle button container. Defaults to:
+     * - `selectLabel`: _string_, the markup to be shown to select all records. Defaults to:
+     *   `<i class="glyphicon glyphicon-unchecked"></i> Select all`.
+     * - `unselectLabel`: _string_, the markup to be shown to unselect all records. Defaults to:
+     *   `<i class="glyphicon glyphicon-checked"></i> Unselect all`.
+     * - `selectOptions`: _array_, the HTML attributes for the container wrapping the select label. Defaults to `[]`.
+     * - `unselectOptions`: _array_, the HTML attributes for the container wrapping the unselect label. Defaults to `[]`.
+     * - `options`: _array_, the HTML attributes for the toggle button container. Defaults to:
      *   `['class' => 's2-togall-button']`.
      */
     public $toggleAllSettings = [];
 
     /**
      * @var array addon to prepend or append to the Select2 widget
-     * - prepend: array|string the prepend addon configuration. If set as a string will be rendered as is. If set as an
-     *     array, the following properties can be set:
-     *     - content: string, the prepend addon content
-     *     - asButton: bool, whether the addon is a button or button group. Defaults to false.
-     * - append: array|string the append addon configuration. If set as a string will be rendered as is. If set as an
-     *     array, the following properties can be set:
-     *     - content: string, the append addon content
-     *     - asButton: bool, whether the addon is a button or button group. Defaults to false.
-     * - groupOptions: array, HTML options for the input group
-     * - contentBefore: string, content placed before addon
-     * - contentAfter: string, content placed after addon
+     * - `prepend`: _array_|_string_, the prepend addon configuration. If set as a string will be rendered as is. If set
+     *   as an array, the following properties can be set:
+     *    - `content`: _string_, the prepend addon content.
+     *    - `asButton`: _boolean`, whether the addon is a button or button group. Defaults to `false`.
+     * - `append`: _array_|_string_, the append addon configuration. If set as a string will be rendered as is. If set
+     *   as an array, the following properties can be set:
+     *    - `content`: _string_, the append addon content.
+     *    - `asButton`: _boolean`, whether the addon is a button or button group. Defaults to `false`.
+     * - `groupOptions`: _array_, HTML options for the input group
+     * - `contentBefore`: _string_, content placed before addon
+     * - `contentAfter`: _string_, content placed after addon
      */
     public $addon = [];
 
     /**
-     * @var string Size of the Select2 input, must be one of the `Select2::LARGE`, `Select2::MEDIUM` or
-     * `Select2::SMALL`. Defaults to `Select2::MEDIUM`.
+     * @var string Size of the Select2 input, must be one of the [[Select2::LARGE]], [[Select2::MEDIUM]] or
+     * [[Select2::SMALL]].
      */
     public $size = self::MEDIUM;
 
     /**
      * @var array the HTML attributes for the input tag. The following options are important:
-     * - multiple: bool, whether multiple or single item should be selected. Defaults to false.
-     * - placeholder: string, placeholder for the select item.
+     * - `multiple`: _boolean_, whether multiple or single item should be selected. Defaults to false.
+     * - `placeholder`: _string_, placeholder for the select item.
      */
     public $options = [];
 
@@ -132,11 +151,16 @@ class Select2 extends InputWidget
      * @var string the name of the jQuery plugin
      */
     public $pluginName = 'select2';
+   /**
+     *
+     * @var char Implements open selector with accesskey
+     */
+    public $accesskey = null;
 
     /**
      * @var string the variable that will store additional options for Select2 to add enhanced features after the
-     *     plugin is loaded and initialized. This variable name will be stored as a data attribute `data-s2-options`
-     *     within the base select input options.
+     * plugin is loaded and initialized. This variable name will be stored as a data attribute `data-s2-options`
+     * within the base select input options.
      */
     protected $_s2OptionsVar;
 
@@ -186,7 +210,11 @@ class Select2 extends InputWidget
             if (!isset($this->value) && !isset($this->initValueText)) {
                 $this->data = [];
             } else {
-                $key = isset($this->value) ? $this->value : ($multiple ? [] : '');
+                if ($multiple) {
+                    $key = isset($this->value) && is_array($this->value) ? $this->value : [];
+                } else {
+                    $key = isset($this->value) ? $this->value : '';
+                }
                 $val = isset($this->initValueText) ? $this->initValueText : $key;
                 $this->data = $multiple ? array_combine($key, $val) : [$key => $val];
             }
@@ -203,7 +231,9 @@ class Select2 extends InputWidget
      */
     protected function renderToggleAll()
     {
-        if (!$this->options['multiple'] || !$this->showToggleAll) {
+        // disable select all toggle feature for a single select, or when the showToggleALl is false, or
+        // when one is generating an ajax based search for rendering the select2 options
+        if (!$this->options['multiple'] || !$this->showToggleAll || !empty($this->pluginOptions['ajax'])) {
             return;
         }
         $settings = array_replace_recursive([
@@ -224,6 +254,14 @@ class Select2 extends InputWidget
         $labels = Html::tag('span', $settings['selectLabel'], $sOptions) .
             Html::tag('span', $settings['unselectLabel'], $uOptions);
         $out = Html::tag('span', $labels, $options);
+        if (!is_null($this->accesskey)) {
+            $accesskey = substr($this->accesskey, 0, 1);
+            echo Html::tag('button', '', [
+                'accesskey' => $accesskey,
+                'style' => 'background: transparent;border: none !important;font-size:0;',
+                'onfocus' => '$("#' . $this->options['id'] . '").select2("open");'
+            ]);
+        }        
         echo Html::tag('span', $out, ['id' => 'parent-' . $options['id'], 'style' => 'display:none']);
     }
 
@@ -309,6 +347,18 @@ class Select2 extends InputWidget
     }
 
     /**
+     * Parses the variable for boolean value and returns a right JS expression
+     *
+     * @param mixed $var the variable value to parse
+     *
+     * @return JsExpression
+     */
+    protected static function parseBool($var)
+    {
+        return new JsExpression($var ? 'true' : 'false');
+    }
+
+    /**
      * Registers the asset bundle and locale
      */
     public function registerAssetBundle()
@@ -326,31 +376,19 @@ class Select2 extends InputWidget
     }
 
     /**
-     * Parses the variable for boolean value and returns a right JS expression
-     *
-     * @param mixed $var the variable value to parse
-     *
-     * @return JsExpression
-     */
-    protected static function parseBool($var)
-    {
-        return new JsExpression($var ? 'true' : 'false');
-    }
-
-    /**
-     * Registers the needed assets
+     * Registers the client assets for [[Select2]] widget.
      */
     public function registerAssets()
     {
         $id = $this->options['id'];
         $this->registerAssetBundle();
-        $isMultiple = $this->options['multiple'];
+        $isMultiple = isset($this->options['multiple']) && $this->options['multiple'];
         $options = Json::encode([
             'themeCss' => ".select2-container--{$this->theme}",
             'sizeCss' => empty($this->addon) && $this->size !== self::MEDIUM ? 'input-' . $this->size : '',
             'doReset' => static::parseBool($this->changeOnReset),
             'doToggle' => static::parseBool($isMultiple && $this->showToggleAll),
-            'doOrder' => static::parseBool($isMultiple && $this->maintainOrder)
+            'doOrder' => static::parseBool($isMultiple && $this->maintainOrder),
         ]);
         $this->_s2OptionsVar = 's2options_' . hash('crc32', $options);
         $this->options['data-s2-options'] = $this->_s2OptionsVar;
