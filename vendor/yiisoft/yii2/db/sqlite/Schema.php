@@ -92,15 +92,6 @@ class Schema extends \yii\db\Schema
     }
 
     /**
-     * @inheritdoc
-     * @return ColumnSchemaBuilder column schema builder instance
-     */
-    public function createColumnSchemaBuilder($type, $length = null)
-    {
-        return new ColumnSchemaBuilder($type, $length);
-    }
-
-    /**
      * Returns all table names in the database.
      * @param string $schema the schema of the tables. Defaults to empty string, meaning the current or default schema.
      * @return array all table names in the database. The names have NO schema name prefix.
@@ -135,7 +126,7 @@ class Schema extends \yii\db\Schema
     /**
      * Collects the table column metadata.
      * @param TableSchema $table the table metadata
-     * @return bool whether the table exists in the database
+     * @return boolean whether the table exists in the database
      */
     protected function findColumns($table)
     {
@@ -289,5 +280,13 @@ class Schema extends \yii\db\Schema
             default:
                 throw new NotSupportedException(get_class($this) . ' only supports transaction isolation levels READ UNCOMMITTED and SERIALIZABLE.');
         }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function createColumnSchemaBuilder($type, $length = null)
+    {
+        return new ColumnSchemaBuilder($type, $length);
     }
 }

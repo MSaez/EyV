@@ -22,7 +22,7 @@ use yii\base\Controller;
 class AccessRule extends Component
 {
     /**
-     * @var bool whether this is an 'allow' rule or 'deny' rule.
+     * @var boolean whether this is an 'allow' rule or 'deny' rule.
      */
     public $allow;
     /**
@@ -31,16 +31,8 @@ class AccessRule extends Component
      */
     public $actions;
     /**
-     * @var array list of the controller IDs that this rule applies to.
-     *
-     * The comparison uses [[\yii\base\Controller::uniqueId]], so each controller ID is prefixed
-     * with the module ID (if any). For a `product` controller in the application, you would specify
-     * this property like `['product']` and if that controller is located in a `shop` module, this
-     * would be `['shop/product']`.
-     *
-     * The comparison is case-sensitive.
-     *
-     * If not set or empty, it means this rule applies to all controllers.
+     * @var array list of the controller IDs that this rule applies to. Each controller ID is prefixed with the module ID (if any).
+     * The comparison is case-sensitive. If not set or empty, it means this rule applies to all controllers.
      */
     public $controllers;
     /**
@@ -66,6 +58,7 @@ class AccessRule extends Component
     public $ips;
     /**
      * @var array list of request methods (e.g. `GET`, `POST`) that this rule applies to.
+     * The request methods must be specified in uppercase.
      * If not set or empty, it means this rule applies to all request methods.
      * @see \yii\web\Request::method
      */
@@ -103,7 +96,7 @@ class AccessRule extends Component
      * @param Action $action the action to be performed
      * @param User $user the user object
      * @param Request $request
-     * @return bool|null true if the user is allowed, false if the user is denied, null if the rule does not apply to the user
+     * @return boolean|null true if the user is allowed, false if the user is denied, null if the rule does not apply to the user
      */
     public function allows($action, $user, $request)
     {
@@ -122,7 +115,7 @@ class AccessRule extends Component
 
     /**
      * @param Action $action the action
-     * @return bool whether the rule applies to the action
+     * @return boolean whether the rule applies to the action
      */
     protected function matchAction($action)
     {
@@ -131,7 +124,7 @@ class AccessRule extends Component
 
     /**
      * @param Controller $controller the controller
-     * @return bool whether the rule applies to the controller
+     * @return boolean whether the rule applies to the controller
      */
     protected function matchController($controller)
     {
@@ -140,7 +133,7 @@ class AccessRule extends Component
 
     /**
      * @param User $user the user object
-     * @return bool whether the rule applies to the role
+     * @return boolean whether the rule applies to the role
      */
     protected function matchRole($user)
     {
@@ -166,7 +159,7 @@ class AccessRule extends Component
 
     /**
      * @param string $ip the IP address
-     * @return bool whether the rule applies to the IP address
+     * @return boolean whether the rule applies to the IP address
      */
     protected function matchIP($ip)
     {
@@ -183,17 +176,17 @@ class AccessRule extends Component
     }
 
     /**
-     * @param string $verb the request method.
-     * @return bool whether the rule applies to the request
+     * @param string $verb the request method
+     * @return boolean whether the rule applies to the request
      */
     protected function matchVerb($verb)
     {
-        return empty($this->verbs) || in_array(strtoupper($verb), array_map('strtoupper', $this->verbs), true);
+        return empty($this->verbs) || in_array($verb, $this->verbs, true);
     }
 
     /**
      * @param Action $action the action to be performed
-     * @return bool whether the rule should be applied
+     * @return boolean whether the rule should be applied
      */
     protected function matchCustom($action)
     {

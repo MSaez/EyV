@@ -12,8 +12,7 @@
  * @since 2.0.1
  */
 
-if object_id('[log]', 'U') is not null
-    drop table [log];
+drop table if exists [log];
 
 create table [log]
 (

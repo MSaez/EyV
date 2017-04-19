@@ -293,9 +293,8 @@ class FixtureController extends \yii\console\controllers\FixtureController
     /**
      * Notifies user that given fixtures template files were not found.
      * @param array $templatesNames
-     * @since 2.0.4
      */
-    protected function notifyNotFoundTemplates($templatesNames)
+    private function notifyNotFoundTemplates($templatesNames)
     {
         $this->stdout("The following fixtures templates were NOT found:\n\n", Console::FG_RED);
 
@@ -308,9 +307,8 @@ class FixtureController extends \yii\console\controllers\FixtureController
 
     /**
      * Notifies user that there was not found any files matching given input conditions.
-     * @since 2.0.4
      */
-    protected function notifyNoTemplatesFound()
+    private function notifyNoTemplatesFound()
     {
         $this->stdout("No fixtures template files matching input conditions were found under the path:\n\n", Console::FG_RED);
         $this->stdout("\t " . Yii::getAlias($this->templatePath) . " \n\n", Console::FG_GREEN);
@@ -319,9 +317,8 @@ class FixtureController extends \yii\console\controllers\FixtureController
     /**
      * Notifies user that given fixtures template files were generated.
      * @param array $templatesNames
-     * @since 2.0.4
      */
-    protected function notifyTemplatesGenerated($templatesNames)
+    private function notifyTemplatesGenerated($templatesNames)
     {
         $this->stdout("The following fixtures template files were generated:\n\n", Console::FG_YELLOW);
 
@@ -332,12 +329,7 @@ class FixtureController extends \yii\console\controllers\FixtureController
         $this->stdout("\n");
     }
 
-    /**
-     * Notifies user about templates which could be generated.
-     * @param array $templatesNames
-     * @since 2.0.4
-     */
-    protected function notifyTemplatesCanBeGenerated($templatesNames)
+    private function notifyTemplatesCanBeGenerated($templatesNames)
     {
         $this->stdout("Template files path: ", Console::FG_YELLOW);
         $this->stdout(Yii::getAlias($this->templatePath) . "\n\n", Console::FG_GREEN);
@@ -354,9 +346,8 @@ class FixtureController extends \yii\console\controllers\FixtureController
      * by the given parameter.
      * @param array $templatesNames template file names to search. If empty then all files will be searched.
      * @return array
-     * @since 2.0.4
      */
-    protected function findTemplatesFiles(array $templatesNames = [])
+    private function findTemplatesFiles(array $templatesNames = [])
     {
         $findAll = ($templatesNames == []);
 
@@ -375,12 +366,7 @@ class FixtureController extends \yii\console\controllers\FixtureController
         $foundTemplates = [];
 
         foreach ($files as $fileName) {
-            // strip templatePath from current template's full path
-            $relativeName = str_replace(Yii::getAlias($this->templatePath) . '/', "", $fileName);
-            $relativeDir = dirname($relativeName) == '.' ? '' : dirname($relativeName) . '/';
-            // strip extension
-            $relativeName = $relativeDir . basename($relativeName,'.php');
-            $foundTemplates[] = $relativeName;
+            $foundTemplates[] = basename($fileName, '.php');
         }
 
         return $foundTemplates;
@@ -460,15 +446,7 @@ class FixtureController extends \yii\console\controllers\FixtureController
 
         $content = $this->exportFixtures($fixtures);
 
-        // data file full path
-        $dataFile = $fixtureDataPath . '/'. $templateName . '.php';
-
-        // data file directory, create if it doesn't exist
-        $dataFileDir = dirname($dataFile);
-        if (!file_exists($dataFileDir)) {
-            FileHelper::createDirectory($dataFileDir);
-        }
-        file_put_contents($dataFile, $content);
+        file_put_contents($fixtureDataPath . '/'. $templateName . '.php', $content);
     }
 
     /**

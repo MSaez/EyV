@@ -43,19 +43,14 @@ class Controller extends \yii\base\Controller
     const EXIT_CODE_ERROR = 1;
 
     /**
-     * @var bool whether to run the command interactively.
+     * @var boolean whether to run the command interactively.
      */
     public $interactive = true;
     /**
-     * @var bool whether to enable ANSI color in the output.
+     * @var boolean whether to enable ANSI color in the output.
      * If not set, ANSI color will only be enabled for terminals that support it.
      */
     public $color;
-    /**
-     * @var bool whether to display help information about current command.
-     * @since 2.0.10
-     */
-    public $help;
 
     /**
      * @var array the options passed during execution.
@@ -70,7 +65,7 @@ class Controller extends \yii\base\Controller
      * and the terminal supports ANSI color.
      *
      * @param resource $stream the stream to check.
-     * @return bool Whether to enable ANSI style in output.
+     * @return boolean Whether to enable ANSI style in output.
      */
     public function isColorEnabled($stream = \STDOUT)
     {
@@ -82,7 +77,7 @@ class Controller extends \yii\base\Controller
      * If the action ID is empty, the method will use [[defaultAction]].
      * @param string $id the ID of the action to be executed.
      * @param array $params the parameters (name-value pairs) to be passed to the action.
-     * @return int the status of the action execution. 0 means normal, other values mean abnormal.
+     * @return integer the status of the action execution. 0 means normal, other values mean abnormal.
      * @throws InvalidRouteException if the requested action ID cannot be resolved into an action successfully.
      * @throws Exception if there are unknown options or missing arguments
      * @see createAction
@@ -107,7 +102,7 @@ class Controller extends \yii\base\Controller
                 if (in_array($name, $options, true)) {
                     $default = $this->$name;
                     if (is_array($default)) {
-                        $this->$name = preg_split('/\s*,\s*(?![^()]*\))/', $value);
+                        $this->$name = preg_split('/(?!\(\d+)\s*,\s*(?!\d+\))/', $value);
                     } elseif ($default !== null) {
                         settype($value, gettype($default));
                         $this->$name = $value;
@@ -120,10 +115,6 @@ class Controller extends \yii\base\Controller
                     throw new Exception(Yii::t('yii', 'Unknown option: --{name}', ['name' => $name]));
                 }
             }
-        }
-        if ($this->help) {
-            $route = $this->getUniqueId() . '/' . $id;
-            return Yii::$app->runAction('help', [$route]);
         }
         return parent::runAction($id, $params);
     }
@@ -206,7 +197,7 @@ class Controller extends \yii\base\Controller
      * ```
      *
      * @param string $string the string to print
-     * @return int|bool Number of bytes printed or false on error
+     * @return integer|boolean Number of bytes printed or false on error
      */
     public function stdout($string)
     {
@@ -231,7 +222,7 @@ class Controller extends \yii\base\Controller
      * ```
      *
      * @param string $string the string to print
-     * @return int|bool Number of bytes printed or false on error
+     * @return integer|boolean Number of bytes printed or false on error
      */
     public function stderr($string)
     {
@@ -255,55 +246,32 @@ class Controller extends \yii\base\Controller
      *  - validator: a callable function to validate input. The function must accept two parameters:
      *      - $input: the user input to validate
      *      - $error: the error value passed by reference if validation failed.
-     *
-     * An example of how to use the prompt method with a validator function.
-     *
-     * ```php
-     * $code = $this->prompt('Enter 4-Chars-Pin', ['required' => true, 'validator' => function($input, &$error) {
-     *     if (strlen($input) !== 4) {
-     *         $error = 'The Pin must be exactly 4 chars!';
-     *         return false;
-     *     }
-     *     return true;
-     * }]);
-     * ```
-     *
      * @return string the user input
      */
     public function prompt($text, $options = [])
     {
         if ($this->interactive) {
             return Console::prompt($text, $options);
+        } else {
+            return isset($options['default']) ? $options['default'] : '';
         }
-
-        return isset($options['default']) ? $options['default'] : '';
     }
 
     /**
      * Asks user to confirm by typing y or n.
      *
-     * A typical usage looks like the following:
-     *
-     * ```php
-     * if ($this->confirm("Are you sure?")) {
-     *     echo "user typed yes\n";
-     * } else {
-     *     echo "user typed no\n";
-     * }
-     * ```
-     *
      * @param string $message to echo out before waiting for user input
-     * @param bool $default this value is returned if no selection is made.
-     * @return bool whether user confirmed.
+     * @param boolean $default this value is returned if no selection is made.
+     * @return boolean whether user confirmed.
      * Will return true if [[interactive]] is false.
      */
     public function confirm($message, $default = false)
     {
         if ($this->interactive) {
             return Console::confirm($message, $default);
+        } else {
+            return true;
         }
-
-        return true;
     }
 
     /**
@@ -330,12 +298,12 @@ class Controller extends \yii\base\Controller
      * until [[beforeAction()]] is being called.
      *
      * @param string $actionID the action id of the current request
-     * @return string[] the names of the options valid for the action
+     * @return array the names of the options valid for the action
      */
     public function options($actionID)
     {
         // $actionId might be used in subclasses to provide options specific to action id
-        return ['color', 'interactive', 'help'];
+        return ['color', 'interactive'];
     }
 
     /**
@@ -346,13 +314,11 @@ class Controller extends \yii\base\Controller
      * where the keys is alias name for option and value is option name.
      *
      * @since 2.0.8
-     * @see options()
+     * @see options($actionID)
      */
     public function optionAliases()
     {
-        return [
-            'h' => 'help'
-        ];
+        return [];
     }
 
     /**
@@ -467,9 +433,6 @@ class Controller extends \yii\base\Controller
 
         /** @var \ReflectionParameter $reflection */
         foreach ($method->getParameters() as $i => $reflection) {
-            if ($reflection->getClass() !== null) {
-                continue;
-            }
             $name = $reflection->getName();
             $tag = isset($params[$i]) ? $params[$i] : '';
             if (preg_match('/^(\S+)\s+(\$\w+\s+)?(.*)/s', $tag, $matches)) {

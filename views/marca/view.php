@@ -16,11 +16,19 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Actualizar', ['update', 'id' => $model->MAR_ID], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Eliminar', ['delete', 'id' => $model->MAR_ID], [
+            'class' => 'btn btn-danger',
+            'data' => [
+                'confirm' => '¿Está seguro que desea eliminar esta marca?',
+                'method' => 'post',
+            ],
+        ]) ?>
     </p>
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
+            'MAR_ID',
             'MAR_NOMBRE',
         ],
     ]) ?>

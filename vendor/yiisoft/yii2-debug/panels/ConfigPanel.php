@@ -89,10 +89,6 @@ class ConfigPanel extends Panel
             'application' => [
                 'yii' => Yii::getVersion(),
                 'name' => Yii::$app->name,
-                'version' => Yii::$app->version,
-                'language' => Yii::$app->language,
-                'sourceLanguage' => Yii::$app->sourceLanguage,
-                'charset' => Yii::$app->charset,
                 'env' => YII_ENV,
                 'debug' => YII_DEBUG,
             ],
@@ -101,7 +97,6 @@ class ConfigPanel extends Panel
                 'xdebug' => extension_loaded('xdebug'),
                 'apc' => extension_loaded('apc'),
                 'memcache' => extension_loaded('memcache'),
-                'memcached' => extension_loaded('memcached'),
             ],
             'extensions' => Yii::$app->extensions,
         ];

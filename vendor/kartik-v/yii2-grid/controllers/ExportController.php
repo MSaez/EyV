@@ -3,29 +3,19 @@
 /**
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2017
- * @version   3.1.4
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2016
+ * @version   3.1.1
  */
 
 namespace kartik\grid\controllers;
 
 use Yii;
-use yii\base\InvalidCallException;
-use yii\helpers\HtmlPurifier;
 use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\Response;
-use kartik\base\Config;
-use kartik\grid\GridView;
 use kartik\mpdf\Pdf;
-use kartik\grid\Module;
+use kartik\grid\GridView;
 
-/**
- * ExportController manages actions for downloading the [[GridView]] tabular content in various export formats.
- *
- * @author Kartik Visweswaran <kartikv2@gmail.com>
- * @since 1.0
- */
 class ExportController extends Controller
 {
     /**
@@ -35,40 +25,17 @@ class ExportController extends Controller
      */
     public function actionDownload()
     {
-        /**
-         * @var Module $module
-         */
-        $module = Config::initModule(Module::className());
-        $request = Yii::$app->request;
-        $type = $request->post('export_filetype', 'html');
-        $name = $request->post('export_filename', Yii::t('kvgrid', 'export'));
-        $content = $request->post('export_content', Yii::t('kvgrid', 'No data found'));
-        $mime = $request->post('export_mime', 'text/plain');
-        $encoding = $request->post('export_encoding', 'utf-8');
-        $bom = $request->post('export_bom', 1);
-        $config = $request->post('export_config', '{}');
-        $oldHash = $request->post('export_hash');
-        $newData = $name . $mime . $encoding . $bom . $config;
-        $security = Yii::$app->security;
-        $salt = $module->exportEncryptSalt;
-        $newHash = $security->hashData($newData, $salt);
-        if (!$security->validateData($oldHash, $salt) || $oldHash !== $newHash) {
-            $params = "\nOld Hash:{$oldHash}\nNew Hash:{$newHash}\n";
-            throw new InvalidCallException("The parameters for yii2-grid export seem to be tampered. Please retry!{$params}");
-        }
+        $type = static::getPostData('export_filetype', 'html');
+        $name = static::getPostData('export_filename', Yii::t('kvgrid', 'export'));
+        $content = static::getPostData('export_content', Yii::t('kvgrid', 'No data found'));
+        $mime = static::getPostData('export_mime', 'text/plain');
+        $encoding = static::getPostData('export_encoding', 'utf-8');
+        $config = static::getPostData('export_config', '{}');
         if ($type == GridView::PDF) {
             $config = Json::decode($config);
             $this->generatePDF($content, "{$name}.pdf", $config);
             /** @noinspection PhpInconsistentReturnPointsInspection */
             return;
-        }  elseif ($type == GridView::HTML) {
-            $content = HtmlPurifier::process($content);
-        } elseif ($type == GridView::CSV || $type == GridView::TEXT) {
-            if ($encoding != 'utf-8') {
-                $content = mb_convert_encoding($content, $encoding, 'utf-8');
-            } elseif ($bom) {
-                $content = chr(239) . chr(187) . chr(191) . $content; // add BOM
-            }
         }
         $this->setHttpHeaders($type, $name, $mime, $encoding);
         return $content;
@@ -119,5 +86,18 @@ class ExportController extends Controller
         header("Content-Type: {$mime}; charset={$encoding}");
         header("Content-Disposition: attachment; filename={$name}.{$type}");
         header("Cache-Control: max-age=0");
+    }
+
+    /**
+     * Gets the value of a variable in $_POST
+     *
+     * @param int|string $key the variable name in $_POST
+     * @param mixed      $default the default value
+     *
+     * @return mixed the post data value
+     */
+    protected static function getPostData($key, $default = null)
+    {
+        return empty($_POST) || empty($_POST[$key]) ? $default : $_POST[$key];
     }
 }

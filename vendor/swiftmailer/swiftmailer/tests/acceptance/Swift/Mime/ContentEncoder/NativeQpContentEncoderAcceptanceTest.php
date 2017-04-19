@@ -2,14 +2,12 @@
 
 class Swift_Mime_ContentEncoder_NativeQpContentEncoderAcceptanceTest extends \PHPUnit_Framework_TestCase
 {
-    protected $_samplesDir;
-
     /**
      * @var Swift_Mime_ContentEncoder_NativeQpContentEncoder
      */
     protected $_encoder;
 
-    protected function setUp()
+    public function setUp()
     {
         $this->_samplesDir = realpath(__DIR__.'/../../../../_samples/charsets');
         $this->_encoder = new Swift_Mime_ContentEncoder_NativeQpContentEncoder();
@@ -65,7 +63,7 @@ class Swift_Mime_ContentEncoder_NativeQpContentEncoderAcceptanceTest extends \PH
     }
 
     /**
-     * @expectedException \RuntimeException
+     * @expectedException RuntimeException
      */
     public function testCharsetChangeNotImplemented()
     {

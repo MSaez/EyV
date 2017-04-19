@@ -2,7 +2,7 @@
 /* @var $this yii\web\View */
 /* @var $generator yii\gii\Generator */
 /* @var $results string */
-/* @var $hasError bool */
+/* @var $hasError boolean */
 ?>
 <div class="default-view-results">
     <?php

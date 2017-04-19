@@ -1,11 +1,11 @@
 /*!
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2017
- * @version   3.1.4
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2016
+ * @version   3.1.1
  *
  * Grid grouping jquery library created for yii2-grid.
- *
+ * 
  * Author: Kartik Visweswaran
  * Copyright: 2015, Kartik Visweswaran, Krajee.com
  * For more JQuery plugins visit http://plugins.krajee.com
@@ -16,8 +16,8 @@ var kvGridGroup;
     "use strict";
     kvGridGroup = function (gridId) {
         var $grid, data, groups, $groupRows, i, n, colCount, $pageSum, $firstRow, $lastRow, isEmpty, initPageSummary,
-            formatNumber, getParentGroup, getLastGroupRow, getColValue, getSummarySource, getSummaryContent, addRowSpan,
-            adjustLastRow, createSummary, calculate;
+            formatNumber, applyFormat, getParentGroup, getLastGroupRow, getSummarySource, getSummaryContent, addRowSpan,
+            adjustLastRow, createSummary;
         $grid = $('#' + gridId);
         data = {};
         groups = [];
@@ -38,23 +38,45 @@ var kvGridGroup;
                 i++;
             });
         };
-        /**
-         * Format a number
-         * @param n float, the number
-         * @param d integer, length of decimal (defaults to 2)
-         * @param c mixed, decimal delimiter (defaults to ".")
-         * @param s mixed, sections delimiter (defaults to ",")
-         * @param x integer, length of whole part (defaults to 3 for thousands)
-         * @returns string
-         */
-        formatNumber = function (n, d, c, s, x) {
-            var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\D' : '$') + ')', num = parseFloat(n),
-                dec = parseInt(d);
-            if (isNaN(num)) {
-                return '';
+        formatNumber = function (number, decimals, dec_point, thousands_sep) {
+            number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
+            var n = !isFinite(+number) ? 0 : +number, s,
+                prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+                sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+                dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+                toFixedFix = function (n, prec) {
+                    var k = Math.pow(10, prec);
+                    return '' + Math.round(n * k) / k;
+                };
+            s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+            if (s[0].length > 3) {
+                s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
             }
-            num = num.toFixed(isNaN(dec) || dec < 0 ? 0 : dec);
-            return (c ? num.replace('.', c) : num).replace(new RegExp(re, 'g'), '$&' + (s || ','));
+            if ((s[1] || '').length < prec) {
+                s[1] = s[1] || '';
+                s[1] += [(prec - s[1].length + 1)].join('0');
+            }
+            return s.join(dec);
+        };
+        applyFormat = function (source, config, $tr, $td, i) {
+            var decimals, decPoint, thousandSep, data, func;
+            /** @namespace config.thousandSep */
+            /** @namespace config.decPoint */
+            /** @namespace config.func */
+            if (config.format === 'number') {
+                decimals = config.decimals || 0;
+                decPoint = config.decPoint || '.';
+                thousandSep = config.thousandSep || ',';
+                return formatNumber(source, decimals, decPoint, thousandSep);
+            }
+            if (config.format === 'callback') {
+                func = window[config.func];
+                if (typeof func === 'function') {
+                    data = getSummarySource($tr, $td, i);
+                    return func(source, data);
+                }
+            }
+            return source;
         };
         getParentGroup = function ($cell) {
             var $tr, $td, id = $cell.attr('data-sub-group-of'), i, tag;
@@ -87,24 +109,7 @@ var kvGridGroup;
             }
             return $endRow.length ? $endRow : $lastRow;
         };
-        getColValue = function ($col, decPoint, thousandSep) {
-            var flag, out;
-            if (!$col || !$col.length) {
-                return 0;
-            }
-            if ($col.is('[data-raw-value]')) {
-                out = $col.attr('data-raw-value');
-            } else {
-                out = $col.text();
-                flag = new RegExp('[\\s' + thousandSep + ']', 'g');
-                out = out.replace(flag, '');
-                if (decPoint && decPoint !== '.') {
-                    out = out.replace(decPoint, '.');
-                }
-            }
-            return out ? parseFloat(out) : 0;
-        };
-        getSummarySource = function ($tr, $td, i, decPoint, thousandSep) {
+        getSummarySource = function ($tr, $td, i) {
             var j = 1, data = [], $row = $tr, isGrouped = $row.hasClass('kv-grid-group-row'),
                 rowspan = $td.attr('rowspan') || 1;
             if (isGrouped) {
@@ -112,7 +117,9 @@ var kvGridGroup;
                 $row = $row.next(':not(.kv-grid-group-row');
                 while (!j && $row.length) {
                     $row.find('td[data-col-seq="' + i + '"]').each(function () {
-                        data.push(getColValue($(this), decPoint, thousandSep));
+                        var out = $(this).text().replace(/[\s,]+/g, '');
+                        out = parseFloat(out);
+                        data.push(out);
                     }); // jshint ignore:line
                     j = $row.hasClass('kv-grid-group-row');
                     $row = $row.next();
@@ -120,7 +127,9 @@ var kvGridGroup;
             } else {
                 while (j <= rowspan && $row.length) {
                     $row.find('td[data-col-seq="' + i + '"]').each(function () {
-                        data.push(getColValue($(this), decPoint, thousandSep));
+                        var out = $(this).text().replace(/[\s,]+/g, '');
+                        out = parseFloat(out);
+                        data.push(out);
                     }); // jshint ignore:line
                     $row = $row.next();
                     j++;
@@ -128,49 +137,36 @@ var kvGridGroup;
             }
             return data;
         };
-        getSummaryContent = function (source, $tr, $td, i, config) {
-            var out, fmt, decimals, decPoint, thousandSep, data, func;
-            /** @namespace config.thousandSep */
-            /** @namespace config.decPoint */
-            /** @namespace config.func */
-            /** @namespace config.format */
-            /** @namespace config.func */
-            decimals = config.decimals || 0;
-            decPoint = config.decPoint || '.';
-            thousandSep = config.thousandSep || ',';
-            fmt = config.format || '';
-            func = config.func ? window[config.func] : '';
-            if (fmt === 'number') {
-                data = getSummarySource($tr, $td, i, decPoint, thousandSep);
-                out = calculate(data, source);
-                return formatNumber(out, decimals, decPoint, thousandSep);
-            }
-            if (fmt === 'callback' && typeof func === 'function') {
-                data = getSummarySource($tr, $td, i, decPoint, thousandSep);
-                return func(data);
-            }
-            return '';
-        };
-        calculate = function (data, func) {
-            var i, fn, out = 0, n = data && data.length || 0;
-            if (!n) {
-                return '';
-            }
-            switch (func) {
+        getSummaryContent = function (source, $tr, $td, i) {
+            var func, data, out = 0, n;
+            switch (source) {
                 case 'f_count':
-                    return n;
                 case 'f_sum':
                 case 'f_avg':
-                    for (i = 0; i < n; i++) {
-                        out += data[i];
-                    }
-                    return func === 'f_sum' ? out : out / n;
                 case 'f_max':
                 case 'f_min':
-                    fn = func === 'f_max' ? 'max' : 'min';
-                    return Math[fn].apply(null, data);
+                    data = getSummarySource($tr, $td, i);
+                    switch (source) {
+                        case 'f_count':
+                            return data.length;
+                        case 'f_sum':
+                        case 'f_avg':
+                            $.each(data, function (key, val) {
+                                out += val;
+                            });
+                            if (source === 'f_sum') {
+                                return out;
+                            }
+                            n = data.length;
+                            return n ? out / n : out;
+                        case 'f_max':
+                        case 'f_min':
+                            func = source.replace('f_', '');
+                            return Math[func].apply(null, data);
+                    }
+                    return null;
                 default:
-                    return '';
+                    return source;
             }
         };
         addRowSpan = function ($el, n) {
@@ -199,7 +195,7 @@ var kvGridGroup;
             }
         };
         createSummary = function ($cell, type) {
-            var data = $cell.data(type), $parent, key, $tr, $td, i, j, $row, $col, $target, content, config,
+            var data = $cell.data(type), $parent, key, $tr, $td, i, j, $row, $col, $target, content,
                 isGroupedRow = false, css = (type === 'groupHeader') ? 'kv-group-header' : 'kv-group-footer';
             if (!data) {
                 return;
@@ -222,10 +218,12 @@ var kvGridGroup;
                 if (!key || i != key || isGroupedRow) { // jshint ignore:line
                     $col = $(document.createElement('td')).attr('data-summary-col-seq', i);
                     if (data.content && data.content[i]) {
+                        content = getSummaryContent(data.content[i], $tr, $cell, i);
                         /** @namespace data.contentFormats */
                         /** @namespace data.contentOptions */
-                        config = data.contentFormats && data.contentFormats[i] || {};
-                        content = getSummaryContent(data.content[i], $tr, $cell, i, config);
+                        if (data.contentFormats && data.contentFormats[i]) {
+                            content = applyFormat(content, data.contentFormats[i], $tr, $cell, i);
+                        }
                         $col.html(content);
                     }
                     if (data.contentOptions && data.contentOptions[i]) {

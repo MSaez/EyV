@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use kartik\grid\GridView;
+use yii\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ClienteSearch */
@@ -30,8 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'CLI_MATERNO',
             'CLI_TELEFONO',
             // 'CLI_DIRECCION:ntext',
-            ['class' => '\kartik\grid\ActionColumn',
-             'template' => '{view} {update}'],
+            ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 </div>

@@ -22,8 +22,6 @@ use Yii;
  * An asset bundle can depend on other asset bundles. When registering an asset bundle
  * with a view, all its dependent asset bundles will be automatically registered.
  *
- * For more details and usage information on AssetBundle, see the [guide article on assets](guide:structure-assets).
- *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
  */
@@ -155,9 +153,7 @@ class AssetBundle extends Object
                 $options = ArrayHelper::merge($this->jsOptions, $js);
                 $view->registerJsFile($manager->getAssetUrl($this, $file), $options);
             } else {
-                if ($js !== null) {
-                    $view->registerJsFile($manager->getAssetUrl($this, $js), $this->jsOptions);
-                }
+                $view->registerJsFile($manager->getAssetUrl($this, $js), $this->jsOptions);
             }
         }
         foreach ($this->css as $css) {
@@ -166,9 +162,7 @@ class AssetBundle extends Object
                 $options = ArrayHelper::merge($this->cssOptions, $css);
                 $view->registerCssFile($manager->getAssetUrl($this, $file), $options);
             } else {
-                if ($css !== null) {
-                    $view->registerCssFile($manager->getAssetUrl($this, $css), $this->cssOptions);
-                }
+                $view->registerCssFile($manager->getAssetUrl($this, $css), $this->cssOptions);
             }
         }
     }

@@ -11,26 +11,19 @@ use yii\gii\CodeFile;
 
 ?>
 <div class="default-view-files">
-    <p>Click on the above <code>Generate</code> button to generate the files selected below:</p>
-
-    <div class="row form-group">
-        <div class="col-xs-6">
-            <input id="filter-input" class="form-control" placeholder="Type to filter">
-        </div>
-        <div class="col-xs-6 text-right">
-            <div id="action-toggle" class="btn-group btn-group-xs"">
-                <label class="btn btn-success active" title="Filter files that are created">
-                    <input type="checkbox" value="<?= CodeFile::OP_CREATE ?>" checked> Create
-                </label>
-                <label class="btn btn-default active" title="Filter files that are unchanged.">
-                    <input type="checkbox" value="<?= CodeFile::OP_SKIP ?>" checked> Unchanged
-                </label>
-                <label class="btn btn-warning active" title="Filter files that are overwritten">
-                    <input type="checkbox" value="<?= CodeFile::OP_OVERWRITE ?>" checked> Overwrite
-                </label>
-            </div>
-        </div>
+    <div id="action-toggle" class="btn-group btn-group-xs pull-right">
+        <label class="btn btn-success active" title="Filter files that are created">
+            <input type="checkbox" value="<?= CodeFile::OP_CREATE ?>" checked> Create
+        </label>
+        <label class="btn btn-default active" title="Filter files that are unchanged.">
+            <input type="checkbox" value="<?= CodeFile::OP_SKIP ?>" checked> Unchanged
+        </label>
+        <label class="btn btn-warning active" title="Filter files that are overwritten">
+            <input type="checkbox" value="<?= CodeFile::OP_OVERWRITE ?>" checked> Overwrite
+        </label>
     </div>
+
+    <p>Click on the above <code>Generate</code> button to generate the files selected below:</p>
 
     <table class="table table-bordered table-striped table-condensed">
         <thead>
@@ -50,7 +43,7 @@ use yii\gii\CodeFile;
 
             </tr>
         </thead>
-        <tbody id="files-body">
+        <tbody>
             <?php foreach ($files as $file): ?>
             <?php
             if ($file->operation === CodeFile::OP_OVERWRITE) {

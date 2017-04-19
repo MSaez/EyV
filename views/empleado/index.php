@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use kartik\grid\GridView;
+use yii\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\EmpleadoSearch */
@@ -23,12 +23,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
+
             'EMP_RUT:rut',
             'EMP_NOMBRES',
             'EMP_PATERNO',
             'EMP_MATERNO',
-            ['class' => '\kartik\grid\ActionColumn',
-             'template' => '{view} {update}'],
+
+            ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 </div>

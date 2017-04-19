@@ -18,9 +18,7 @@ use yii\widgets\FragmentCache;
  *
  * View provides a set of methods (e.g. [[render()]]) for rendering purpose.
  *
- * For more details and usage information on View, see the [guide article on views](guide:structure-views).
- *
- * @property string|bool $viewFile The view file currently being rendered. False if no view file is being
+ * @property string|boolean $viewFile The view file currently being rendered. False if no view file is being
  * rendered. This property is read-only.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
@@ -142,8 +140,7 @@ class View extends Component
      * in the view. If the context implements [[ViewContextInterface]], it may also be used to locate
      * the view file corresponding to a relative view name.
      * @return string the rendering result
-     * @throws ViewNotFoundException if the view file does not exist.
-     * @throws InvalidCallException if the view cannot be resolved.
+     * @throws InvalidParamException if the view cannot be resolved or the view file does not exist.
      * @see renderFile()
      */
     public function render($view, $params = [], $context = null)
@@ -214,7 +211,7 @@ class View extends Component
      * @param object $context the context that the view should use for rendering the view. If null,
      * existing [[context]] will be used.
      * @return string the rendering result
-     * @throws ViewNotFoundException if the view file does not exist
+     * @throws InvalidParamException if the view file does not exist
      */
     public function renderFile($viewFile, $params = [], $context = null)
     {
@@ -226,7 +223,7 @@ class View extends Component
         if (is_file($viewFile)) {
             $viewFile = FileHelper::localize($viewFile);
         } else {
-            throw new ViewNotFoundException("The view file does not exist: $viewFile");
+            throw new InvalidParamException("The view file does not exist: $viewFile");
         }
 
         $oldContext = $this->context;
@@ -259,7 +256,7 @@ class View extends Component
     }
 
     /**
-     * @return string|bool the view file currently being rendered. False if no view file is being rendered.
+     * @return string|boolean the view file currently being rendered. False if no view file is being rendered.
      */
     public function getViewFile()
     {
@@ -272,7 +269,7 @@ class View extends Component
      * If you override this method, make sure you call the parent implementation first.
      * @param string $viewFile the view file to be rendered.
      * @param array $params the parameter array passed to the [[render()]] method.
-     * @return bool whether to continue rendering the view file.
+     * @return boolean whether to continue rendering the view file.
      */
     public function beforeRender($viewFile, $params)
     {
@@ -347,8 +344,9 @@ class View extends Component
             $this->addDynamicPlaceholder($placeholder, $statements);
 
             return $placeholder;
+        } else {
+            return $this->evaluateDynamicContent($statements);
         }
-        return $this->evaluateDynamicContent($statements);
     }
 
     /**
@@ -380,7 +378,7 @@ class View extends Component
      * Begins recording a block.
      * This method is a shortcut to beginning [[Block]]
      * @param string $id the block ID.
-     * @param bool $renderInPlace whether to render the block content in place.
+     * @param boolean $renderInPlace whether to render the block content in place.
      * Defaults to false, meaning the captured block will not be displayed.
      * @return Block the Block widget instance
      */
@@ -451,7 +449,7 @@ class View extends Component
      *
      * @param string $id a unique ID identifying the fragment to be cached.
      * @param array $properties initial property values for [[FragmentCache]]
-     * @return bool whether you should generate the content for caching.
+     * @return boolean whether you should generate the content for caching.
      * False if the cached version is available.
      */
     public function beginCache($id, $properties = [])
@@ -464,8 +462,9 @@ class View extends Component
             $this->endCache();
 
             return false;
+        } else {
+            return true;
         }
-        return true;
     }
 
     /**

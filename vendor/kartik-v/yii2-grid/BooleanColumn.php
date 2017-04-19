@@ -3,8 +3,8 @@
 /**
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2017
- * @version   3.1.4
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2016
+ * @version   3.1.1
  */
 
 namespace kartik\grid;
@@ -13,20 +13,8 @@ use Yii;
 use Closure;
 
 /**
- * A BooleanColumn will convert true/false values as user friendly indicators with an automated drop down filter for the
- * [[GridView]] widget.
- *
- * To add a BooleanColumn to the gridview, add it to the [[GridView::columns|columns]] configuration as follows:
- *
- * ```php
- * 'columns' => [
- *     // ...
- *     [
- *         'class' => BooleanColumn::className(),
- *         // you may configure additional properties here
- *     ],
- * ]
- * ```
+ * A BooleanColumn to convert true/false values as user friendly indicators with an automated drop down filter for the
+ * Grid widget [[\kartik\widgets\GridView]]
  *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.0
@@ -34,19 +22,27 @@ use Closure;
 class BooleanColumn extends DataColumn
 {
     /**
-     * @inheritdoc
+     * @var string the horizontal alignment of each column. Should be one of 'left', 'right', or 'center'. Defaults to
+     *     `center`.
      */
-    public $hAlign = GridView::ALIGN_CENTER;
+    public $hAlign = 'center';
 
     /**
-     * @inheritdoc
+     * @var string the width of each column (matches the CSS width property). Defaults to `90px`.
+     * @see http://www.w3schools.com/cssref/pr_dim_width.asp
      */
     public $width = '90px';
 
     /**
-     * @inheritdoc
+     * @var string|array in which format should the value of each data model be displayed. Defaults to `raw`.
+     * [[\yii\base\Formatter::format()]] or [[\yii\i18n\Formatter::format()]] is used.
      */
     public $format = 'raw';
+
+    /**
+     * @var boolean|string|Closure the page summary that is displayed above the footer. Defaults to false.
+     */
+    public $pageSummary = false;
 
     /**
      * @var string label for the true value. Defaults to `Active`.
@@ -60,18 +56,20 @@ class BooleanColumn extends DataColumn
 
     /**
      * @var string icon/indicator for the true value. If this is not set, it will use the value from `trueLabel`. If
-     * GridView `bootstrap` property is set to true - it will default to [[GridView::ICON_ACTIVE]].
+     *     GridView `bootstrap` property is set to true - it will default to [[GridView::ICON_ACTIVE]] `<span
+     *     class="glyphicon glyphicon-ok text-success"></span>`
      */
     public $trueIcon;
 
     /**
      * @var string icon/indicator for the false value. If this is null, it will use the value from `falseLabel`. If
-     * GridView `bootstrap` property is set to true - it will default to [[GridView::ICON_INACTIVE]].
+     *     GridView `bootstrap` property is set to true - it will default to [[GridView::ICON_INACTIVE]] `<span
+     *     class="glyphicon glyphicon-remove text-danger"></span>`
      */
     public $falseIcon;
 
     /**
-     * @var boolean whether to show null value as a false icon.
+     * @var bool whether to show null value as a false icon.
      */
     public $showNullAsFalse = false;
 

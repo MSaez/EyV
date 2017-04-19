@@ -3,8 +3,8 @@
 /**
  * @package   yii2-krajee-base
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2017
- * @version   1.8.8
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2016
+ * @version   1.8.5
  */
 
 namespace kartik\base;
@@ -14,9 +14,9 @@ use yii\web\JsExpression;
 use yii\web\View;
 
 /**
- * WidgetTrait manages all methods used by Krajee widgets and input widgets.
+ * Trait used for Krajee widgets.
  *
- * @property boolean $enablePopStateFix
+ * @property bool   $enablePopStateFix
  * @property string $pluginName
  * @property string $pluginDestroyJs
  * @property array  $options
@@ -33,9 +33,11 @@ use yii\web\View;
 trait WidgetTrait
 {
     /**
-     * Sets a HTML5 data variable.
+     * Sets HTML5 data variable
      *
      * @param string $name the plugin name
+     *
+     * @return void
      */
     protected function setDataVar($name)
     {
@@ -45,7 +47,7 @@ trait WidgetTrait
 
 
     /**
-     * Generates the `pluginDestroyJs` script if it is not set.
+     * Generates the `pluginDestroyJs` if not set
      */
     protected function initDestroyJs()
     {
@@ -62,12 +64,14 @@ trait WidgetTrait
     }
 
     /**
-     * Adds an asset to the view.
+     * Adds an asset to the view
      *
-     * @param View   $view the View object
-     * @param string $file the asset file name
-     * @param string $type the asset file type (css or js)
-     * @param string $class the class name of the AssetBundle
+     * @param View   $view The View object
+     * @param string $file The asset file name
+     * @param string $type The asset file type (css or js)
+     * @param string $class The class name of the AssetBundle
+     *
+     * @return void
      */
     protected function addAsset($view, $file, $type, $class)
     {
@@ -85,12 +89,10 @@ trait WidgetTrait
     }
 
     /**
-     * Generates a hashed variable to store the pluginOptions. The following special data attributes will also be setup
-     * for the input widget, that can be accessed through javascript :
-     *
-     * - 'data-krajee-{name}' will store the hashed variable storing the plugin options. The `{name}` token will be
-     *   replaced with the plugin name (e.g. `select2`, ``typeahead etc.). This fixes
-     *   [issue #6](https://github.com/kartik-v/yii2-krajee-base/issues/6).
+     * Generates a hashed variable to store the pluginOptions. The following special data attributes
+     * will also be setup for the input widget, that can be accessed through javascript :
+     * - 'data-krajee-{name}' will store the hashed variable storing the plugin options. The {name}
+     *   tag will represent the plugin name (e.g. select2, typeahead etc.) - Fixes issue #6.
      *
      * @param string $name the name of the plugin
      */
@@ -102,19 +104,21 @@ trait WidgetTrait
     }
 
     /**
-     * Registers plugin options by storing within a uniquely generated javascript variable.
+     * Registers plugin options by storing it in a hashed javascript variable
      *
      * @param string $name the plugin name
+     *
+     * @return void
      */
     protected function registerPluginOptions($name)
     {
         $this->hashPluginOptions($name);
         $encOptions = empty($this->_encOptions) ? '{}' : $this->_encOptions;
-        $this->registerWidgetJs("window.{$this->_hashVar} = {$encOptions};\n", View::POS_HEAD);
+        $this->registerWidgetJs("var {$this->_hashVar} = {$encOptions};\n", View::POS_HEAD);
     }
 
     /**
-     * Returns the plugin registration script.
+     * Returns the plugin registration script
      *
      * @param string $name the name of the plugin
      * @param string $element the plugin target element
@@ -125,7 +129,7 @@ trait WidgetTrait
      */
     protected function getPluginScript($name, $element = null, $callback = null, $callbackCon = null)
     {
-        $id = $element ? $element : "jQuery('#" . $this->options['id'] . "')";
+        $id = $element == null ? "jQuery('#" . $this->options['id'] . "')" : $element;
         $script = '';
         if ($this->pluginOptions !== false) {
             $this->registerPluginOptions($name);
@@ -138,14 +142,13 @@ trait WidgetTrait
             }
             $script .= ";\n";
         }
-        $script = $this->pluginDestroyJs . "\n"  . $script;
         if (!empty($this->pluginEvents)) {
             foreach ($this->pluginEvents as $event => $handler) {
-                $function = $handler instanceof JsExpression ? $handler : new JsExpression($handler);
-                $script .= "{$id}.on('{$event}', {$function});\n";
+                $function = new JsExpression($handler);
+                $script .= "$(document).on('{$event}', {$id}.kvSelector(), {$function});\n";
             }
         }
-        return $script;
+        return $this->pluginDestroyJs . "\n" . $script;
     }
 
     /**
@@ -166,17 +169,17 @@ trait WidgetTrait
      * Registers a JS code block for the widget.
      *
      * @param string  $js the JS code block to be registered
-     * @param integer $pos the position at which the JS script tag should be inserted in a page. The possible values
-     * are:
-     * - [[View::POS_HEAD]]: in the head section
-     * - [[View::POS_BEGIN]]: at the beginning of the body section
-     * - [[View::POS_END]]: at the end of the body section
-     * - [[View::POS_LOAD]]: enclosed within jQuery(window).load(). Note that by using this position, the method will
-     *   automatically register the jQuery js file.
-     * - [[View::POS_READY]]: enclosed within jQuery(document).ready(). This is the default value. Note that by using
-     *   this position, the method will automatically register the jQuery js file.
-     * @param string  $key the key that identifies the JS code block. If null, it will use `$js` as the key. If two JS
-     * code blocks are registered with the same key, the latter will overwrite the former.
+     * @param integer $pos the position at which the JS script tag should be inserted in a page. The possible
+     *     values are:
+     *      - [[POS_HEAD]]: in the head section
+     *      - [[POS_BEGIN]]: at the beginning of the body section
+     *      - [[POS_END]]: at the end of the body section
+     *      - [[POS_LOAD]]: enclosed within jQuery(window).load(). Note that by using this position, the method will
+     *     automatically register the jQuery js file.
+     *      - [[POS_READY]]: enclosed within jQuery(document).ready(). This is the default value. Note that by using
+     *     this position, the method will automatically register the jQuery js file.
+     * @param string  $key the key that identifies the JS code block. If null, it will use $js as the key. If two JS
+     *     code blocks are registered with the same key, the latter will overwrite the former.
      */
     public function registerWidgetJs($js, $pos = View::POS_READY, $key = null)
     {
@@ -184,13 +187,11 @@ trait WidgetTrait
             return;
         }
         $view = $this->getView();
-        WidgetAsset::register($view);
         $view->registerJs($js, $pos, $key);
         if (!empty($this->pjaxContainerId) && ($pos === View::POS_LOAD || $pos === View::POS_READY)) {
             $pjax = 'jQuery("#' . $this->pjaxContainerId . '")';
             $evComplete = 'pjax:complete.' . hash('crc32', $js);
-            $script = "setTimeout(function(){ {$js} }, 100);";
-            $view->registerJs("{$pjax}.off('{$evComplete}').on('{$evComplete}',function(){ {$script} });");
+            $view->registerJs("{$pjax}.off('{$evComplete}').on('{$evComplete}',function(){ {$js} });");
             // hack fix for browser back and forward buttons
             if ($this->enablePopStateFix) {
                 $view->registerJs("window.addEventListener('popstate',function(){window.location.reload();});");

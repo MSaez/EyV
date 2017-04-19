@@ -36,11 +36,6 @@ class Swift_Transport_LoadBalancedTransport implements Swift_Transport
      */
     protected $_lastUsedTransport = null;
 
-    // needed as __construct is called from elsewhere explicitly
-    public function __construct()
-    {
-    }
-
     /**
      * Set $transports to delegate to.
      *

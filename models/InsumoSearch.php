@@ -18,7 +18,7 @@ class InsumoSearch extends Insumo
     public function rules()
     {
         return [
-            [['INS_ID', 'OT_ID', 'PAG_ID', 'INS_CANTIDAD', 'INS_PRECIO_UNITARIO', 'INS_TOTAL', 'INS_RECIBIDO'], 'integer'],
+            [['INS_ID', 'OT_ID', 'PAG_ID', 'INS_CANTIDAD', 'INS_PRECIO_UNITARIO', 'INS_TOTAL'], 'integer'],
             [['INS_NOMBRE'], 'safe'],
         ];
     }
@@ -47,6 +47,7 @@ class InsumoSearch extends Insumo
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' =>false,
         ]);
 
         $this->load($params);
@@ -65,7 +66,6 @@ class InsumoSearch extends Insumo
             'INS_CANTIDAD' => $this->INS_CANTIDAD,
             'INS_PRECIO_UNITARIO' => $this->INS_PRECIO_UNITARIO,
             'INS_TOTAL' => $this->INS_TOTAL,
-            'INS_RECIBIDO' => $this->INS_RECIBIDO,
         ]);
 
         $query->andFilterWhere(['like', 'INS_NOMBRE', $this->INS_NOMBRE]);

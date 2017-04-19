@@ -12,8 +12,6 @@ use Yii;
 /**
  * ErrorException represents a PHP error.
  *
- * For more details and usage information on ErrorException, see the [guide article on handling errors](guide:runtime-handling-errors).
- *
  * @author Alexander Makarov <sam@rmcreative.ru>
  * @since 2.0
  */
@@ -45,11 +43,8 @@ class ErrorException extends \ErrorException
         parent::__construct($message, $code, $severity, $filename, $lineno, $previous);
 
         if (function_exists('xdebug_get_function_stack')) {
-            // XDebug trace can't be modified and used directly with PHP 7
-            // @see https://github.com/yiisoft/yii2/pull/11723
-            $xDebugTrace = array_slice(array_reverse(xdebug_get_function_stack()), 3, -1);
-            $trace = [];
-            foreach ($xDebugTrace as $frame) {
+            $trace = array_slice(array_reverse(xdebug_get_function_stack()), 3, -1);
+            foreach ($trace as &$frame) {
                 if (!isset($frame['function'])) {
                     $frame['function'] = 'unknown';
                 }
@@ -65,7 +60,6 @@ class ErrorException extends \ErrorException
                 if (isset($frame['params']) && !isset($frame['args'])) {
                     $frame['args'] = $frame['params'];
                 }
-                $trace[] = $frame;
             }
 
             $ref = new \ReflectionProperty('Exception', 'trace');
@@ -78,7 +72,7 @@ class ErrorException extends \ErrorException
      * Returns if error is one of fatal type.
      *
      * @param array $error error got from error_get_last()
-     * @return bool if error is one of fatal type
+     * @return boolean if error is one of fatal type
      */
     public static function isFatalError($error)
     {

@@ -31,7 +31,7 @@ use yii\di\Instance;
  * ]
  * ```
  *
- * @property bool $useCustomStorage Whether to use custom storage. This property is read-only.
+ * @property boolean $useCustomStorage Whether to use custom storage. This property is read-only.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
@@ -62,7 +62,7 @@ class CacheSession extends Session
     /**
      * Returns a value indicating whether to use custom session storage.
      * This method overrides the parent implementation and always returns true.
-     * @return bool whether to use custom storage.
+     * @return boolean whether to use custom storage.
      */
     public function getUseCustomStorage()
     {
@@ -71,7 +71,7 @@ class CacheSession extends Session
 
     /**
      * Session read handler.
-     * @internal Do not call this method directly.
+     * Do not call this method directly.
      * @param string $id session ID
      * @return string the session data
      */
@@ -84,10 +84,10 @@ class CacheSession extends Session
 
     /**
      * Session write handler.
-     * @internal Do not call this method directly.
+     * Do not call this method directly.
      * @param string $id session ID
      * @param string $data session data
-     * @return bool whether session write is successful
+     * @return boolean whether session write is successful
      */
     public function writeSession($id, $data)
     {
@@ -96,18 +96,13 @@ class CacheSession extends Session
 
     /**
      * Session destroy handler.
-     * @internal Do not call this method directly.
+     * Do not call this method directly.
      * @param string $id session ID
-     * @return bool whether session is destroyed successfully
+     * @return boolean whether session is destroyed successfully
      */
     public function destroySession($id)
     {
-        $cacheId = $this->calculateKey($id);
-        if ($this->cache->exists($cacheId) === false) {
-            return true;
-        }
-
-        return $this->cache->delete($cacheId);
+        return $this->cache->delete($this->calculateKey($id));
     }
 
     /**

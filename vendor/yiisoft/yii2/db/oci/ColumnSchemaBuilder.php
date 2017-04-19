@@ -13,7 +13,6 @@ use yii\db\ColumnSchemaBuilder as AbstractColumnSchemaBuilder;
  * ColumnSchemaBuilder is the schema builder for Oracle databases.
  *
  * @author Vasenin Matvey <vaseninm@gmail.com>
- * @author Chris Harris <chris@buckshotsoftware.com>
  * @since 2.0.6
  */
 class ColumnSchemaBuilder extends AbstractColumnSchemaBuilder
@@ -29,17 +28,35 @@ class ColumnSchemaBuilder extends AbstractColumnSchemaBuilder
     /**
      * @inheritdoc
      */
+    protected function buildAfterString()
+    {
+        return $this->after !== null ?
+            ' AFTER ' . $this->db->quoteColumnName($this->after) :
+            '';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function buildFirstString()
+    {
+        return $this->isFirst ? ' FIRST' : '';
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function __toString()
     {
         switch ($this->getTypeCategory()) {
             case self::CATEGORY_PK:
-                $format = '{type}{length}{check}{append}';
+                $format = '{type}{length}{check}{pos}';
                 break;
             case self::CATEGORY_NUMERIC:
-                $format = '{type}{length}{unsigned}{default}{notnull}{check}{append}';
+                $format = '{type}{length}{unsigned}{default}{notnull}{check}{pos}';
                 break;
             default:
-                $format = '{type}{length}{default}{notnull}{check}{append}';
+                $format = '{type}{length}{default}{notnull}{check}{pos}';
         }
         return $this->buildCompleteString($format);
     }

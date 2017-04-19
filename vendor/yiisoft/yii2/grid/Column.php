@@ -14,8 +14,6 @@ use yii\helpers\Html;
 /**
  * Column is the base class of all [[GridView]] column classes.
  *
- * For more details and usage information on Column, see the [guide article on data widgets](guide:output-data-widgets).
- *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
  */
@@ -41,7 +39,7 @@ class Column extends Object
      */
     public $content;
     /**
-     * @var bool whether this column is visible. Defaults to true.
+     * @var boolean whether this column is visible. Defaults to true.
      */
     public $visible = true;
     /**
@@ -97,7 +95,7 @@ class Column extends Object
      * Renders a data cell.
      * @param mixed $model the data model being rendered
      * @param mixed $key the key associated with the data model
-     * @param int $index the zero-based index of the data item among the item array returned by [[GridView::dataProvider]].
+     * @param integer $index the zero-based index of the data item among the item array returned by [[GridView::dataProvider]].
      * @return string the rendering result
      */
     public function renderDataCell($model, $key, $index)
@@ -126,18 +124,7 @@ class Column extends Object
      */
     protected function renderHeaderCellContent()
     {
-        return trim($this->header) !== '' ? $this->header : $this->getHeaderCellLabel();
-    }
-
-    /**
-     * Returns header cell label.
-     * This method may be overridden to customize the label of the header cell.
-     * @return string label
-     * @since 2.0.8
-     */
-    protected function getHeaderCellLabel()
-    {
-        return $this->grid->emptyCell;
+        return trim($this->header) !== '' ? $this->header : $this->grid->emptyCell;
     }
 
     /**
@@ -155,7 +142,7 @@ class Column extends Object
      * Renders the data cell content.
      * @param mixed $model the data model
      * @param mixed $key the key associated with the data model
-     * @param int $index the zero-based index of the data model among the models array returned by [[GridView::dataProvider]].
+     * @param integer $index the zero-based index of the data model among the models array returned by [[GridView::dataProvider]].
      * @return string the rendering result
      */
     protected function renderDataCellContent($model, $key, $index)

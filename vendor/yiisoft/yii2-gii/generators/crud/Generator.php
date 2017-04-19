@@ -23,7 +23,7 @@ use yii\web\Controller;
  * @property string $controllerID The controller ID (without the module ID prefix). This property is
  * read-only.
  * @property array $searchAttributes Searchable attributes. This property is read-only.
- * @property bool|\yii\db\TableSchema $tableSchema This property is read-only.
+ * @property boolean|\yii\db\TableSchema $tableSchema This property is read-only.
  * @property string $viewPath The controller view path. This property is read-only.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
@@ -38,7 +38,7 @@ class Generator extends \yii\gii\Generator
     public $indexWidgetType = 'grid';
     public $searchModelClass = '';
     /**
-     * @var bool whether to wrap the `GridView` or `ListView` widget with the `yii\widgets\Pjax` widget
+     * @var boolean whether to wrap the `GridView` or `ListView` widget with the `yii\widgets\Pjax` widget
      * @since 2.0.5
      */
     public $enablePjax = false;
@@ -205,7 +205,7 @@ class Generator extends \yii\gii\Generator
         if (empty($this->viewPath)) {
             return Yii::getAlias('@app/views/' . $this->getControllerID());
         } else {
-            return Yii::getAlias(str_replace('\\', '/', $this->viewPath));
+            return Yii::getAlias($this->viewPath);
         }
     }
 
@@ -425,8 +425,7 @@ class Generator extends \yii\gii\Generator
                     $hashConditions[] = "'{$column}' => \$this->{$column},";
                     break;
                 default:
-                    $likeKeyword = $this->getClassDbDriverName() === 'pgsql' ? 'ilike' : 'like';
-                    $likeConditions[] = "->andFilterWhere(['{$likeKeyword}', '{$column}', \$this->{$column}])";                    
+                    $likeConditions[] = "->andFilterWhere(['like', '{$column}', \$this->{$column}])";
                     break;
             }
         }
@@ -520,7 +519,7 @@ class Generator extends \yii\gii\Generator
 
     /**
      * Returns table schema for current model class or false if it is not an active record
-     * @return bool|\yii\db\TableSchema
+     * @return boolean|\yii\db\TableSchema
      */
     public function getTableSchema()
     {
@@ -548,18 +547,5 @@ class Generator extends \yii\gii\Generator
 
             return $model->attributes();
         }
-    }
-
-    /**
-     * @return string|null driver name of modelClass db connection.
-     * In case db is not instance of \yii\db\Connection null will be returned.
-     * @since 2.0.6
-     */
-    protected function getClassDbDriverName()
-    {
-        /* @var $class ActiveRecord */
-        $class = $this->modelClass;
-        $db = $class::getDb();
-        return $db instanceof \yii\db\Connection ? $db->driverName : null;
     }
 }

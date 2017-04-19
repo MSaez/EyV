@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use kartik\grid\GridView;
+use yii\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ModeloSearch */
@@ -22,15 +22,17 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            //['class' => 'yii\grid\SerialColumn'],
+            ['class' => 'yii\grid\SerialColumn'],
+
+            'MOD_ID',
             [
                 'attribute' => 'MAR_ID', // se modifica la columna para que muestre los nombres de marca referenciando el nombre de la relación
                 'value' => 'mAR.MAR_NOMBRE'
             ],
             'MOD_NOMBRE',
             'MOD_VARIANTE',
-            ['class' => '\kartik\grid\ActionColumn',
-             'template' => '{view} {update}'],
+
+            ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 </div>

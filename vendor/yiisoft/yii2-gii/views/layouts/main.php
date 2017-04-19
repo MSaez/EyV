@@ -14,7 +14,6 @@ $asset = yii\gii\GiiAsset::register($this);
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="robots" content="none">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
@@ -32,7 +31,7 @@ $asset = yii\gii\GiiAsset::register($this);
             'options' => ['class' => 'nav navbar-nav navbar-right'],
             'items' => [
                 ['label' => 'Home', 'url' => ['default/index']],
-                ['label' => 'Help', 'url' => 'http://www.yiiframework.com/doc-2.0/ext-gii-index.html'],
+                ['label' => 'Help', 'url' => 'http://www.yiiframework.com/doc-2.0/guide-start-gii.html'],
                 ['label' => 'Application', 'url' => Yii::$app->homeUrl],
             ],
         ]);

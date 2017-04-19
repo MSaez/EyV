@@ -1,15 +1,15 @@
 <?php
 
 /**
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2017
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2016
  * @package yii2-krajee-base
- * @version 1.8.8
+ * @version 1.8.5
  */
 
 namespace kartik\base;
 
 /**
- * Asset bundle for the [[Html5Input]] widget.
+ * Asset bundle for Html5Input Widget
  *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.0

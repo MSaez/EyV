@@ -30,8 +30,6 @@ use yii\di\Instance;
  * You may change the names of the tables used to store the authorization and rule data by setting [[itemTable]],
  * [[itemChildTable]], [[assignmentTable]] and [[ruleTable]].
  *
- * For more details and usage information on DbManager, see the [guide article on security authorization](guide:security-authorization).
- *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @author Alexander Kochetov <creocoder@gmail.com>
  * @since 2.0
@@ -121,11 +119,6 @@ class DbManager extends BaseManager
     public function checkAccess($userId, $permissionName, $params = [])
     {
         $assignments = $this->getAssignments($userId);
-
-        if ($this->hasNoAssignments($assignments)) {
-            return false;
-        }
-
         $this->loadFromCache();
         if ($this->items !== null) {
             return $this->checkAccessFromCache($userId, $permissionName, $params, $assignments);
@@ -137,14 +130,14 @@ class DbManager extends BaseManager
     /**
      * Performs access check for the specified user based on the data loaded from cache.
      * This method is internally called by [[checkAccess()]] when [[cache]] is enabled.
-     * @param string|int $user the user ID. This should can be either an integer or a string representing
+     * @param string|integer $user the user ID. This should can be either an integer or a string representing
      * the unique identifier of a user. See [[\yii\web\User::id]].
      * @param string $itemName the name of the operation that need access check
      * @param array $params name-value pairs that would be passed to rules associated
      * with the tasks and roles assigned to the user. A param with name 'user' is added to this array,
      * which holds the value of `$userId`.
      * @param Assignment[] $assignments the assignments to the specified user
-     * @return bool whether the operations can be performed by the user.
+     * @return boolean whether the operations can be performed by the user.
      * @since 2.0.3
      */
     protected function checkAccessFromCache($user, $itemName, $params, $assignments)
@@ -179,14 +172,14 @@ class DbManager extends BaseManager
     /**
      * Performs access check for the specified user.
      * This method is internally called by [[checkAccess()]].
-     * @param string|int $user the user ID. This should can be either an integer or a string representing
+     * @param string|integer $user the user ID. This should can be either an integer or a string representing
      * the unique identifier of a user. See [[\yii\web\User::id]].
      * @param string $itemName the name of the operation that need access check
      * @param array $params name-value pairs that would be passed to rules associated
      * with the tasks and roles assigned to the user. A param with name 'user' is added to this array,
      * which holds the value of `$userId`.
      * @param Assignment[] $assignments the assignments to the specified user
-     * @return bool whether the operations can be performed by the user.
+     * @return boolean whether the operations can be performed by the user.
      */
     protected function checkAccessRecursive($user, $itemName, $params, $assignments)
     {
@@ -239,13 +232,17 @@ class DbManager extends BaseManager
             return null;
         }
 
+        if (!isset($row['data']) || ($data = @unserialize($row['data'])) === false) {
+            $row['data'] = null;
+        }
+
         return $this->populateItem($row);
     }
 
     /**
      * Returns a value indicating whether the database supports cascading update and delete.
      * The default implementation will return false for SQLite database and true for all other databases.
-     * @return bool whether the database supports cascading update and delete.
+     * @return boolean whether the database supports cascading update and delete.
      */
     protected function supportsCascadeUpdate()
     {
@@ -466,33 +463,10 @@ class DbManager extends BaseManager
             ->andWhere(['a.user_id' => (string) $userId])
             ->andWhere(['b.type' => Item::TYPE_ROLE]);
 
-        $roles = $this->getDefaultRoles();
+        $roles = [];
         foreach ($query->all($this->db) as $row) {
             $roles[$row['name']] = $this->populateItem($row);
         }
-        return $roles;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getChildRoles($roleName)
-    {
-        $role = $this->getRole($roleName);
-
-        if ($role === null) {
-            throw new InvalidParamException("Role \"$roleName\" not found.");
-        }
-
-        $result = [];
-        $this->getChildrenRecursive($roleName, $this->getChildrenList(), $result);
-
-        $roles = [$roleName => $role];
-
-        $roles += array_filter($this->getRoles(), function (Role $roleItem) use ($result) {
-            return array_key_exists($roleItem->name, $result);
-        });
-
         return $roles;
     }
 
@@ -535,7 +509,7 @@ class DbManager extends BaseManager
 
     /**
      * Returns all permissions that are directly assigned to user.
-     * @param string|int $userId the user ID (see [[\yii\web\User::id]])
+     * @param string|integer $userId the user ID (see [[\yii\web\User::id]])
      * @return Permission[] all direct permissions that the user has. The array is indexed by the permission names.
      * @since 2.0.7
      */
@@ -556,7 +530,7 @@ class DbManager extends BaseManager
 
     /**
      * Returns all permissions that the user inherits from the roles assigned to him.
-     * @param string|int $userId the user ID (see [[\yii\web\User::id]])
+     * @param string|integer $userId the user ID (see [[\yii\web\User::id]])
      * @return Permission[] all inherited permissions that the user has. The array is indexed by the permission names.
      * @since 2.0.7
      */
@@ -631,15 +605,7 @@ class DbManager extends BaseManager
             ->from($this->ruleTable)
             ->where(['name' => $name])
             ->one($this->db);
-        if ($row === false) {
-            return null;
-        }
-        $data = $row['data'];
-        if (is_resource($data)) {
-            $data = stream_get_contents($data);
-        }
-        return unserialize($data);
-
+        return $row === false ? null : unserialize($row['data']);
     }
 
     /**
@@ -655,11 +621,7 @@ class DbManager extends BaseManager
 
         $rules = [];
         foreach ($query->all($this->db) as $row) {
-            $data = $row['data'];
-            if (is_resource($data)) {
-               $data = stream_get_contents($data);
-            }
-            $rules[$row['name']] = unserialize($data);
+            $rules[$row['name']] = unserialize($row['data']);
         }
 
         return $rules;
@@ -716,7 +678,6 @@ class DbManager extends BaseManager
 
     /**
      * @inheritdoc
-     * @since 2.0.8
      */
     public function canAddChild($parent, $child)
     {
@@ -810,7 +771,7 @@ class DbManager extends BaseManager
      * Checks whether there is a loop in the authorization item hierarchy.
      * @param Item $parent the parent item
      * @param Item $child the child item to be added to the hierarchy
-     * @return bool whether a loop exists
+     * @return boolean whether a loop exists
      */
     protected function detectLoop($parent, $child)
     {
@@ -904,7 +865,7 @@ class DbManager extends BaseManager
 
     /**
      * Removes all auth items of the specified type.
-     * @param int $type the auth item type (either Item::TYPE_PERMISSION or Item::TYPE_ROLE)
+     * @param integer $type the auth item type (either Item::TYPE_PERMISSION or Item::TYPE_ROLE)
      */
     protected function removeAllItems($type)
     {
@@ -987,11 +948,7 @@ class DbManager extends BaseManager
         $query = (new Query)->from($this->ruleTable);
         $this->rules = [];
         foreach ($query->all($this->db) as $row) {
-            $data = $row['data'];
-            if (is_resource($data)) {
-                $data = stream_get_contents($data);
-            }
-            $this->rules[$row['name']] = unserialize($data);
+            $this->rules[$row['name']] = unserialize($row['data']);
         }
 
         $query = (new Query)->from($this->itemChildTable);

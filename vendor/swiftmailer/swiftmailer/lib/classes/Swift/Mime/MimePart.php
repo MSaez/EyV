@@ -40,7 +40,7 @@ class Swift_Mime_MimePart extends Swift_Mime_SimpleMimeEntity
     {
         parent::__construct($headers, $encoder, $cache, $grammar);
         $this->setContentType('text/plain');
-        if (null !== $charset) {
+        if (!is_null($charset)) {
             $this->setCharset($charset);
         }
     }
@@ -53,7 +53,7 @@ class Swift_Mime_MimePart extends Swift_Mime_SimpleMimeEntity
      * @param string $contentType optional
      * @param string $charset     optional
      *
-     * @return $this
+     * @return Swift_Mime_MimePart
      */
     public function setBody($body, $contentType = null, $charset = null)
     {
@@ -82,7 +82,7 @@ class Swift_Mime_MimePart extends Swift_Mime_SimpleMimeEntity
      *
      * @param string $charset
      *
-     * @return $this
+     * @return Swift_Mime_MimePart
      */
     public function setCharset($charset)
     {
@@ -111,7 +111,7 @@ class Swift_Mime_MimePart extends Swift_Mime_SimpleMimeEntity
      *
      * @param string $format
      *
-     * @return $this
+     * @return Swift_Mime_MimePart
      */
     public function setFormat($format)
     {
@@ -136,7 +136,7 @@ class Swift_Mime_MimePart extends Swift_Mime_SimpleMimeEntity
      *
      * @param bool $delsp
      *
-     * @return $this
+     * @return Swift_Mime_MimePart
      */
     public function setDelSp($delsp = true)
     {
@@ -194,7 +194,7 @@ class Swift_Mime_MimePart extends Swift_Mime_SimpleMimeEntity
     protected function _convertString($string)
     {
         $charset = strtolower($this->getCharset());
-        if (!in_array($charset, array('utf-8', 'iso-8859-1', 'iso-8859-15', ''))) {
+        if (!in_array($charset, array('utf-8', 'iso-8859-1', ''))) {
             // mb_convert_encoding must be the first one to check, since iconv cannot convert some words.
             if (function_exists('mb_convert_encoding')) {
                 $string = mb_convert_encoding($string, $charset, 'utf-8');

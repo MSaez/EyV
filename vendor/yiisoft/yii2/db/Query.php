@@ -59,7 +59,7 @@ class Query extends Component implements QueryInterface
      */
     public $selectOption;
     /**
-     * @var bool whether to select distinct rows of data only. If this is set true,
+     * @var boolean whether to select distinct rows of data only. If this is set true,
      * the SELECT clause would be changed to SELECT DISTINCT.
      */
     public $distinct;
@@ -93,7 +93,7 @@ class Query extends Component implements QueryInterface
      */
     public $join;
     /**
-     * @var string|array|Expression the condition to be applied in the GROUP BY clause.
+     * @var string|array the condition to be applied in the GROUP BY clause.
      * It can be either a string or an array. Please refer to [[where()]] on how to specify the condition.
      */
     public $having;
@@ -152,11 +152,11 @@ class Query extends Component implements QueryInterface
      * ```php
      * $query = (new Query)->from('user');
      * foreach ($query->batch() as $rows) {
-     *     // $rows is an array of 100 or fewer rows from user table
+     *     // $rows is an array of 10 or fewer rows from user table
      * }
      * ```
      *
-     * @param int $batchSize the number of records to be fetched in each batch.
+     * @param integer $batchSize the number of records to be fetched in each batch.
      * @param Connection $db the database connection. If not set, the "db" application component will be used.
      * @return BatchQueryResult the batch query result. It implements the [[\Iterator]] interface
      * and can be traversed to retrieve the data in batches.
@@ -183,7 +183,7 @@ class Query extends Component implements QueryInterface
      * }
      * ```
      *
-     * @param int $batchSize the number of records to be fetched in each batch.
+     * @param integer $batchSize the number of records to be fetched in each batch.
      * @param Connection $db the database connection. If not set, the "db" application component will be used.
      * @return BatchQueryResult the batch query result. It implements the [[\Iterator]] interface
      * and can be traversed to retrieve the data in batches.
@@ -207,9 +207,6 @@ class Query extends Component implements QueryInterface
      */
     public function all($db = null)
     {
-        if ($this->emulateExecution) {
-            return [];
-        }
         $rows = $this->createCommand($db)->queryAll();
         return $this->populate($rows);
     }
@@ -242,14 +239,11 @@ class Query extends Component implements QueryInterface
      * Executes the query and returns a single row of result.
      * @param Connection $db the database connection used to generate the SQL statement.
      * If this parameter is not given, the `db` application component will be used.
-     * @return array|bool the first row (in terms of an array) of the query result. False is returned if the query
+     * @return array|boolean the first row (in terms of an array) of the query result. False is returned if the query
      * results in nothing.
      */
     public function one($db = null)
     {
-        if ($this->emulateExecution) {
-            return false;
-        }
         return $this->createCommand($db)->queryOne();
     }
 
@@ -258,14 +252,11 @@ class Query extends Component implements QueryInterface
      * The value returned will be the first column in the first row of the query results.
      * @param Connection $db the database connection used to generate the SQL statement.
      * If this parameter is not given, the `db` application component will be used.
-     * @return string|null|false the value of the first column in the first row of the query result.
+     * @return string|boolean the value of the first column in the first row of the query result.
      * False is returned if the query result is empty.
      */
     public function scalar($db = null)
     {
-        if ($this->emulateExecution) {
-            return null;
-        }
         return $this->createCommand($db)->queryScalar();
     }
 
@@ -277,26 +268,19 @@ class Query extends Component implements QueryInterface
      */
     public function column($db = null)
     {
-        if ($this->emulateExecution) {
-            return [];
-        }
-
-        if ($this->indexBy === null) {
+        if (!is_string($this->indexBy)) {
             return $this->createCommand($db)->queryColumn();
         }
-
-        if (is_string($this->indexBy) && is_array($this->select) && count($this->select) === 1) {
+        if (is_array($this->select) && count($this->select) === 1) {
             $this->select[] = $this->indexBy;
         }
         $rows = $this->createCommand($db)->queryAll();
         $results = [];
         foreach ($rows as $row) {
-            $value = reset($row);
-
-            if ($this->indexBy instanceof \Closure) {
-                $results[call_user_func($this->indexBy, $row)] = $value;
+            if (array_key_exists($this->indexBy, $row)) {
+                $results[$row[$this->indexBy]] = reset($row);
             } else {
-                $results[$row[$this->indexBy]] = $value;
+                $results[] = reset($row);
             }
         }
         return $results;
@@ -308,14 +292,11 @@ class Query extends Component implements QueryInterface
      * Make sure you properly [quote](guide:db-dao#quoting-table-and-column-names) column names in the expression.
      * @param Connection $db the database connection used to generate the SQL statement.
      * If this parameter is not given (or null), the `db` application component will be used.
-     * @return int|string number of records. The result may be a string depending on the
+     * @return integer|string number of records. The result may be a string depending on the
      * underlying database engine and to support integer values higher than a 32bit PHP integer can handle.
      */
     public function count($q = '*', $db = null)
     {
-        if ($this->emulateExecution) {
-            return 0;
-        }
         return $this->queryScalar("COUNT($q)", $db);
     }
 
@@ -329,9 +310,6 @@ class Query extends Component implements QueryInterface
      */
     public function sum($q, $db = null)
     {
-        if ($this->emulateExecution) {
-            return 0;
-        }
         return $this->queryScalar("SUM($q)", $db);
     }
 
@@ -345,9 +323,6 @@ class Query extends Component implements QueryInterface
      */
     public function average($q, $db = null)
     {
-        if ($this->emulateExecution) {
-            return 0;
-        }
         return $this->queryScalar("AVG($q)", $db);
     }
 
@@ -381,18 +356,15 @@ class Query extends Component implements QueryInterface
      * Returns a value indicating whether the query result contains any row of data.
      * @param Connection $db the database connection used to generate the SQL statement.
      * If this parameter is not given, the `db` application component will be used.
-     * @return bool whether the query result contains any row of data.
+     * @return boolean whether the query result contains any row of data.
      */
     public function exists($db = null)
     {
-        if ($this->emulateExecution) {
-            return false;
+        if ($db === null) {
+            $db = Yii::$app->getDb();
         }
-        $command = $this->createCommand($db);
-        $params = $command->params;
-        $command->setSql($command->db->getQueryBuilder()->selectExists($command->getSql()));
-        $command->bindValues($params);
-        return (bool) $command->queryScalar();
+        $command = $db->createCommand($db->getQueryBuilder()->selectExists($this->createCommand()->getRawSql()));
+        return (boolean)$command->queryScalar();
     }
 
     /**
@@ -400,39 +372,29 @@ class Query extends Component implements QueryInterface
      * Restores the value of select to make this query reusable.
      * @param string|Expression $selectExpression
      * @param Connection|null $db
-     * @return bool|string
+     * @return boolean|string
      */
     protected function queryScalar($selectExpression, $db)
     {
-        if ($this->emulateExecution) {
-            return null;
-        }
+        $select = $this->select;
+        $limit = $this->limit;
+        $offset = $this->offset;
 
-        if (
-            !$this->distinct
-            && empty($this->groupBy)
-            && empty($this->having)
-            && empty($this->union)
-            && empty($this->orderBy)
-        ) {
-            $select = $this->select;
-            $limit = $this->limit;
-            $offset = $this->offset;
+        $this->select = [$selectExpression];
+        $this->limit = null;
+        $this->offset = null;
+        $command = $this->createCommand($db);
 
-            $this->select = [$selectExpression];
-            $this->limit = null;
-            $this->offset = null;
-            $command = $this->createCommand($db);
+        $this->select = $select;
+        $this->limit = $limit;
+        $this->offset = $offset;
 
-            $this->select = $select;
-            $this->limit = $limit;
-            $this->offset = $offset;
-
+        if (empty($this->groupBy) && empty($this->having) && empty($this->union) && !$this->distinct) {
             return $command->queryScalar();
         } else {
             return (new Query)->select([$selectExpression])
                 ->from(['c' => $this])
-                ->createCommand($db)
+                ->createCommand($command->db)
                 ->queryScalar();
         }
     }
@@ -503,7 +465,7 @@ class Query extends Component implements QueryInterface
 
     /**
      * Sets the value indicating whether to SELECT DISTINCT or not.
-     * @param bool $value whether to SELECT DISTINCT or not.
+     * @param boolean $value whether to SELECT DISTINCT or not.
      * @return $this the query object itself
      */
     public function distinct($value = true)
@@ -579,7 +541,7 @@ class Query extends Component implements QueryInterface
 
     /**
      * Adds an additional WHERE condition to the existing one.
-     * The new condition and the existing one will be joined using the `AND` operator.
+     * The new condition and the existing one will be joined using the 'AND' operator.
      * @param string|array|Expression $condition the new WHERE condition. Please refer to [[where()]]
      * on how to specify this parameter.
      * @param array $params the parameters (name => value) to be bound to the query.
@@ -591,8 +553,6 @@ class Query extends Component implements QueryInterface
     {
         if ($this->where === null) {
             $this->where = $condition;
-        } elseif (is_array($this->where) && isset($this->where[0]) && strcasecmp($this->where[0], 'and') === 0) {
-            $this->where[] = $condition;
         } else {
             $this->where = ['and', $this->where, $condition];
         }
@@ -602,7 +562,7 @@ class Query extends Component implements QueryInterface
 
     /**
      * Adds an additional WHERE condition to the existing one.
-     * The new condition and the existing one will be joined using the `OR` operator.
+     * The new condition and the existing one will be joined using the 'OR' operator.
      * @param string|array|Expression $condition the new WHERE condition. Please refer to [[where()]]
      * on how to specify this parameter.
      * @param array $params the parameters (name => value) to be bound to the query.
@@ -622,43 +582,6 @@ class Query extends Component implements QueryInterface
     }
 
     /**
-     * Adds a filtering condition for a specific column and allow the user to choose a filter operator.
-     *
-     * It adds an additional WHERE condition for the given field and determines the comparison operator
-     * based on the first few characters of the given value.
-     * The condition is added in the same way as in [[andFilterWhere]] so [[isEmpty()|empty values]] are ignored.
-     * The new condition and the existing one will be joined using the `AND` operator.
-     *
-     * The comparison operator is intelligently determined based on the first few characters in the given value.
-     * In particular, it recognizes the following operators if they appear as the leading characters in the given value:
-     *
-     * - `<`: the column must be less than the given value.
-     * - `>`: the column must be greater than the given value.
-     * - `<=`: the column must be less than or equal to the given value.
-     * - `>=`: the column must be greater than or equal to the given value.
-     * - `<>`: the column must not be the same as the given value.
-     * - `=`: the column must be equal to the given value.
-     * - If none of the above operators is detected, the `$defaultOperator` will be used.
-     *
-     * @param string $name the column name.
-     * @param string $value the column value optionally prepended with the comparison operator.
-     * @param string $defaultOperator The operator to use, when no operator is given in `$value`.
-     * Defaults to `=`, performing an exact match.
-     * @return $this The query object itself
-     * @since 2.0.8
-     */
-    public function andFilterCompare($name, $value, $defaultOperator = '=')
-    {
-        if (preg_match('/^(<>|>=|>|<=|<|=)/', $value, $matches)) {
-            $operator = $matches[1];
-            $value = substr($value, strlen($operator));
-        } else {
-            $operator = $defaultOperator;
-        }
-        return $this->andFilterWhere([$operator, $name, $value]);
-    }
-
-    /**
      * Appends a JOIN part to the query.
      * The first parameter specifies what type of join it is.
      * @param string $type the type of join, such as INNER JOIN, LEFT JOIN.
@@ -675,16 +598,6 @@ class Query extends Component implements QueryInterface
      *
      * @param string|array $on the join condition that should appear in the ON part.
      * Please refer to [[where()]] on how to specify this parameter.
-     *
-     * Note that the array format of [[where()]] is designed to match columns to values instead of columns to columns, so
-     * the following would **not** work as expected: `['post.author_id' => 'user.id']`, it would
-     * match the `post.author_id` column value against the string `'user.id'`.
-     * It is recommended to use the string syntax here which is more suited for a join:
-     *
-     * ```php
-     * 'post.author_id = user.id'
-     * ```
-     *
      * @param array $params the parameters (name => value) to be bound to the query.
      * @return $this the query object itself
      */
@@ -708,7 +621,7 @@ class Query extends Component implements QueryInterface
      * represents the alias for the sub-query.
      *
      * @param string|array $on the join condition that should appear in the ON part.
-     * Please refer to [[join()]] on how to specify this parameter.
+     * Please refer to [[where()]] on how to specify this parameter.
      * @param array $params the parameters (name => value) to be bound to the query.
      * @return $this the query object itself
      */
@@ -732,7 +645,7 @@ class Query extends Component implements QueryInterface
      * represents the alias for the sub-query.
      *
      * @param string|array $on the join condition that should appear in the ON part.
-     * Please refer to [[join()]] on how to specify this parameter.
+     * Please refer to [[where()]] on how to specify this parameter.
      * @param array $params the parameters (name => value) to be bound to the query
      * @return $this the query object itself
      */
@@ -756,7 +669,7 @@ class Query extends Component implements QueryInterface
      * represents the alias for the sub-query.
      *
      * @param string|array $on the join condition that should appear in the ON part.
-     * Please refer to [[join()]] on how to specify this parameter.
+     * Please refer to [[where()]] on how to specify this parameter.
      * @param array $params the parameters (name => value) to be bound to the query
      * @return $this the query object itself
      */
@@ -840,7 +753,7 @@ class Query extends Component implements QueryInterface
 
     /**
      * Adds an additional HAVING condition to the existing one.
-     * The new condition and the existing one will be joined using the `AND` operator.
+     * The new condition and the existing one will be joined using the 'AND' operator.
      * @param string|array|Expression $condition the new HAVING condition. Please refer to [[where()]]
      * on how to specify this parameter.
      * @param array $params the parameters (name => value) to be bound to the query.
@@ -861,7 +774,7 @@ class Query extends Component implements QueryInterface
 
     /**
      * Adds an additional HAVING condition to the existing one.
-     * The new condition and the existing one will be joined using the `OR` operator.
+     * The new condition and the existing one will be joined using the 'OR' operator.
      * @param string|array|Expression $condition the new HAVING condition. Please refer to [[where()]]
      * on how to specify this parameter.
      * @param array $params the parameters (name => value) to be bound to the query.
@@ -881,94 +794,9 @@ class Query extends Component implements QueryInterface
     }
 
     /**
-     * Sets the HAVING part of the query but ignores [[isEmpty()|empty operands]].
-     *
-     * This method is similar to [[having()]]. The main difference is that this method will
-     * remove [[isEmpty()|empty query operands]]. As a result, this method is best suited
-     * for building query conditions based on filter values entered by users.
-     *
-     * The following code shows the difference between this method and [[having()]]:
-     *
-     * ```php
-     * // HAVING `age`=:age
-     * $query->filterHaving(['name' => null, 'age' => 20]);
-     * // HAVING `age`=:age
-     * $query->having(['age' => 20]);
-     * // HAVING `name` IS NULL AND `age`=:age
-     * $query->having(['name' => null, 'age' => 20]);
-     * ```
-     *
-     * Note that unlike [[having()]], you cannot pass binding parameters to this method.
-     *
-     * @param array $condition the conditions that should be put in the HAVING part.
-     * See [[having()]] on how to specify this parameter.
-     * @return $this the query object itself
-     * @see having()
-     * @see andFilterHaving()
-     * @see orFilterHaving()
-     * @since 2.0.11
-     */
-    public function filterHaving(array $condition)
-    {
-        $condition = $this->filterCondition($condition);
-        if ($condition !== []) {
-            $this->having($condition);
-        }
-        return $this;
-    }
-
-    /**
-     * Adds an additional HAVING condition to the existing one but ignores [[isEmpty()|empty operands]].
-     * The new condition and the existing one will be joined using the `AND` operator.
-     *
-     * This method is similar to [[andHaving()]]. The main difference is that this method will
-     * remove [[isEmpty()|empty query operands]]. As a result, this method is best suited
-     * for building query conditions based on filter values entered by users.
-     *
-     * @param array $condition the new HAVING condition. Please refer to [[having()]]
-     * on how to specify this parameter.
-     * @return $this the query object itself
-     * @see filterHaving()
-     * @see orFilterHaving()
-     * @since 2.0.11
-     */
-    public function andFilterHaving(array $condition)
-    {
-        $condition = $this->filterCondition($condition);
-        if ($condition !== []) {
-            $this->andHaving($condition);
-        }
-        return $this;
-    }
-
-    /**
-     * Adds an additional HAVING condition to the existing one but ignores [[isEmpty()|empty operands]].
-     * The new condition and the existing one will be joined using the `OR` operator.
-     *
-     * This method is similar to [[orHaving()]]. The main difference is that this method will
-     * remove [[isEmpty()|empty query operands]]. As a result, this method is best suited
-     * for building query conditions based on filter values entered by users.
-     *
-     * @param array $condition the new HAVING condition. Please refer to [[having()]]
-     * on how to specify this parameter.
-     * @return $this the query object itself
-     * @see filterHaving()
-     * @see andFilterHaving()
-     * @since 2.0.11
-     */
-    public function orFilterHaving(array $condition)
-    {
-        $condition = $this->filterCondition($condition);
-        if ($condition !== []) {
-            $this->orHaving($condition);
-        }
-        return $this;
-    }
-
-    /**
      * Appends a SQL statement using UNION operator.
      * @param string|Query $sql the SQL statement to be appended using UNION
-     * @param bool $all TRUE if using UNION ALL and FALSE if using UNION
+     * @param boolean $all TRUE if using UNION ALL and FALSE if using UNION
      * @return $this the query object itself
      */
     public function union($sql, $all = false)

@@ -65,7 +65,7 @@ class Profile extends Base
             'sort' => [
                 'attributes' => ['category', 'seq', 'duration', 'info'],
                 'defaultOrder' => [
-                    'duration' => SORT_DESC,
+                    'seq' => SORT_ASC,
                 ],
             ],
         ]);

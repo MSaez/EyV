@@ -14,7 +14,6 @@ use Yii;
  * @property integer $INS_CANTIDAD
  * @property integer $INS_PRECIO_UNITARIO
  * @property integer $INS_TOTAL
- * @property integer $INS_RECIBIDO 
  *
  * @property Pagos $pAG
  * @property Ot $oT
@@ -36,7 +35,7 @@ class Insumo extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['OT_ID', 'PAG_ID', 'INS_CANTIDAD', 'INS_PRECIO_UNITARIO', 'INS_TOTAL','INS_RECIBIDO'], 'integer'],
+            [['OT_ID', 'PAG_ID', 'INS_CANTIDAD', 'INS_PRECIO_UNITARIO', 'INS_TOTAL'], 'integer'],
             [['INS_NOMBRE', 'INS_CANTIDAD', 'INS_PRECIO_UNITARIO', 'INS_TOTAL'], 'required'],
             [['INS_NOMBRE'], 'string', 'max' => 128],
             [['INS_NOMBRE'], 'match', 'pattern' => '/^[a-zA-Z0-9áéíóúAÉÍÓÚÑñ.,:;-]+$/', 'message'=>'Nombre de Insumo Inválido. Por favor ingrese solo caracteres alfanuméricos y signos de puntuación.'],
@@ -58,7 +57,6 @@ class Insumo extends \yii\db\ActiveRecord
             'INS_CANTIDAD' => 'Cantidad',
             'INS_PRECIO_UNITARIO' => 'Precio  Unitario',
             'INS_TOTAL' => 'Total',
-            'INS_RECIBIDO' => 'Recibido',
         ];
     }
 
@@ -84,16 +82,5 @@ class Insumo extends \yii\db\ActiveRecord
     public function getPagos()
     {
         return $this->hasMany(Pagos::className(), ['INS_ID' => 'INS_ID']);
-    }
-    public function getRecibido()
-    {
-        if($this->INS_RECIBIDO == 0)
-        {
-            return "No";
-        } 
-        else
-        {
-            return "Sí";
-        } 
     }
 }

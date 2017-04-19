@@ -1,65 +1,51 @@
 <?php
 
 /**
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2017
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2016
  * @package yii2-grid
- * @version 3.1.4
+ * @version 3.1.1
  */
 
 namespace kartik\grid;
 
-use Closure;
 use Yii;
-use yii\grid\ActionColumn as YiiActionColumn;
+use yii\base\Model;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-use yii\helpers\Json;
 
 /**
- * The ActionColumn is a column that displays buttons for viewing and manipulating the items and extends the
- * [[YiiActionColumn]] with various enhancements.
- *
- * To add an ActionColumn to the gridview, add it to the [[GridView::columns|columns]] configuration as follows:
- *
- * ```php
- * 'columns' => [
- *     // ...
- *     [
- *         'class' => ActionColumn::className(),
- *         // you may configure additional properties here
- *     ],
- * ]
- * ```
+ * Extends the Yii's ActionColumn for the Grid widget [[\kartik\widgets\GridView]] with various enhancements.
+ * ActionColumn is a column for the [[GridView]] widget that displays buttons for viewing and manipulating the items.
  *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.0
  */
-class ActionColumn extends YiiActionColumn
+class ActionColumn extends \yii\grid\ActionColumn
 {
     use ColumnTrait;
 
     /**
      * @var boolean whether the column is hidden from display. This is different than the `visible` property, in the
-     * sense, that the column is rendered, but hidden from display. This will allow you to still export the column
-     * using the export function.
+     *     sense, that the column is rendered, but hidden from display. This will allow you to still export the column
+     *     using the export function.
      */
     public $hidden;
 
     /**
      * @var boolean|array whether the column is hidden in export output. If set to boolean `true`, it will hide the
-     * column for all export formats. If set as an array, it will accept the list of GridView export `formats` and
-     * hide output only for them.
+     *     column for all export formats. If set as an array, it will accept the list of GridView export `formats` and
+     *     hide output only for them.
      */
     public $hiddenFromExport = true;
 
     /**
-     * @var boolean whether the action buttons are to be displayed as a dropdown
+     * @var bool whether the action buttons are to be displayed as a dropdown
      */
     public $dropdown = false;
 
     /**
      * @var array the HTML attributes for the Dropdown container. The class `dropdown` will be added. To align a
-     * dropdown at the right edge of the page container, you set the class to `pull-right`.
+     *     dropdown at the right edge of the page container, you set the class to `pull-right`.
      */
     public $dropdownOptions = [];
 
@@ -69,24 +55,23 @@ class ActionColumn extends YiiActionColumn
     public $dropdownMenu = ['class' => 'text-left'];
 
     /**
-     * @var array the dropdown button options. This configuration will be applicable only if [[dropdown]] is `true`.
-     * The following special options are recognized:
-     *
-     * - `label`: _string_', the button label to be displayed. Defaults to `Actions`.
-     * - `caret`: _string_', the caret symbol to be appended to the dropdown button.
-     *   Defaults to ` <span class="caret"></span>`.
+     * @var array the dropdown button options. Applicable if `dropdown` is `true`. The following special options are
+     *     recognized:
+     * `label`: the button label to be displayed. Defaults to `Actions`.
+     * `caret`: the caret symbol to be appended to the dropdown button.
+     *  Defaults to `<span class="caret"></span>`
      */
     public $dropdownButton = ['class' => 'btn btn-default'];
 
     /**
-     * @var string the horizontal alignment of each column. Should be one of [[GridView::ALIGN_LEFT]],
-     * [[GridView::ALIGN_RIGHT]], or [[GridView::ALIGN_CENTER]].
+     * @var string the horizontal alignment of each column. Should be one of
+     * 'left', 'right', or 'center'.
      */
     public $hAlign = GridView::ALIGN_CENTER;
 
     /**
-     * @var string the vertical alignment of each column. Should be one of [[GridView::ALIGN_TOP]],
-     * [[GridView::ALIGN_BOTTOM]], or [[GridView::ALIGN_MIDDLE]].
+     * @var string the vertical alignment of each column. Should be one of
+     * 'top', 'middle', or 'bottom'.
      */
     public $vAlign = GridView::ALIGN_MIDDLE;
 
@@ -104,96 +89,67 @@ class ActionColumn extends YiiActionColumn
 
     /**
      * @var array HTML attributes for the view action button. The following additional option is recognized:
-     * `label`: _string_, the label for the view action button. This is not html encoded. Defaults to `View`.
+     * `label`: string, the label for the view action button. This is not html encoded.
      */
     public $viewOptions = [];
 
     /**
      * @var array HTML attributes for the update action button. The following additional option is recognized:
-     * - `label`: _string_, the label for the update action button. This is not html encoded. Defaults to `Update`.
+     * `label`: string, the label for the update action button. This is not html encoded.
      */
     public $updateOptions = [];
 
     /**
-     * @var array HTML attributes for the delete action button. The following additional options are recognized:
-     * - `label`: _string_, the label for the delete action button. This is not html encoded. Defaults to `Delete`.
-     * - `message`: _string_, the delete confirmation message to display when the delete button is clicked.
-     *   Defaults to `Are you sure to delete this item?`.
+     * @var array HTML attributes for the delete action button. The following additional option is recognized:
+     * `label`: string, the label for the delete action button. This is not html encoded.
      */
     public $deleteOptions = [];
 
     /**
-     * @var boolean|string|Closure the page summary that is displayed above the footer. You can set it to one of the
-     * following:
-     * - `false`: the summary will not be displayed.
-     * - `true`: the page summary for the column will be calculated and displayed using the
-     *   [[pageSummaryFunc]] setting.
-     * - `string`: will be displayed as is.
-     * - `Closure`: you can set it to an anonymous function with the following signature:
-     *
-     *   ```php
-     *   // example 1
-     *   function ($summary, $data, $widget) { return 'Count is ' . $summary; }
-     *   // example 2
-     *   function ($summary, $data, $widget) { return 'Range ' . min($data) . ' to ' . max($data); }
-     *   ```
-     *
-     *   where:
-     *
-     *   - the `$summary` variable will be replaced with the calculated summary using the [[pageSummaryFunc]] setting.
-     *   - the `$data` variable will contain array of the selected page rows for the column.
+     * @var boolean|string whether the page summary is displayed above the footer for this column. If this is set to a
+     *     string, it will be displayed as is. If it is set to `false` the summary will not be displayed.
      */
     public $pageSummary = false;
 
     /**
-     * @var string the summary function that will be used to calculate the page summary for the column.
-     */
-    public $pageSummaryFunc = GridView::F_SUM;
-
-    /**
-     * @var array HTML attributes for the page summary cell. The following special attributes are available:
-     * - `prepend`: _string_, a prefix string that will be prepended before the pageSummary content
-     * - `append`: _string_, a suffix string that will be appended after the pageSummary content
+     * @var array HTML attributes for the page summary cell
      */
     public $pageSummaryOptions = [];
 
     /**
      * @var boolean whether to just hide the page summary display but still calculate the summary based on
-     * [[pageSummary]] settings
+     *     `pageSummary` settings
      */
     public $hidePageSummary = false;
 
     /**
      * @var boolean whether to merge the header title row and the filter row This will not render the filter for the
-     * column and can be used when `filter` is set to `false`. Defaults to `false`. This is only applicable when
-     * [[GridView::filterPosition]] for the grid is set to [[GridView::FILTER_POS_BODY]].
+     *     column and can be used when `filter` is set to `false`. Defaults to `false`. This is only applicable when
+     *     `filterPosition` for the grid is set to FILTER_POS_BODY.
      */
     public $mergeHeader = true;
 
     /**
      * @var array the HTML attributes for the header cell tag.
-     * @see Html::renderTagAttributes() for details on how attributes are being rendered.
+     * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      */
     public $headerOptions = [];
 
     /**
      * @var array|\Closure the HTML attributes for the data cell tag. This can either be an array of attributes or an
-     * anonymous function ([[Closure]]) that returns such an array. The signature of the function should be the
-     * following: `function ($model, $key, $index, $column)`. A function may be used to assign different attributes
-     * to different rows based on the data in that row.
+     *     anonymous function ([[Closure]]) that returns such an array. The signature of the function should be the
+     *     following: `function ($model, $key, $index, $column)`. A function may be used to assign different attributes
+     *     to different rows based on the data in that row.
      *
-     * @see Html::renderTagAttributes() for details on how attributes are being rendered.
+     * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      */
     public $contentOptions = [];
 
     /**
-     * @var boolean is the dropdown menu to be rendered?
+     * @var bool is the dropdown menu to be rendered?
      */
     protected $_isDropdown = false;
 
-    /**
-     * @inheritdoc
-     */
     public function init()
     {
         /** @noinspection PhpUndefinedFieldInspection */
@@ -209,16 +165,9 @@ class ActionColumn extends YiiActionColumn
     }
 
     /**
-     * @inheritdoc
-     */
-    public function renderDataCell($model, $key, $index)
-    {
-        $options = $this->fetchContentOptions($model, $key, $index);
-        return Html::tag('td', $this->renderDataCellContent($model, $key, $index), $options);
-    }
-
-    /**
-     * @inheritdoc
+     * Render default action buttons
+     *
+     * @return string
      */
     protected function initDefaultButtons()
     {
@@ -258,30 +207,15 @@ class ActionColumn extends YiiActionColumn
                 $title = Yii::t('kvgrid', 'Delete');
                 $icon = '<span class="glyphicon glyphicon-trash"></span>';
                 $label = ArrayHelper::remove($options, 'label', ($this->_isDropdown ? $icon . ' ' . $title : $icon));
-                $msg = ArrayHelper::remove($options, 'message', Yii::t('kvgrid', 'Are you sure to delete this item?'));
-                $defaults = ['title' => $title, 'data-pjax' => 'false'];
-                $pjax = $this->grid->pjax ? true : false;
-                $pjaxContainer = $pjax ? $this->grid->pjaxSettings['options']['id'] : '';
-                if ($pjax) {
-                    $defaults['data-pjax-container'] = $pjaxContainer;
-                }
-                $options = array_replace_recursive($defaults, $options);
-                $css = $this->grid->options['id'] . '-action-del';
-                Html::addCssClass($options, $css);
-                $view = $this->grid->getView();
-                $delOpts = Json::encode(
+                $options = array_replace_recursive(
                     [
-                        'css' => $css,
-                        'pjax' => $pjax,
-                        'pjaxContainer' => $pjaxContainer,
-                        'lib' => ArrayHelper::getValue($this->grid->krajeeDialogSettings, 'libName', 'krajeeDialog'),
-                        'msg' => $msg,
-                    ]
+                        'title' => $title,
+                        'data-confirm' => Yii::t('kvgrid', 'Are you sure to delete this item?'),
+                        'data-method' => 'post',
+                        'data-pjax' => '0'
+                    ],
+                    $options
                 );
-                ActionColumnAsset::register($view);
-                $js = "kvActionDelete({$delOpts});";
-                $view->registerJs($js);
-                $this->initPjax($js);
                 if ($this->_isDropdown) {
                     $options['tabindex'] = '-1';
                     return '<li>' . Html::a($label, $url, $options) . '</li>' . PHP_EOL;
@@ -294,6 +228,21 @@ class ActionColumn extends YiiActionColumn
 
     /**
      * @inheritdoc
+     */
+    public function renderDataCell($model, $key, $index)
+    {
+        $options = $this->fetchContentOptions($model, $key, $index);
+        return Html::tag('td', $this->renderDataCellContent($model, $key, $index), $options);
+    }
+
+    /**
+     * Renders the data cell.
+     *
+     * @param Model $model
+     * @param mixed $key
+     * @param int   $index
+     *
+     * @return mixed|string
      */
     protected function renderDataCellContent($model, $key, $index)
     {

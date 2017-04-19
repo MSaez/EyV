@@ -72,15 +72,6 @@ $this->params['breadcrumbs'][] = $this->title;
     'header' => '<h2>Listado de Trabajadores Asignados</h2>']);
     Modal::end();
 ?>
-<?php
-    Modal::begin([
-    'options' => [
-        'id' => 'modal-recepcion-insumo',
-        
-    ],
-    'header' => '<h2>Confirmar recepción Insumo</h2>']);
-    Modal::end();
-?>
 <!-- ------------ -->
 
 <div class="ot-view">
@@ -235,25 +226,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'INS_CANTIDAD',
                 'INS_PRECIO_UNITARIO',
                 'INS_TOTAL',
-                [
-                'attribute' => 'INS_RECIBIDO', 
-                'value' => 'recibido'
-                ],
-                [
-                    'class' => '\kartik\grid\ActionColumn',
-                    'dropdown' => false,
-                    'template' => '{confirmarRecepcionInsumo}',
-                    'buttons' => [
-                    'confirmarRecepcionInsumo' => function ($url, $model) {
-                                                    $title = null;
-                                                    $options = ['title' => 'Confirmar Recepción Insumo'];
-                                                    $icon = '<span class="glyphicon glyphicon-pencil"></span>';
-                                                    $label = $icon . ' ' . $title;
-                                                    $url = Url::toRoute(['insumo/confirmarrecepcion','id'=>$model->INS_ID]);
-                                                    return Html::a($label, $url, $options);
-                                      },
-                    ]
-                ]
             ],
 
         ]); ?>
@@ -292,7 +264,6 @@ $this->params['breadcrumbs'][] = $this->title;
      .load($(this).attr('href'));
    });
 });"); ?>
-
 <?php $this->registerJs("$(function() {
    $('#popupModal-asignados-desabolladura').click(function(e) {
      e.preventDefault();
@@ -300,7 +271,6 @@ $this->params['breadcrumbs'][] = $this->title;
      .load($(this).attr('href'));
    });
 });"); ?>
-
 <?php $this->registerJs("$(function() {
    $('#popupModal-asignar-pintura').click(function(e) {
      e.preventDefault();
@@ -316,19 +286,10 @@ $this->params['breadcrumbs'][] = $this->title;
      .load($(this).attr('href'));
    });
 });"); ?>
-
 <?php $this->registerJs("$(function() {
    $('#popupModal-asignados-pintura').click(function(e) {
      e.preventDefault();
      $('#modal-asignados-pintura').modal('show').find('.modal-body')
-     .load($(this).attr('href'));
-   });
-});"); ?>
-
-<?php $this->registerJs("$(function() {
-   $('#popupModal-recepcion').click(function(e) {
-     e.preventDefault();
-     $('#modal-recepcion-insumo').modal('show').find('.modal-body')
      .load($(this).attr('href'));
    });
 });"); ?>

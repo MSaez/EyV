@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use kartik\grid\GridView;
+use yii\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\MarcaSearch */
@@ -20,12 +20,14 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        //'filterModel' => $searchModel,
+        'filterModel' => $searchModel,
         'columns' => [
-            //['class' => 'yii\grid\SerialColumn'],
+            ['class' => 'yii\grid\SerialColumn'],
+
+            'MAR_ID',
             'MAR_NOMBRE',
-            ['class' => '\kartik\grid\ActionColumn',
-             'template' => '{view} {update}'],
+
+            ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 </div>

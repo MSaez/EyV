@@ -53,12 +53,12 @@ use yii\helpers\Html;
 class AutoComplete extends InputWidget
 {
     /**
-     * @inheritdoc
+     * Renders the widget.
      */
     public function run()
     {
+        echo $this->renderWidget();
         $this->registerWidget('autocomplete');
-        return $this->renderWidget();
     }
 
     /**

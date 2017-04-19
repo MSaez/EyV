@@ -16,6 +16,7 @@ echo GridView::widget([
     'filterModel' => $searchModel,
     'filterUrl' => $panel->getUrl(),
     'columns' => [
+        ['class' => 'yii\grid\SerialColumn'],
         [
             'attribute' => 'seq',
             'label' => 'Time',
@@ -56,8 +57,8 @@ echo GridView::widget([
                 if (!empty($data['trace'])) {
                     $query .= Html::ul($data['trace'], [
                         'class' => 'trace',
-                        'item' => function ($trace) use ($panel) {
-                            return '<li>' . $panel->getTraceLine($trace) . '</li>';
+                        'item' => function ($trace) {
+                            return "<li>{$trace['file']} ({$trace['line']})</li>";
                         },
                     ]);
                 }
@@ -74,7 +75,7 @@ echo GridView::widget([
 
                 return $query;
             },
-            'format' => 'raw',
+            'format' => 'html',
             'options' => [
                 'width' => '60%',
             ],

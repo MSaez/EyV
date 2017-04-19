@@ -3,8 +3,8 @@
 /**
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2017
- * @version   3.1.4
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2016
+ * @version   3.1.1
  */
 
 namespace kartik\grid;
@@ -19,32 +19,22 @@ use kartik\editable\Editable;
 use kartik\base\Config;
 
 /**
- * The EditableColumn converts the data to editable using the Editable widget [[\kartik\editable\Editable]].
- *
- * To add an EditableColumn to the gridview, add it to the [[GridView::columns|columns]] configuration as follows:
- *
- * ```php
- * 'columns' => [
- *     // ...
- *     [
- *         'class' => EditableColumn::className(),
- *         // you may configure additional properties here
- *     ],
- * ]
- * ```
+ * The EditableColumn converts the data to editable using the Editable widget [[\kartik\editable\Editable]]
  *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.0
  */
 class EditableColumn extends DataColumn
 {
+
     /**
      * @var array|Closure the configuration options for the [[\kartik\editable\Editable]] widget. If not set as an
-     * array, this can be passed as a callback function of the signature: `function ($model, $key, $index)`, where:
-     * - `$model`: _\yii\base\Model_, is the data model.
-     * - `$key`: _string|object_, is the primary key value associated with the data model.
-     * - `$index`: _integer_, is the zero-based index of the data model among the model array returned by [[dataProvider]].
-     * - `$column`: _EditableColumn_, is the column object instance.
+     *     array, this can be passed as a callback function of the signature: `function ($model, $key, $index)`, where:
+     * - $model mixed is the data model
+     * - $key mixed is the key associated with the data model
+     * - $index integer is the zero-based index of the data model among the models array returned by
+     *     [[GridView::dataProvider]].
+     * - $widget EditableColumn is the editable column widget instance
      */
     public $editableOptions = [];
 
@@ -54,13 +44,13 @@ class EditableColumn extends DataColumn
     public $refreshGrid = false;
 
     /**
-     * @var boolean|Closure whether to prevent rendering the editable behavior and display a readonly data. You can
-     * also set this up as an anonymous function of the form `function($model, $key, $index, $widget)` that will return
-     * a boolean value, where:
-     * - `$model`: _\yii\base\Model_, is the data model.
-     * - `$key`: _string|object_, is the primary key value associated with the data model.
-     * - `$index`: _integer_, is the zero-based index of the data model among the model array returned by [[dataProvider]].
-     * - `$column`: _EditableColumn_, is the column object instance.     */
+     * @var boolean|Closure whether to prevent rendering the editable behavior and display a readonly data. You can also set this up as an anonymous function of the form `function($model, $key, $index, $widget)` that will return a boolean value, where:
+     * - $model mixed is the data model
+     * - $key mixed is the key associated with the data model
+     * - $index integer is the zero-based index of the data model among the models array
+     *   returned by [[GridView::dataProvider]].
+     * - $widget EditableColumn is the editable column widget instance
+     */
     public $readonly = false;
 
     /**
@@ -88,7 +78,14 @@ class EditableColumn extends DataColumn
     }
 
     /**
-     * @inheritdoc
+     * Renders the data cell content.
+     *
+     * @param mixed   $model the data model
+     * @param mixed   $key the key associated with the data model
+     * @param integer $index the zero-based index of the data model among the models array returned by
+     *     [[GridView::dataProvider]].
+     *
+     * @return string the rendering result
      * @throws InvalidConfigException
      */
     public function renderDataCellContent($model, $key, $index)

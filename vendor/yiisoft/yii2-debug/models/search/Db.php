@@ -53,20 +53,24 @@ class Db extends Base
     /**
      * Returns data provider with filled models. Filter applied if needed.
      *
+     * @param array $params an array of parameter values indexed by parameter names
      * @param array $models data to return provider for
      * @return \yii\data\ArrayDataProvider
      */
-    public function search($models)
+    public function search($params, $models)
     {
         $dataProvider = new ArrayDataProvider([
             'allModels' => $models,
             'pagination' => false,
             'sort' => [
                 'attributes' => ['duration', 'seq', 'type', 'query'],
+                'defaultOrder' => [
+                    'duration' => SORT_DESC,
+                ],
             ],
         ]);
 
-        if (!$this->validate()) {
+        if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }
 

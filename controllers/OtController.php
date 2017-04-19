@@ -15,7 +15,6 @@ use app\models\ActividadPintura;
 use app\models\ActividadPinturaSearch;
 use app\models\Insumo;
 use app\models\InsumoSearch;
-use app\models\InformeInsumoSearch;
 use app\models\OtrosServicios;
 use app\models\OtrosServiciosSearch;
 use yii\web\Controller;
@@ -268,7 +267,7 @@ class OtController extends Controller
         $ot = $this->findModel($id);
         // Cargamos los insumos pertenecientes a la OT
         $modelsInsumo = $ot->insumos;
-        $searchModelInsumo = new InformeInsumoSearch();
+        $searchModelInsumo = new InsumoSearch();
         $searchModelInsumo->OT_ID = $ot->OT_ID;
         $dataProviderInsumo = $searchModelInsumo->search(Yii::$app->request->queryParams);
         // Generamos la vista parcial de la Orden de compra

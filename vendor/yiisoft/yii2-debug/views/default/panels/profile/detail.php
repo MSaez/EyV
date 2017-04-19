@@ -10,13 +10,7 @@ use yii\helpers\Html;
 
 ?>
 <h1>Performance Profiling</h1>
-<p>
-    Total processing time: <b><?= $time ?></b>; Peak memory: <b><?= $memory ?></b>.
-    <?= Html::a('Show Profiling Timeline', ['/' . $panel->module->id . '/default/view',
-        'panel' => 'timeline',
-        'tag' => $panel->tag,
-    ]) ?>
-</p>
+<p>Total processing time: <b><?= $time ?></b>; Peak memory: <b><?= $memory ?></b>.</p>
 <?php
 echo GridView::widget([
     'dataProvider' => $dataProvider,
@@ -25,6 +19,7 @@ echo GridView::widget([
     'filterModel' => $searchModel,
     'filterUrl' => $panel->getUrl(),
     'columns' => [
+        ['class' => 'yii\grid\SerialColumn'],
         [
             'attribute' => 'seq',
             'label' => 'Time',

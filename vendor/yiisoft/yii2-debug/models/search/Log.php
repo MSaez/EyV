@@ -69,9 +69,6 @@ class Log extends Base
             'pagination' => false,
             'sort' => [
                 'attributes' => ['time', 'level', 'category', 'message'],
-                'defaultOrder' => [
-                    'time' => SORT_ASC,
-                ],
             ],
         ]);
 

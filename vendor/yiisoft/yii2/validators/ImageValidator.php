@@ -27,25 +27,25 @@ class ImageValidator extends FileValidator
      */
     public $notImage;
     /**
-     * @var int the minimum width in pixels.
+     * @var integer the minimum width in pixels.
      * Defaults to null, meaning no limit.
      * @see underWidth for the customized message used when image width is too small.
      */
     public $minWidth;
     /**
-     * @var int the maximum width in pixels.
+     * @var integer the maximum width in pixels.
      * Defaults to null, meaning no limit.
      * @see overWidth for the customized message used when image width is too big.
      */
     public $maxWidth;
     /**
-     * @var int the minimum height in pixels.
+     * @var integer the minimum height in pixels.
      * Defaults to null, meaning no limit.
      * @see underHeight for the customized message used when image height is too small.
      */
     public $minHeight;
     /**
-     * @var int the maximum width in pixels.
+     * @var integer the maximum width in pixels.
      * Defaults to null, meaning no limit.
      * @see overWidth for the customized message used when image height is too big.
      */
@@ -115,11 +115,11 @@ class ImageValidator extends FileValidator
     /**
      * @inheritdoc
      */
-    protected function validateValue($value)
+    protected function validateValue($file)
     {
-        $result = parent::validateValue($value);
+        $result = parent::validateValue($file);
 
-        return empty($result) ? $this->validateImage($value) : $result;
+        return empty($result) ? $this->validateImage($file) : $result;
     }
 
     /**
@@ -172,48 +172,48 @@ class ImageValidator extends FileValidator
     /**
      * @inheritdoc
      */
-    public function getClientOptions($model, $attribute)
+    protected function getClientOptions($model, $attribute)
     {
         $options = parent::getClientOptions($model, $attribute);
 
         $label = $model->getAttributeLabel($attribute);
 
         if ($this->notImage !== null) {
-            $options['notImage'] = $this->formatMessage($this->notImage, [
-                'attribute' => $label,
-            ]);
+            $options['notImage'] = Yii::$app->getI18n()->format($this->notImage, [
+                'attribute' => $label
+            ], Yii::$app->language);
         }
 
         if ($this->minWidth !== null) {
             $options['minWidth'] = $this->minWidth;
-            $options['underWidth'] = $this->formatMessage($this->underWidth, [
+            $options['underWidth'] = Yii::$app->getI18n()->format($this->underWidth, [
                 'attribute' => $label,
-                'limit' => $this->minWidth,
-            ]);
+                'limit' => $this->minWidth
+            ], Yii::$app->language);
         }
 
         if ($this->maxWidth !== null) {
             $options['maxWidth'] = $this->maxWidth;
-            $options['overWidth'] = $this->formatMessage($this->overWidth, [
+            $options['overWidth'] = Yii::$app->getI18n()->format($this->overWidth, [
                 'attribute' => $label,
-                'limit' => $this->maxWidth,
-            ]);
+                'limit' => $this->maxWidth
+            ], Yii::$app->language);
         }
 
         if ($this->minHeight !== null) {
             $options['minHeight'] = $this->minHeight;
-            $options['underHeight'] = $this->formatMessage($this->underHeight, [
+            $options['underHeight'] = Yii::$app->getI18n()->format($this->underHeight, [
                 'attribute' => $label,
-                'limit' => $this->minHeight,
-            ]);
+                'limit' => $this->minHeight
+            ], Yii::$app->language);
         }
 
         if ($this->maxHeight !== null) {
             $options['maxHeight'] = $this->maxHeight;
-            $options['overHeight'] = $this->formatMessage($this->overHeight, [
+            $options['overHeight'] = Yii::$app->getI18n()->format($this->overHeight, [
                 'attribute' => $label,
-                'limit' => $this->maxHeight,
-            ]);
+                'limit' => $this->maxHeight
+            ], Yii::$app->language);
         }
 
         return $options;

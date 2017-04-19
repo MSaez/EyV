@@ -41,36 +41,16 @@ use yii\helpers\Inflector;
                 </tr>
             <?php endif; ?>
             <?php if (!empty($bundle['css'])): ?>
-                <tr>
-                    <th>css</th>
-                    <td>
-                        <?= Html::ul($bundle['css'], [
-                            'class' => 'assets',
-                            'item' => function ($item) {
-                                if (is_array($item)) {
-                                    $item = reset($item);
-                                }
-                                return Html::encode($item);
-                            }
-                        ]) ?>
-                    </td>
-                </tr>
+            <tr>
+                <th>css</th>
+                <td><?= Html::ul($bundle['css'], ['class' => 'assets']) ?></td>
+            </tr>
             <?php endif; ?>
             <?php if (!empty($bundle['js'])): ?>
-                <tr>
-                    <th>js</th>
-                    <td>
-                        <?= Html::ul($bundle['js'], [
-                            'class' => 'assets',
-                            'item'  => function ($item) {
-                                if (is_array($item)) {
-                                    $item = reset($item);
-                                }
-                                return Html::encode($item);
-                            }
-                        ]) ?>
-                    </td>
-                </tr>
+            <tr>
+                <th>js</th>
+                <td><?= Html::ul($bundle['js'], ['class' => 'assets']) ?></td>
+            </tr>
             <?php endif; ?>
             <?php if (!empty($bundle['depends'])): ?>
             <tr>

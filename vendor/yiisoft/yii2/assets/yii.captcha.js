@@ -16,7 +16,7 @@
         } else if (typeof method === 'object' || !method) {
             return methods.init.apply(this, arguments);
         } else {
-            $.error('Method ' + method + ' does not exist in jQuery.yiiCaptcha');
+            $.error('Method ' + method + ' does not exist on jQuery.yiiCaptcha');
             return false;
         }
     };
@@ -39,6 +39,7 @@
                     methods.refresh.apply($e);
                     return false;
                 });
+
             });
         },
 
@@ -57,9 +58,10 @@
         },
 
         destroy: function () {
-            this.off('.yiiCaptcha');
-            this.removeData('yiiCaptcha');
-            return this;
+            return this.each(function () {
+                $(window).unbind('.yiiCaptcha');
+                $(this).removeData('yiiCaptcha');
+            });
         },
 
         data: function () {
@@ -67,3 +69,4 @@
         }
     };
 })(window.jQuery);
+

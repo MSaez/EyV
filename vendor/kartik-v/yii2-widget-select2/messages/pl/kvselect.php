@@ -17,6 +17,6 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Select all' => 'Zaznacz wszystkie',
-    'Unselect all' => 'Odznacz wszystkie',
+    'Select all' => '',
+    'Unselect all' => '',
 ];

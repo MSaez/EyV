@@ -36,16 +36,16 @@ class RangeValidator extends Validator
      */
     public $range;
     /**
-     * @var bool whether the comparison is strict (both type and value must be the same)
+     * @var boolean whether the comparison is strict (both type and value must be the same)
      */
     public $strict = false;
     /**
-     * @var bool whether to invert the validation logic. Defaults to false. If set to true,
+     * @var boolean whether to invert the validation logic. Defaults to false. If set to true,
      * the attribute value should NOT be among the list of values defined via [[range]].
      */
     public $not = false;
     /**
-     * @var bool whether to allow array type attribute.
+     * @var boolean whether to allow array type attribute.
      */
     public $allowArray = false;
 
@@ -108,17 +108,6 @@ class RangeValidator extends Validator
             $this->range = call_user_func($this->range, $model, $attribute);
         }
 
-        ValidationAsset::register($view);
-        $options = $this->getClientOptions($model, $attribute);
-
-        return 'yii.validation.range(value, messages, ' . json_encode($options, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . ');';
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getClientOptions($model, $attribute)
-    {
         $range = [];
         foreach ($this->range as $value) {
             $range[] = (string) $value;
@@ -126,9 +115,9 @@ class RangeValidator extends Validator
         $options = [
             'range' => $range,
             'not' => $this->not,
-            'message' => $this->formatMessage($this->message, [
+            'message' => Yii::$app->getI18n()->format($this->message, [
                 'attribute' => $model->getAttributeLabel($attribute),
-            ]),
+            ], Yii::$app->language),
         ];
         if ($this->skipOnEmpty) {
             $options['skipOnEmpty'] = 1;
@@ -137,6 +126,8 @@ class RangeValidator extends Validator
             $options['allowArray'] = 1;
         }
 
-        return $options;
+        ValidationAsset::register($view);
+
+        return 'yii.validation.range(value, messages, ' . json_encode($options, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . ');';
     }
 }

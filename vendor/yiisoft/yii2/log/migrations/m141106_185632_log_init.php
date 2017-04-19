@@ -22,7 +22,7 @@ use yii\log\DbTarget;
 class m141106_185632_log_init extends Migration
 {
     /**
-     * @var DbTarget[] Targets to create log table for
+     * @var DbTarget[]
      */
     private $dbTargets = [];
 
@@ -35,18 +35,9 @@ class m141106_185632_log_init extends Migration
         if ($this->dbTargets === []) {
             $log = Yii::$app->getLog();
 
-            $usedTargets = [];
             foreach ($log->targets as $target) {
                 if ($target instanceof DbTarget) {
-                    $currentTarget = [
-                        $target->db,
-                        $target->logTable,
-                    ];
-                    if (!in_array($currentTarget, $usedTargets, true)) {
-                        // do not create same table twice
-                        $usedTargets[] = $currentTarget;
-                        $this->dbTargets[] = $target;
-                    }
+                    $this->dbTargets[] = $target;
                 }
             }
 

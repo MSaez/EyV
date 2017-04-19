@@ -8,7 +8,6 @@ class ComposerStaticInit5b36e36e8a642c9b70fba14929a8f42a
 {
     public static $files = array (
         '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
-        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
     );
 
@@ -38,20 +37,12 @@ class ComposerStaticInit5b36e36e8a642c9b70fba14929a8f42a
             'kartik\\select2\\' => 15,
             'kartik\\mpdf\\' => 12,
             'kartik\\grid\\' => 12,
-            'kartik\\field\\' => 13,
-            'kartik\\dialog\\' => 14,
-            'kartik\\date\\' => 12,
             'kartik\\base\\' => 12,
         ),
         'c' => 
         array (
+            'cornernote\\linkall\\' => 19,
             'cebe\\markdown\\' => 14,
-        ),
-        'S' => 
-        array (
-            'Symfony\\Polyfill\\Mbstring\\' => 26,
-            'Symfony\\Component\\DomCrawler\\' => 29,
-            'Symfony\\Component\\CssSelector\\' => 30,
         ),
         'F' => 
         array (
@@ -116,37 +107,17 @@ class ComposerStaticInit5b36e36e8a642c9b70fba14929a8f42a
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-grid',
         ),
-        'kartik\\field\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/kartik-v/yii2-field-range',
-        ),
-        'kartik\\dialog\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/kartik-v/yii2-dialog',
-        ),
-        'kartik\\date\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-datepicker',
-        ),
         'kartik\\base\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-krajee-base',
         ),
+        'cornernote\\linkall\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/cornernote/yii2-linkall/src',
+        ),
         'cebe\\markdown\\' => 
         array (
             0 => __DIR__ . '/..' . '/cebe/markdown',
-        ),
-        'Symfony\\Polyfill\\Mbstring\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
-        ),
-        'Symfony\\Component\\DomCrawler\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/dom-crawler',
-        ),
-        'Symfony\\Component\\CssSelector\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/css-selector',
         ),
         'Faker\\' => 
         array (
@@ -155,6 +126,17 @@ class ComposerStaticInit5b36e36e8a642c9b70fba14929a8f42a
     );
 
     public static $prefixesPsr0 = array (
+        'S' => 
+        array (
+            'Symfony\\Component\\DomCrawler\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/symfony/dom-crawler',
+            ),
+            'Symfony\\Component\\CssSelector\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/symfony/css-selector',
+            ),
+        ),
         'H' => 
         array (
             'HTMLPurifier' => 
@@ -178,11 +160,6 @@ class ComposerStaticInit5b36e36e8a642c9b70fba14929a8f42a
         'CGIFIMAGE' => __DIR__ . '/..' . '/mpdf/mpdf/classes/gif.php',
         'CGIFIMAGEHEADER' => __DIR__ . '/..' . '/mpdf/mpdf/classes/gif.php',
         'CGIFLZW' => __DIR__ . '/..' . '/mpdf/mpdf/classes/gif.php',
-        'FPDF_TPL' => __DIR__ . '/..' . '/setasign/fpdi/fpdf_tpl.php',
-        'FPDI' => __DIR__ . '/..' . '/setasign/fpdi/fpdi.php',
-        'FilterASCII85' => __DIR__ . '/..' . '/setasign/fpdi/filters/FilterASCII85.php',
-        'FilterASCIIHexDecode' => __DIR__ . '/..' . '/setasign/fpdi/filters/FilterASCIIHexDecode.php',
-        'FilterLZW' => __DIR__ . '/..' . '/setasign/fpdi/filters/FilterLZW.php',
         'INDIC' => __DIR__ . '/..' . '/mpdf/mpdf/classes/indic.php',
         'MYANMAR' => __DIR__ . '/..' . '/mpdf/mpdf/classes/myanmar.php',
         'OTLdump' => __DIR__ . '/..' . '/mpdf/mpdf/classes/otl_dump.php',
@@ -195,13 +172,11 @@ class ComposerStaticInit5b36e36e8a642c9b70fba14929a8f42a
         'bmp' => __DIR__ . '/..' . '/mpdf/mpdf/classes/bmp.php',
         'cssmgr' => __DIR__ . '/..' . '/mpdf/mpdf/classes/cssmgr.php',
         'directw' => __DIR__ . '/..' . '/mpdf/mpdf/classes/directw.php',
-        'fpdi_pdf_parser' => __DIR__ . '/..' . '/setasign/fpdi/fpdi_pdf_parser.php',
         'grad' => __DIR__ . '/..' . '/mpdf/mpdf/classes/grad.php',
         'mPDF' => __DIR__ . '/..' . '/mpdf/mpdf/mpdf.php',
         'meter' => __DIR__ . '/..' . '/mpdf/mpdf/classes/meter.php',
         'mpdfform' => __DIR__ . '/..' . '/mpdf/mpdf/classes/mpdfform.php',
         'otl' => __DIR__ . '/..' . '/mpdf/mpdf/classes/otl.php',
-        'pdf_context' => __DIR__ . '/..' . '/setasign/fpdi/pdf_context.php',
         'tocontents' => __DIR__ . '/..' . '/mpdf/mpdf/classes/tocontents.php',
         'wmf' => __DIR__ . '/..' . '/mpdf/mpdf/classes/wmf.php',
     );

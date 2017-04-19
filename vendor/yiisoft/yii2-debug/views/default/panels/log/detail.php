@@ -27,6 +27,7 @@ echo GridView::widget([
         }
     },
     'columns' => [
+        ['class' => 'yii\grid\SerialColumn'],
         [
             'attribute' => 'time',
             'value' => function ($data) {
@@ -54,19 +55,19 @@ echo GridView::widget([
         'category',
         [
             'attribute' => 'message',
-            'value' => function ($data) use ($panel) {
+            'value' => function ($data) {
                 $message = Html::encode(is_string($data['message']) ? $data['message'] : VarDumper::export($data['message']));
                 if (!empty($data['trace'])) {
                     $message .= Html::ul($data['trace'], [
                         'class' => 'trace',
-                        'item' => function ($trace) use ($panel) {
-                            return '<li>' . $panel->getTraceLine($trace) . '</li>';
+                        'item' => function ($trace) {
+                            return "<li>{$trace['file']} ({$trace['line']})</li>";
                         }
                     ]);
                 };
                 return $message;
             },
-            'format' => 'raw',
+            'format' => 'html',
             'options' => [
                 'width' => '50%',
             ],
