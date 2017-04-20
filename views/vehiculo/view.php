@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'VEH_ID',
+            //'VEH_ID',
             [                      
                 'label' => 'Marca', // se modifica la columna de la id de marca para que muestre su nombre
                 'value' => $model->mAR->MAR_NOMBRE,

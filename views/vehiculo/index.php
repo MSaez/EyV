@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+use kartik\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\VehiculoSearch */
@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'VEH_CHASIS',
             // 'VEH_MOTOR',
             // 'VEH_COLOR',
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => '\kartik\grid\ActionColumn'],
         ],
     ]); ?>
 </div>
