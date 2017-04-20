@@ -26,6 +26,20 @@ class MarcaController extends Controller
                 'class' => AccessControl::className(),
                 'only' => ['create', 'update', 'index', 'view'],
                 'rules' => [
+                        [
+                            //El administrador tiene permisos sobre las siguientes acciones
+                            'actions' => ['create', 'update', 'index', 'view'],
+                            //Esta propiedad establece que tiene permisos
+                            'allow' => true,
+                            //Usuarios autenticados, el signo ? es para invitados
+                            'roles' => ['@'],
+                            //Este método nos permite crear un filtro sobre la identidad del usuario
+                            //y así establecer si tiene permisos o no
+                            'matchCallback' => function ($rule, $action) {
+                                //Llamada al método que comprueba si es un administrador
+                                return Usuario::isUserAdmin(Yii::$app->user->identity->id);
+                            },
+                        ],
                     
                 ],
             ],
