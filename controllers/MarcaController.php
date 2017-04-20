@@ -5,9 +5,11 @@ namespace app\controllers;
 use Yii;
 use app\models\Marca;
 use app\models\MarcaSearch;
+use app\models\Usuario;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * MarcaController implements the CRUD actions for Marca model.
@@ -20,6 +22,13 @@ class MarcaController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['create', 'update', 'index', 'view'],
+                'rules' => [
+                    
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

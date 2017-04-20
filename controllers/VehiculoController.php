@@ -5,9 +5,11 @@ namespace app\controllers;
 use Yii;
 use app\models\Vehiculo;
 use app\models\VehiculoSearch;
+use app\models\Usuario;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * VehiculoController implements the CRUD actions for Vehiculo model.
@@ -20,6 +22,42 @@ class VehiculoController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['create', 'update', 'index', 'view'],
+                'rules' => [
+                    //Para Administrador
+                    [
+                        //El administrador tiene permisos sobre las siguientes acciones
+                        'actions' => ['create', 'update', 'index', 'view'],
+                        //Esta propiedad establece que tiene permisos
+                        'allow' => true,
+                        //Usuarios autenticados, el signo ? es para invitados
+                        'roles' => ['@'],
+                        //Este método nos permite crear un filtro sobre la identidad del usuario
+                        //y así establecer si tiene permisos o no
+                        'matchCallback' => function ($rule, $action) {
+                            //Llamada al método que comprueba si es un administrador
+                            return Usuario::isUserAdmin(Yii::$app->user->identity->id);
+                        },
+                    ],
+                    //Para Usuario
+                    [
+                        //El administrador tiene permisos sobre las siguientes acciones
+                        'actions' => ['create', 'update', 'index', 'view'],
+                        //Esta propiedad establece que tiene permisos
+                        'allow' => true,
+                        //Usuarios autenticados, el signo ? es para invitados
+                        'roles' => ['@'],
+                        //Este método nos permite crear un filtro sobre la identidad del usuario
+                        //y así establecer si tiene permisos o no
+                        'matchCallback' => function ($rule, $action) {
+                            //Llamada al método que comprueba si es un administrador
+                            return Usuario::isUserSimple(Yii::$app->user->identity->id);
+                        },
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

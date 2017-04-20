@@ -18,9 +18,11 @@ use yii\db\ActiveRecord;
  * @property string $US_EMAIL
  * @property string $US_PASSWORD
  * @property string $US_AUTHKEY
+ * @property integer $US_ROL
  */
 class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
+    public $rol;
     /**
      * @inheritdoc
      */
@@ -35,7 +37,8 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function rules()
     {
         return [
-            [['US_USERNAME', 'US_RUT', 'US_NOMBRES', 'US_PATERNO', 'US_MATERNO', 'US_EMAIL', 'US_PASSWORD', 'US_AUTHKEY'], 'required'],
+            [['US_USERNAME', 'US_RUT', 'US_NOMBRES', 'US_PATERNO', 'US_MATERNO', 'US_EMAIL', 'US_PASSWORD', 'US_AUTHKEY',], 'required'],
+            ['US_ROL', 'integer'],
             ['US_USERNAME', 'unique'],
             ['US_RUT', 'unique'],
             ['US_EMAIL', 'unique'],
@@ -69,6 +72,7 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             'US_EMAIL' => 'Correo Electrónico',
             'US_PASSWORD' => 'Contraseña',
             'US_AUTHKEY' => 'Auth key',
+            'US_ROL' => 'Rol',
             'US_CREADO' => 'Fecha creación',
             'US_ACTUALIZADO' => 'Fecha actualización'
         ];
@@ -103,6 +107,45 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
  
     public function validatePassword($password){
 	return $this->US_PASSWORD === $password;
+    }
+    
+    // Implementacion de metodos para control de acceso por roles
+    // Para Administrador:
+    public static function isUserAdmin($id)
+    {
+       if (Usuario::findOne(['US_ID' => $id, 'US_ROL' => 2]))
+       {
+            return true;
+       } 
+       else 
+       {
+            return false;
+       }
+
+    }
+    // Para Usuario:
+    public static function isUserSimple($id)
+    {
+       if (Usuario::findOne(['US_ID' => $id, 'US_ROL' => 1]))
+       {
+            return true;
+       } 
+       else 
+       {
+            return false;
+       }
+    }
+    
+    public function getRol()
+    {
+        if ($this->US_ROL == 2)
+        {
+            return "Administrador";
+        }
+        else
+        {
+            return "Usuario";
+        }
     }
     
     public function behaviors() 

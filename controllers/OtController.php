@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use Yii;
+use app\models\Usuario;
 use app\models\Ot;
 use app\models\OtSearch;
 use app\models\OsModel;
@@ -21,6 +22,7 @@ use app\models\OtrosServiciosSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
@@ -38,6 +40,42 @@ class OtController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['create', 'update', 'index', 'view', 'genordencompra'],
+                'rules' => [
+                    //Para Administrador
+                    [
+                        //El administrador tiene permisos sobre las siguientes acciones
+                        'actions' => ['create', 'update', 'index', 'view', 'genordencompra'],
+                        //Esta propiedad establece que tiene permisos
+                        'allow' => true,
+                        //Usuarios autenticados, el signo ? es para invitados
+                        'roles' => ['@'],
+                        //Este método nos permite crear un filtro sobre la identidad del usuario
+                        //y así establecer si tiene permisos o no
+                        'matchCallback' => function ($rule, $action) {
+                            //Llamada al método que comprueba si es un administrador
+                            return Usuario::isUserAdmin(Yii::$app->user->identity->id);
+                        },
+                    ],
+                    //Para Usuario
+                    [
+                        //El administrador tiene permisos sobre las siguientes acciones
+                        'actions' => ['create', 'update', 'index', 'view', 'genordencompra'],
+                        //Esta propiedad establece que tiene permisos
+                        'allow' => true,
+                        //Usuarios autenticados, el signo ? es para invitados
+                        'roles' => ['@'],
+                        //Este método nos permite crear un filtro sobre la identidad del usuario
+                        //y así establecer si tiene permisos o no
+                        'matchCallback' => function ($rule, $action) {
+                            //Llamada al método que comprueba si es un administrador
+                            return Usuario::isUserSimple(Yii::$app->user->identity->id);
+                        },
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

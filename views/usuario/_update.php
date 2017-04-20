@@ -14,7 +14,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'US_USERNAME')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'US_RUT')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'US_RUT')->textInput(['data-rut' => 'true', 'maxlength' => true]) ?>
 
     <?= $form->field($model, 'US_NOMBRES')->textInput(['maxlength' => true]) ?>
 
@@ -23,6 +23,10 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'US_MATERNO')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'US_EMAIL')->textInput(['maxlength' => true]) ?>
+    
+    <?= $form->field($model, 'US_ROL')->dropDownList([1 => 'Usuario',
+                                                      2 => 'Administrador']); ?>
+
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Guardar' : 'Guardar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
