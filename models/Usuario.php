@@ -136,7 +136,7 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
        }
     }
     
-    public function getRol()
+    public function getRole()
     {
         if ($this->US_ROL == 2)
         {

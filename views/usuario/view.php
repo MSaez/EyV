@@ -33,8 +33,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'US_PATERNO',
             'US_MATERNO',
             'US_EMAIL:email',
-            //'US_PASSWORD',
-            //'US_AUTHKEY',
+            [                      
+                'label' => 'Rol', 
+                'value' => $model->getRole(),
+            ],
             'US_CREADO',
             'US_ACTUALIZADO'
         ],

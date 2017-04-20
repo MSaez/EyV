@@ -23,16 +23,16 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            //'US_ID',
             'US_USERNAME',
             'US_RUT:rut',
             'US_NOMBRES',
             'US_PATERNO',
             'US_MATERNO',
             'US_EMAIL:email',
-            // 'US_PASSWORD',
-            // 'US_AUTHKEY',
+            [
+                'attribute' => 'US_ROL', 
+                'value' => 'role',
+            ],
             'US_CREADO',
             'US_ACTUALIZADO',
 
