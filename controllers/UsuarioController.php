@@ -8,6 +8,7 @@ use app\models\UsuarioSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 
 /**
@@ -21,6 +22,30 @@ class UsuarioController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['create', 'update', 'index', 'view'],
+                'rules' => [
+                    //Para Administrador
+                    [
+                        'actions' => ['create', 'index', 'view', 'update'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            return Usuario::isUserAdmin(Yii::$app->user->identity->id);
+                        },
+                    ],
+                    //Para Usuario
+                    [
+                        'actions' => ['create', 'update', 'index', 'view'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                             return $this->verificarUsuario(Yii::$app->user->identity->id);
+                        },
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -154,6 +179,18 @@ class UsuarioController extends Controller
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+    
+    protected function verificarUsuario($id)
+    {
+        $request = Yii::$app->request;
+        $code = $request->get('id');
+        if (($id == $code) && (Usuario::isUserSimple(Yii::$app->user->identity->id) == true)){
+            return true;
+        }
+        else{
+            return false;
         }
     }
 }
