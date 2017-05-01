@@ -351,51 +351,7 @@ class OtController extends Controller
         
     }
     
-    public function comprobarTerminoTrabajos($id){
-        $model = $this->findModel($id);
-        $estado_desabolladura = $model->OT_EDES;
-        $estado_pintura = $model->OT_EPIN;
-        // si no hay registrada ninguna actividad se considerará como "Cancelado"
-        if ($estado_desabolladura == null && $estado_pintura == null){
-            $model->OT_ESTADO = 'Cancelado';
-            $model->save();
-        }
-        // Si solo hay registradas actividades de desabolladura se procede a comprobar
-        if ($estado_desabolladura == 'Pendiente' && $estado_pintura == null){
-            $model->OT_ESTADO = 'Pendiente';
-            $model->save();
-        }
-        if ($estado_desabolladura == 'Terminado' && $estado_pintura == null){
-            $model->OT_ESTADO = 'Terminado';
-            $model->save();
-        }
-        // Si solo hay registradas actividades de pintura se procede a comprobar
-        if ($estado_desabolladura == null && $estado_pintura == 'Pendiente'){
-            $model->OT_ESTADO = 'Pendiente';
-            $model->save();
-        }
-        if ($estado_desabolladura == null && $estado_pintura == 'Terminado'){
-            $model->OT_ESTADO = 'Terminado';
-            $model->save();
-        }
-        // En caso de haber ambos tipos de actividades se procede a comprobar
-        if ($estado_desabolladura == 'Pendiente' && $estado_pintura == 'Pendiente'){
-            $model->OT_ESTADO = 'Pendiente';
-            $model->save();
-        }
-        if ($estado_desabolladura == 'Pendiente' && $estado_pintura == 'Terminado'){
-            $model->OT_ESTADO = 'Pendiente';
-            $model->save();
-        }
-        if ($estado_desabolladura == 'Terminado' && $estado_pintura == 'Pendiente'){
-            $model->OT_ESTADO = 'Pendiente';
-            $model->save();
-        }
-        if ($estado_desabolladura == 'Terminado' && $estado_pintura == 'Terminado'){
-            $model->OT_ESTADO = 'Terminado';
-            $model->save();
-        }
-    }
+    
     
     
 

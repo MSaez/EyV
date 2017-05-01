@@ -177,13 +177,64 @@ class PinturaController extends Controller
                 if ($pin->PIN_ESTADO == 'Pendiente' || $pin->PIN_ESTADO == 'Ejecutando' ){
                     $ot->OT_EPIN = 'Pendiente';
                     $ot->save();
+                    $this->comprobarTerminoTrabajos($id);
                     break;
                 }else{
                     $ot->OT_EPIN = 'Terminado';
                     $ot->save();
+                    $this->comprobarTerminoTrabajos($id);
                 }
             }
-        }        
+        }
+        $this->comprobarTerminoTrabajos($id);
+    }
+    
+    public function comprobarTerminoTrabajos($id){
+        $actPintura = $this->findModel($id);
+        $ot = new Ot();
+        $ot = $actPintura->getOT()->one();
+        $estado_desabolladura = $ot->OT_EDES;
+        $estado_pintura = $ot->OT_EPIN;
+        // si no hay registrada ninguna actividad se considerará como "Cancelado"
+        if ($estado_desabolladura == null && $estado_pintura == null){
+            $ot->OT_ESTADO = 'Cancelado';
+            $ot->save();
+        }
+        // Si solo hay registradas actividades de desabolladura se procede a comprobar
+        if ($estado_desabolladura == 'Pendiente' && $estado_pintura == null){
+            $ot->OT_ESTADO = 'Pendiente';
+            $ot->save();
+        }
+        if ($estado_desabolladura == 'Terminado' && $estado_pintura == null){
+            $ot->OT_ESTADO = 'Terminado';
+            $ot->save();
+        }
+        // Si solo hay registradas actividades de pintura se procede a comprobar
+        if ($estado_desabolladura == null && $estado_pintura == 'Pendiente'){
+            $ot->OT_ESTADO = 'Pendiente';
+            $ot->save();
+        }
+        if ($estado_desabolladura == null && $estado_pintura == 'Terminado'){
+            $ot->OT_ESTADO = 'Terminado';
+            $ot->save();
+        }
+        // En caso de haber ambos tipos de actividades se procede a comprobar
+        if ($estado_desabolladura == 'Pendiente' && $estado_pintura == 'Pendiente'){
+            $ot->OT_ESTADO = 'Pendiente';
+            $ot->save();
+        }
+        if ($estado_desabolladura == 'Pendiente' && $estado_pintura == 'Terminado'){
+            $ot->OT_ESTADO = 'Pendiente';
+            $ot->save();
+        }
+        if ($estado_desabolladura == 'Terminado' && $estado_pintura == 'Pendiente'){
+            $ot->OT_ESTADO = 'Pendiente';
+            $ot->save();
+        }
+        if ($estado_desabolladura == 'Terminado' && $estado_pintura == 'Terminado'){
+            $ot->OT_ESTADO = 'Terminado';
+            $ot->save();
+        }
     }
 
     /**
