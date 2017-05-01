@@ -24,6 +24,8 @@ use Yii;
  * @property integer $OT_IVA
  * @property integer $OT_TOTAL
  * @property integer $OT_TOTAL_HORAS
+ * @property string $OT_EDES
+ * @property string $OT_EPIN
  *
  * @property ActividadDesabolladura[] $actividadDesabolladuras
  * @property ActividadPintura[] $actividadPinturas

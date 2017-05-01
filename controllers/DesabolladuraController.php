@@ -80,6 +80,7 @@ class DesabolladuraController extends Controller
         $ot = $model->getOT()->one();
         
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $this->comprobarDesabolladura($id);
             return $this->redirect(array('ot/view','id'=>$ot->OT_ID));
         } else {
             return $this->renderPartial('_form', [
@@ -166,6 +167,25 @@ class DesabolladuraController extends Controller
         // en caso de una eliminación correcta volver a la pagina de la ot relacionada
             Yii::$app->session->setFlash('success', 'Trabajador desvinculado de la actividad exitosamente!');
             return $this->redirect(array('ot/view','id'=>$ot->OT_ID));
+    }
+    
+    public function comprobarDesabolladura($id){
+        $actDesabolladura = $this->findModel($id);
+        $ot = new Ot();
+        $ot = $actDesabolladura->getOT()->one();
+        $modelsDesabolladura = $ot->actividadDesabolladuras;
+        if (!empty($modelsDesabolladura)){
+            foreach ($modelsDesabolladura as $des) {
+                if ($des->DES_ESTADO == 'Pendiente' || $des->DES_ESTADO == 'Ejecutando' ){
+                    $ot->OT_EDES = 'Pendiente';
+                    $ot->save();
+                    break;
+                }else{
+                    $ot->OT_EDES = 'Terminado';
+                    $ot->save();
+                }
+            }
+        }        
     }
 
     /**

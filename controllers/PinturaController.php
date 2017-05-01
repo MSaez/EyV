@@ -79,6 +79,7 @@ class PinturaController extends Controller
         $ot = $model->getOT()->one();
         
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $this->comprobarPintura($id);
             return $this->redirect(array('ot/view','id'=>$ot->OT_ID));
         } else {
             return $this->renderPartial('_form', [
@@ -164,6 +165,25 @@ class PinturaController extends Controller
         // en caso de una eliminación correcta volver a la pagina de la ot relacionada
             Yii::$app->session->setFlash('success', 'Trabajador desvinculado de la actividad exitosamente!');
             return $this->redirect(array('ot/view','id'=>$ot->OT_ID));
+    }
+    
+    public function comprobarPintura($id){
+        $actPintura = $this->findModel($id);
+        $ot = new Ot();
+        $ot = $actPintura->getOT()->one();
+        $modelsPintura = $ot->actividadPinturas;
+        if (!empty($modelsPintura)){
+            foreach ($modelsPintura as $pin) {
+                if ($pin->PIN_ESTADO == 'Pendiente' || $pin->PIN_ESTADO == 'Ejecutando' ){
+                    $ot->OT_EPIN = 'Pendiente';
+                    $ot->save();
+                    break;
+                }else{
+                    $ot->OT_EPIN = 'Terminado';
+                    $ot->save();
+                }
+            }
+        }        
     }
 
     /**
