@@ -1,7 +1,5 @@
 <?php
-
 namespace app\controllers;
-
 use Yii;
 use app\models\Usuario;
 use app\models\Ot;
@@ -26,9 +24,6 @@ use yii\web\Response;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use kartik\mpdf\Pdf;
-
-
-
 /**
  * PresupuestoController implements the CRUD actions for Ot model.
  */
@@ -84,7 +79,6 @@ class PresupuestoController extends Controller
             ],
         ];
     }
-
     /**
      * Lists all Ot models.
      * @return mixed
@@ -93,13 +87,11 @@ class PresupuestoController extends Controller
     {
         $searchModel = new PresupuestoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
-
     /**
      * Displays a single Ot model.
      * @param integer $id
@@ -130,7 +122,6 @@ class PresupuestoController extends Controller
         $dataProviderServicios = $searchModelServicios->search(Yii::$app->request->queryParams);
         
         return Yii::$app->controller->render('view',[
-
             'model' => $model,
             'modelsDesabolladura' => $modelsDesabolladura,
             'searchModelDesabolladura'=> $searchModelDesabolladura,
@@ -147,7 +138,6 @@ class PresupuestoController extends Controller
         ]);
         
     }
-
     /**
      * Creates a new Ot model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -162,7 +152,6 @@ class PresupuestoController extends Controller
         $modelsServicios = [new OtrosServicios];
         
         if ($model->load(Yii::$app->request->post())) {
-
             // Para las actividades de desabolladura
             $modelsDesabolladura = DesModel::createMultiple(ActividadDesabolladura::classname());
             DesModel::loadMultiple($modelsDesabolladura, Yii::$app->request->post());
@@ -178,7 +167,6 @@ class PresupuestoController extends Controller
             // Para los servicios externos
             $modelsServicios = OsModel::createMultiple(OtrosServicios::classname());
             OsModel::loadMultiple($modelsServicios, Yii::$app->request->post());
-
             // Validación AJAX
             if (Yii::$app->request->isAjax) {
                 Yii::$app->response->format = Response::FORMAT_JSON;
@@ -190,7 +178,6 @@ class PresupuestoController extends Controller
                     ActiveForm::validate($model)
                 );
             }
-
             // Validamos todos los modelos
             $valid = $model->validate();
             $valid = DesModel::validateMultiple($modelsDesabolladura) &&
@@ -253,7 +240,6 @@ class PresupuestoController extends Controller
                 }
             }
         }
-
         return $this->render('create', [
             'model' => $model,
             'modelsDesabolladura' => (empty($modelsDesabolladura)) ? [new ActividadDesabolladura] : $modelsDesabolladura,
@@ -263,7 +249,6 @@ class PresupuestoController extends Controller
         ]);
     }
     
-
     /**
      * Updates an existing Ot model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -277,7 +262,6 @@ class PresupuestoController extends Controller
         $modelsPintura=$model->actividadPinturas;
         $modelsInsumo=$model->insumos;
         $modelsServicios=$model->otrosServicios;
-
         if ($model->load(Yii::$app->request -> post())){
             
             $oldIDsDesabolladura = ArrayHelper::map($modelsDesabolladura, 'DES_ID', 'DES_ID');
@@ -317,7 +301,6 @@ class PresupuestoController extends Controller
                     ActiveForm::validate($model)
                 );
             }
-
             // Validamos todos los modelos
             $valid = $model->validate();
             $valid = DesModel::validateMultiple($modelsDesabolladura) &&
@@ -400,7 +383,6 @@ class PresupuestoController extends Controller
             'modelsServicios' => (empty($modelsServicios)) ? [new OtrosServicios] : $modelsServicios
         ]);
     }
-
     /**
      * Deletes an existing Ot model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -410,7 +392,6 @@ class PresupuestoController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
         return $this->redirect(['index']);
     }
     
@@ -451,7 +432,6 @@ class PresupuestoController extends Controller
         $dataProviderServicios = $searchModelServicios->search(Yii::$app->request->queryParams);
         // get your HTML raw content without any layouts or scripts
         $content = $this->renderPartial('imprimir',[
-
             'model' => $model,
             'modelsDesabolladura' => $modelsDesabolladura,
             'searchModelDesabolladura'=> $searchModelDesabolladura,
@@ -498,8 +478,6 @@ class PresupuestoController extends Controller
         // return the pdf output as per the destination setting
         return $pdf->render(); 
     }
-
-
         /**
      * Finds the Ot model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

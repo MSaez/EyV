@@ -105,6 +105,7 @@ class ClienteController extends Controller
         $model = new Cliente();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'El nuevo cliente ha sido creado exitosamente.');
             return $this->redirect(['view', 'id' => $model->CLI_ID]);
         } else {
             return $this->render('create', [
@@ -124,6 +125,7 @@ class ClienteController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'Cliente actualizado exitosamente.');
             return $this->redirect(['view', 'id' => $model->CLI_ID]);
         } else {
             return $this->render('update', [

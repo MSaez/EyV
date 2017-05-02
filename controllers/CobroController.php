@@ -3,18 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Marca;
-use app\models\MarcaSearch;
-use app\models\Usuario;
+use app\models\Cobros;
+use app\models\CobrosSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
 
 /**
- * MarcaController implements the CRUD actions for Marca model.
+ * CobroController implements the CRUD actions for Cobros model.
  */
-class MarcaController extends Controller
+class CobroController extends Controller
 {
     /**
      * @inheritdoc
@@ -22,27 +20,6 @@ class MarcaController extends Controller
     public function behaviors()
     {
         return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['create', 'update', 'index', 'view'],
-                'rules' => [
-                        [
-                            //El administrador tiene permisos sobre las siguientes acciones
-                            'actions' => ['create', 'update', 'index', 'view'],
-                            //Esta propiedad establece que tiene permisos
-                            'allow' => true,
-                            //Usuarios autenticados, el signo ? es para invitados
-                            'roles' => ['@'],
-                            //Este método nos permite crear un filtro sobre la identidad del usuario
-                            //y así establecer si tiene permisos o no
-                            'matchCallback' => function ($rule, $action) {
-                                //Llamada al método que comprueba si es un administrador
-                                return Usuario::isUserAdmin(Yii::$app->user->identity->id);
-                            },
-                        ],
-                    
-                ],
-            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -53,12 +30,12 @@ class MarcaController extends Controller
     }
 
     /**
-     * Lists all Marca models.
+     * Lists all Cobros models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new MarcaSearch();
+        $searchModel = new CobrosSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -68,7 +45,7 @@ class MarcaController extends Controller
     }
 
     /**
-     * Displays a single Marca model.
+     * Displays a single Cobros model.
      * @param integer $id
      * @return mixed
      */
@@ -80,17 +57,16 @@ class MarcaController extends Controller
     }
 
     /**
-     * Creates a new Marca model.
+     * Creates a new Cobros model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Marca();
+        $model = new Cobros();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', 'La nueva marca ha sido creada exitosamente.');
-            return $this->redirect(['view', 'id' => $model->MAR_ID]);
+            return $this->redirect(['view', 'id' => $model->CBR_ID]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -99,7 +75,7 @@ class MarcaController extends Controller
     }
 
     /**
-     * Updates an existing Marca model.
+     * Updates an existing Cobros model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -109,8 +85,7 @@ class MarcaController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', 'Marca actualizada exitosamente.');
-            return $this->redirect(['view', 'id' => $model->MAR_ID]);
+            return $this->redirect(['view', 'id' => $model->CBR_ID]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -119,7 +94,7 @@ class MarcaController extends Controller
     }
 
     /**
-     * Deletes an existing Marca model.
+     * Deletes an existing Cobros model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -132,18 +107,18 @@ class MarcaController extends Controller
     }
 
     /**
-     * Finds the Marca model based on its primary key value.
+     * Finds the Cobros model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Marca the loaded model
+     * @return Cobros the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Marca::findOne($id)) !== null) {
+        if (($model = Cobros::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('La marca solicitada no existe.');
+            throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
 }

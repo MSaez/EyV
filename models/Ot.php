@@ -7,23 +7,23 @@ use Yii;
 /**
  * This is the model class for table "ot".
  *
- * @property integer $OT_ID
- * @property integer $OD_ID
- * @property integer $CBR_ID
- * @property integer $VEH_ID
- * @property integer $CLI_ID
+ * @property int $OT_ID
+ * @property int $OD_ID
+ * @property int $CBR_ID
+ * @property int $VEH_ID
+ * @property int $CLI_ID
  * @property string $OT_INICIO
  * @property string $OT_ENTREGA
  * @property string $OT_OBSERVACIONES
  * @property string $OT_ESTADO
- * @property integer $OT_TDESABOLLADURA
- * @property integer $OT_TPINTURA
- * @property integer $OT_TINSUMO
- * @property integer $OT_TEXTERNO
- * @property integer $OT_SUBTOTAL
- * @property integer $OT_IVA
- * @property integer $OT_TOTAL
- * @property integer $OT_TOTAL_HORAS
+ * @property int $OT_TDESABOLLADURA
+ * @property int $OT_TPINTURA
+ * @property int $OT_TINSUMO
+ * @property int $OT_TEXTERNO
+ * @property int $OT_SUBTOTAL
+ * @property int $OT_IVA
+ * @property int $OT_TOTAL
+ * @property int $OT_TOTAL_HORAS
  * @property string $OT_EDES
  * @property string $OT_EPIN
  *
@@ -56,8 +56,11 @@ class Ot extends \yii\db\ActiveRecord
     {
         return [
             [['OD_ID', 'CBR_ID', 'VEH_ID', 'CLI_ID', 'OT_TDESABOLLADURA', 'OT_TPINTURA', 'OT_TINSUMO', 'OT_TEXTERNO', 'OT_SUBTOTAL', 'OT_IVA', 'OT_TOTAL', 'OT_TOTAL_HORAS'], 'integer'],
-            [['VEH_ID', 'CLI_ID', 'OT_INICIO', 'OT_ENTREGA', 'OT_OBSERVACIONES', 'OT_ESTADO', 'OT_TDESABOLLADURA', 'OT_TPINTURA', 'OT_TINSUMO', 'OT_TEXTERNO', 'OT_SUBTOTAL', 'OT_IVA', 'OT_TOTAL', 'OT_TOTAL_HORAS'], 'required'],
+            [['VEH_ID', 'CLI_ID', 'OT_INICIO', 'OT_ENTREGA', 'OT_OBSERVACIONES', 'OT_TDESABOLLADURA', 'OT_TPINTURA', 'OT_TINSUMO', 'OT_TEXTERNO', 'OT_SUBTOTAL', 'OT_IVA', 'OT_TOTAL', 'OT_TOTAL_HORAS'], 'required'],
             [['OT_INICIO', 'OT_ENTREGA'], 'safe'],
+            [['OT_OBSERVACIONES'], 'string'],
+            [['OT_ESTADO'], 'string', 'max' => 12],
+            [['OT_EDES', 'OT_EPIN'], 'string', 'max' => 10],
             [['OT_ENTREGA'], 'compare', 'compareAttribute' => 'OT_INICIO', 'operator' => '>=', 'message' => 'La fecha de entrega no puede ser menor a la fecha de inicio'],
             [['OT_OBSERVACIONES'], 'string'],
             [['OT_OBSERVACIONES'], 'match', 'pattern' => '/^[a-zA-Z0-9áéíóúAÉÍÓÚÑñ.,:;-]+$/', 'message'=>'Por favor ingrese solo caracteres alfanuméricos y signos de puntuación.'],
