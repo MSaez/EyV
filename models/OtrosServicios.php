@@ -7,15 +7,15 @@ use Yii;
 /**
  * This is the model class for table "otros_servicios".
  *
- * @property integer $OS_ID
- * @property integer $OT_ID
- * @property integer $PAG_ID
+ * @property int $OS_ID
+ * @property int $OT_ID
+ * @property int $PEXT_ID
  * @property string $OS_DESCRIPCION
- * @property integer $OS_PRECIO
+ * @property int $OS_PRECIO
  *
  * @property Ot $oT
- * @property Pagos $pAG
- * @property Pagos[] $pagos
+ * @property PagoExternos $pEXT
+ * @property PagoExternos[] $pagoExternos
  */
 class OtrosServicios extends \yii\db\ActiveRecord
 {
@@ -33,12 +33,12 @@ class OtrosServicios extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['OT_ID', 'PAG_ID', 'OS_PRECIO'], 'integer'],
+            [['OT_ID', 'PEXT_ID', 'OS_PRECIO'], 'integer'],
             [['OS_DESCRIPCION', 'OS_PRECIO'], 'required'],
             [['OS_DESCRIPCION'], 'string'],
-            [['OS_DESCRIPCION'], 'match', 'pattern' => '/^[a-zA-Z0-9áéíóúAÉÍÓÚÑñ.,:;-]+$/', 'message'=>'Descripción Inválida. Por favor ingrese solo caracteres alfanuméricos y signos de puntuación.'],
+            [['OS_DESCRIPCION'], 'match', 'pattern' => '/^[\sa-zA-Z0-9áéíóúAÉÍÓÚÑñ.,:;-]+$/', 'message'=>'Descripción Inválida. Por favor ingrese solo caracteres alfanuméricos y signos de puntuación.'],
             [['OT_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Ot::className(), 'targetAttribute' => ['OT_ID' => 'OT_ID']],
-            [['PAG_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Pagos::className(), 'targetAttribute' => ['PAG_ID' => 'PAG_ID']],
+            [['PEXT_ID'], 'exist', 'skipOnError' => true, 'targetClass' => PagoExternos::className(), 'targetAttribute' => ['PEXT_ID' => 'PEXT_ID']],
         ];
     }
 
@@ -50,7 +50,7 @@ class OtrosServicios extends \yii\db\ActiveRecord
         return [
             'OS_ID' => 'ID',
             'OT_ID' => 'Orden de Trabajo',
-            'PAG_ID' => 'Documento de Pago',
+            'PEXT_ID' => 'Documento de Pago',
             'OS_DESCRIPCION' => 'Descripción',
             'OS_PRECIO' => 'Precio',
         ];
@@ -67,16 +67,16 @@ class OtrosServicios extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPAG()
+    public function getPEXT()
     {
-        return $this->hasOne(Pagos::className(), ['PAG_ID' => 'PAG_ID']);
+        return $this->hasOne(PagoExternos::className(), ['PEXT_ID' => 'PEXT_ID']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPagos()
+    public function getPagoExternos()
     {
-        return $this->hasMany(Pagos::className(), ['OS_ID' => 'OS_ID']);
+        return $this->hasMany(PagoExternos::className(), ['OS_ID' => 'OS_ID']);
     }
 }

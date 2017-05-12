@@ -14,7 +14,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'OT_ID')->textInput() ?>
 
-    <?= $form->field($model, 'PAG_ID')->textInput() ?>
+    <?= $form->field($model, 'PINS_ID')->textInput() ?>
 
     <?= $form->field($model, 'INS_NOMBRE')->textInput(['maxlength' => true]) ?>
 
@@ -27,7 +27,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'INS_RECIBIDO')->textInput() ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

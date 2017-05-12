@@ -4,33 +4,37 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\PagosSearch */
+/* @var $searchModel app\models\PagoExternosSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Pagos';
+$this->title = 'Pago Externos';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="pagos-index">
+<div class="pago-externos-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a('Create Pagos', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    <br>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            //['class' => 'yii\grid\SerialColumn'],
 
-            'PAG_ID',
-            'OS_ID',
-            'INS_ID',
-            'PAG_FACTURA',
-            'PAG_VALOR',
-            // 'PAG_FECHA',
+            [
+                'attribute' => 'Folio OT',
+                'value' => 'oS.OT_ID',
+                
+            ],
+            [
+                'attribute' => 'Servicio Externo',
+                'value' => 'oS.OS_DESCRIPCION',
+            ],
+            'PEXT_FACTURA',
+            'PEXT_VALOR',
+            'PEXT_FECHA',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

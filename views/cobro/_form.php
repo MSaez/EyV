@@ -12,11 +12,7 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'OT_ID')->textInput() ?>
-
     <?= $form->field($model, 'CBR_VALOR')->textInput() ?>
-
-    <?= $form->field($model, 'CBR_FECHA')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

@@ -45,8 +45,8 @@ class Vehiculo extends \yii\db\ActiveRecord
             [['MAR_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Marca::className(), 'targetAttribute' => ['MAR_ID' => 'MAR_ID']],
             [['MOD_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Modelo::className(), 'targetAttribute' => ['MOD_ID' => 'MOD_ID']],
             [['CLI_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Cliente::className(), 'targetAttribute' => ['CLI_ID' => 'CLI_ID']],
-            [['VEH_CHASIS'], 'match', 'pattern' => '/^[A-Z0-9]+$/', 'message'=>'Número de Chasis Inválido. Por favor ingrese solo caracteres alfanuméricos.'],
-            [['VEH_MOTOR'], 'match', 'pattern' => '/^[A-Z0-9]+$/', 'message'=>'Número de Motor Inválido. Por favor ingrese solo caracteres alfanuméricos.'],
+            [['VEH_CHASIS'], 'match', 'pattern' => '/^[A-Z0-9\-]+$/', 'message'=>'Número de Chasis Inválido. Por favor ingrese solo caracteres alfanuméricos(mayúsculas).'],
+            [['VEH_MOTOR'], 'match', 'pattern' => '/^[A-Z0-9\-]+$/', 'message'=>'Número de Motor Inválido. Por favor ingrese solo caracteres alfanuméricos(mayúsculas).'],
             [['VEH_COLOR'], 'match', 'pattern' => '/^[a-zA-ZáéíóúAÉÍÓÚÑñ\s]+$/', 'message'=>'Color Inválido. Por favor ingrese solo caracteres alfabeticos.'],
             [['VEH_PATENTE'], 'match', 'pattern' => '/^[A-Z]{4}\d{2}$|[A-Z]{2}\d{4}$/', 'message'=>'Patente Inválida.'],
         ];

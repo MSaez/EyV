@@ -47,6 +47,7 @@ class ActividadPinturaSearch extends ActividadPintura
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => false,
         ]);
 
         $this->load($params);

@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use app\models\PasswordForm;
 
 
 /**
@@ -143,9 +144,9 @@ class UsuarioController extends Controller
 
     
     /* Función para reestablecer la contraseña */
-    public function actionResetPass($id)
+    public function actionResetPass($mail)
     {
-        $model = $this->findModel($id);
+        $model = Usuario::find()->where(['US_EMAIL'=>$mail])->one();
         $pass = "";
         $pass = rand(10000, 99999999);
         $msj = "Clave Cambiada. Nueva Clave Enviada al Correo: $model->US_EMAIL";
@@ -160,9 +161,36 @@ class UsuarioController extends Controller
             <h4>{$model->US_NOMBRES} {$model->US_PATERNO}: <br> &nbsp;Se realizó el cambio en su clave de acceso al sistema. Su nueva clave es {$model->US_PASSWORD} </h4><br>
             <h5>Se Recomienda por temas de seguridad, que cambie la clave de acceso. </h5>"')
             ->send();
+            $this->redirect("index.php?r=usuario/admin"); 
+        }else{
+            return $this->render('resetpassword', [
+                'model' => $model,
+            ]);
         }
                		
-        $this->redirect("index.php?r=usuario/admin");      
+             
+    }
+    
+     // Función para el cambio de contraseña (mala)
+    public function actionChangepassword(){
+        $model = new PasswordForm();
+        if($model->load(Yii::$app->request->post())){
+            $modeluser = $this->findModel(Yii::$app->user->identity->US_ID);
+            if($model->validate()){
+                $modeluser->US_PASSWORD = $_POST['PasswordForm']['newpass'];
+                $modeluser->save();
+                Yii::$app->session->setFlash('success',$modeluser->US_PASSWORD);
+                return $this->redirect(['index']);
+            }else{
+                return $this->render('changepassword',[
+                    'model'=>$model
+                ]);
+            }
+        }else{
+            return $this->render('changepassword',[
+                'model'=>$model
+            ]);
+        }
     }
     
     /**
@@ -178,7 +206,7 @@ class UsuarioController extends Controller
         if (($model = Usuario::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException('El Usuario solicitado no existe.');
         }
     }
     

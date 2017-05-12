@@ -1,10 +1,15 @@
 <?php
+    use yii\helpers\Html;
+    use kartik\grid\GridView;
+    use yii\widgets\Pjax;
+    use yii\helpers\Url;
+?>
 
-use yii\helpers\Html;
-use kartik\grid\GridView;
-use yii\widgets\Pjax;
-use yii\helpers\Url;
-
+<?php
+    $this->title = 'Ver Trabajadores';
+    $this->params['breadcrumbs'][] = ['label' => 'Ordenes de Trabajo', 'url' => ['/ot/index']];
+    $this->params['breadcrumbs'][] = ['label' => 'Orden de Trabajo Folio: '.$actPintura->OT_ID, 'url' => ['ot/view', 'id' => $actPintura->OT_ID]];
+    $this->params['breadcrumbs'][] = 'Ver Trabajadores';
 ?>
 <h1>Trabajadores asignados a esta actividad:</h1>
 <?php Pjax::begin();?>

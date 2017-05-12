@@ -32,11 +32,11 @@ class Despacho extends \yii\db\ActiveRecord
     {
         return [
             [['OT_ID'], 'integer'],
+            [['OT_ID'], 'unique'],
             [['OD_FECHA', 'OD_OBSERVACINES'], 'required'],
             [['OD_FECHA'], 'safe'],
-            [['OD_FECHA'], 'date'],
             [['OD_OBSERVACINES'], 'string'],
-            [['OD_OBSERVACIONES'], 'match', 'pattern' => '/^[a-zA-Z0-9áéíóúAÉÍÓÚÑñ.,:;-]+$/', 'message'=>'Por favor ingrese solo caracteres alfanuméricos y signos de puntuación.'],
+            [['OD_OBSERVACINES'], 'match', 'pattern' => '/^[\sa-zA-Z0-9áéíóúAÉÍÓÚÑñ.,:;-]+$/', 'message'=>'Por favor ingrese solo caracteres alfanuméricos y signos de puntuación.'],
             [['OT_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Ot::className(), 'targetAttribute' => ['OT_ID' => 'OT_ID']],
         ];
     }
@@ -48,9 +48,9 @@ class Despacho extends \yii\db\ActiveRecord
     {
         return [
             'OD_ID' => 'Número de Orden',
-            'OT_ID' => 'Código Orden de Trabajo',
+            'OT_ID' => 'Folio Orden de Trabajo',
             'OD_FECHA' => 'Fecha',
-            'OD_OBSERVACINES' => 'Observacines',
+            'OD_OBSERVACINES' => 'Observaciones',
         ];
     }
 

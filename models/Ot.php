@@ -96,6 +96,11 @@ class Ot extends \yii\db\ActiveRecord
             'OT_TOTAL_HORAS' => 'Total Horas',
         ];
     }
+    
+    public function getUtilidad() 
+    {
+        return ($this->OT_TOTAL - ($this->OT_TINSUMO + $this->OT_TEXTERNO));
+    }
 
     /**
      * @return \yii\db\ActiveQuery

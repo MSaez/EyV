@@ -8,7 +8,7 @@ use yii\data\ActiveDataProvider;
 use app\models\OtrosServicios;
 
 /**
- * OtrosServiciosSearch represents the model behind the search form about `app\models\OtrosServicios`.
+ * OtrosServiciosSearch represents the model behind the search form of `app\models\OtrosServicios`.
  */
 class OtrosServiciosSearch extends OtrosServicios
 {
@@ -18,7 +18,7 @@ class OtrosServiciosSearch extends OtrosServicios
     public function rules()
     {
         return [
-            [['OS_ID', 'OT_ID', 'PAG_ID', 'OS_PRECIO'], 'integer'],
+            [['OS_ID', 'OT_ID', 'PEXT_ID', 'OS_PRECIO'], 'integer'],
             [['OS_DESCRIPCION'], 'safe'],
         ];
     }
@@ -47,6 +47,7 @@ class OtrosServiciosSearch extends OtrosServicios
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => false,
         ]);
 
         $this->load($params);
@@ -61,7 +62,7 @@ class OtrosServiciosSearch extends OtrosServicios
         $query->andFilterWhere([
             'OS_ID' => $this->OS_ID,
             'OT_ID' => $this->OT_ID,
-            'PAG_ID' => $this->PAG_ID,
+            'PEXT_ID' => $this->PEXT_ID,
             'OS_PRECIO' => $this->OS_PRECIO,
         ]);
 

@@ -8,6 +8,7 @@ use app\models\DespachoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use kartik\mpdf\Pdf;
 
 /**
  * DespachoController implements the CRUD actions for Despacho model.
@@ -61,16 +62,26 @@ class DespachoController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionIngresardespacho($ot)
     {
+        $cobro = new \app\models\Cobros();
+        $orden = new \app\models\Ot();
+        $orden = \app\models\Ot::findOne($ot);
         $model = new Despacho();
-
+        $model->OT_ID = $ot;
+        $model->OD_FECHA = date("Y-m-d");
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $orden->OT_ESTADO = 'Despachado';
+            $orden->OD_ID = $model->OD_ID;
+            $cobro->OT_ID = $ot;
+            $cobro->CBR_VALOR = $model->oT->OT_TOTAL;
+            $cobro->CBR_FECHA = date("Y-m-d");
+            $cobro->save();
+            $orden->CBR_ID = $cobro->CBR_ID;
+            $orden->save();
             return $this->redirect(['view', 'id' => $model->OD_ID]);
         } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+            return $this->render('create', ['model' => $model,]);
         }
     }
 
@@ -91,6 +102,36 @@ class DespachoController extends Controller
                 'model' => $model,
             ]);
         }
+    }
+    
+    public function actionImprimir($id)
+    {
+        $model = $this->findModel($id);
+        $ot = \app\models\Ot::find()->where('OT_ID = '.$model->OT_ID)->one();
+        $vehiculo = \app\models\Vehiculo::find()->where('VEH_ID = '.$ot->VEH_ID)->one();
+        
+        
+        $content = $this->renderPartial('imprimir-recibo',[            
+            'model' => $model,
+            'vehiculo' => $vehiculo,
+        ]);
+        
+        $pdf = new Pdf([            
+            'mode' => Pdf::MODE_CORE,             
+            'format' => Pdf::FORMAT_A4,             
+            'orientation' => Pdf::ORIENT_PORTRAIT,             
+            'destination' => Pdf::DEST_DOWNLOAD,           
+            'filename' => 'Comprobante_despacho_No '.$model->OD_ID.'.pdf',           
+            'content' => $content,             
+            'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',            
+            'cssInline' => '.kv-heading-1{font-size:18px}',            
+            'options' => ['title' => 'Comprobante_despacho_No '.$model->OD_ID],            
+            'methods' => [ 
+                //'SetHeader'=>['Krajee Report Header'], 
+                //'SetFooter'=>['{PAGENO}'],
+            ]
+        ]);
+        return $pdf->render();
     }
 
     /**

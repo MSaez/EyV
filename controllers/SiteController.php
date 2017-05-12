@@ -10,6 +10,7 @@ use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\Ot;
 
+
 class SiteController extends Controller
 {
     public function behaviors()
@@ -51,17 +52,17 @@ class SiteController extends Controller
     public function actionIndex()
     {
         // consulta para mostrar los trabajos fuera de plazo
-        $atrasados = OT::find()
+        $atrasados = Ot::find()
         ->where(['OT_ESTADO'=>'OT'])
         ->andWhere(['<','DATEDIFF(OT_ENTREGA,NOW())','0'])
         ->count();
         // consulta para mostrar los trabajos en ejecución
-        $activos = OT::find()
+        $activos = Ot::find()
         ->where(['OT_ESTADO'=>'OT'])
         ->andWhere(['>=','DATEDIFF(OT_ENTREGA,NOW())','0'])
         ->count();
         
-        $presupuestos = OT::find()
+        $presupuestos = Ot::find()
         ->where(['OT_ESTADO'=>'Presupuesto'])
         ->count();
         
@@ -107,4 +108,6 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
+    
+   
 }

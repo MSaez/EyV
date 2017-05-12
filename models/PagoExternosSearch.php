@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Pagos;
+use app\models\PagoExternos;
 
 /**
- * PagosSearch represents the model behind the search form of `app\models\Pagos`.
+ * PagoExternosSearch represents the model behind the search form of `app\models\PagoExternos`.
  */
-class PagosSearch extends Pagos
+class PagoExternosSearch extends PagoExternos
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class PagosSearch extends Pagos
     public function rules()
     {
         return [
-            [['PAG_ID', 'OS_ID', 'INS_ID', 'PAG_FACTURA', 'PAG_VALOR'], 'integer'],
-            [['PAG_FECHA'], 'safe'],
+            [['PEXT_ID', 'OS_ID', 'PEXT_FACTURA', 'PEXT_VALOR'], 'integer'],
+            [['PEXT_FECHA'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class PagosSearch extends Pagos
      */
     public function search($params)
     {
-        $query = Pagos::find();
+        $query = PagoExternos::find();
 
         // add conditions that should always apply here
 
@@ -59,12 +59,11 @@ class PagosSearch extends Pagos
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'PAG_ID' => $this->PAG_ID,
+            'PEXT_ID' => $this->PEXT_ID,
             'OS_ID' => $this->OS_ID,
-            'INS_ID' => $this->INS_ID,
-            'PAG_FACTURA' => $this->PAG_FACTURA,
-            'PAG_VALOR' => $this->PAG_VALOR,
-            'PAG_FECHA' => $this->PAG_FECHA,
+            'PEXT_FACTURA' => $this->PEXT_FACTURA,
+            'PEXT_VALOR' => $this->PEXT_VALOR,
+            'PEXT_FECHA' => $this->PEXT_FECHA,
         ]);
 
         return $dataProvider;

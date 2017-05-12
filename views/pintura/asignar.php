@@ -5,7 +5,14 @@ use yii\helpers\ArrayHelper;
 use app\models\Empleado;
 use kartik\select2\Select2;
 ?>
-<?php $form = ActiveForm::begin(); ?>
+
+<?php 
+    $this->title = 'Asignar Trabajador';
+    $this->params['breadcrumbs'][] = ['label' => 'Ordenes de Trabajo', 'url' => ['/ot/index']];
+    $this->params['breadcrumbs'][] = ['label' => 'Orden de Trabajo Folio: '.$actPintura->OT_ID, 'url' => ['ot/view', 'id' => $actPintura->OT_ID]];
+    $this->params['breadcrumbs'][] = 'Asignar Trabajador';
+    
+    $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'EMP_RUT')->widget(Select2::classname(), [
         'data' => ArrayHelper::map(Empleado::find()->all(),'EMP_RUT','nombreCompleto'),

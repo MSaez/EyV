@@ -8,7 +8,7 @@ use yii\data\ActiveDataProvider;
 use app\models\Insumo;
 
 /**
- * InsumoSearch represents the model behind the search form about `app\models\Insumo`.
+ * InsumoSearch represents the model behind the search form of `app\models\Insumo`.
  */
 class InsumoSearch extends Insumo
 {
@@ -18,7 +18,7 @@ class InsumoSearch extends Insumo
     public function rules()
     {
         return [
-            [['INS_ID', 'OT_ID', 'PAG_ID', 'INS_CANTIDAD', 'INS_PRECIO_UNITARIO', 'INS_TOTAL', 'INS_RECIBIDO'], 'integer'],
+            [['INS_ID', 'OT_ID', 'PINS_ID', 'INS_CANTIDAD', 'INS_PRECIO_UNITARIO', 'INS_TOTAL', 'INS_RECIBIDO'], 'integer'],
             [['INS_NOMBRE'], 'safe'],
         ];
     }
@@ -47,6 +47,7 @@ class InsumoSearch extends Insumo
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => false,
         ]);
 
         $this->load($params);
@@ -61,7 +62,7 @@ class InsumoSearch extends Insumo
         $query->andFilterWhere([
             'INS_ID' => $this->INS_ID,
             'OT_ID' => $this->OT_ID,
-            'PAG_ID' => $this->PAG_ID,
+            'PINS_ID' => $this->PINS_ID,
             'INS_CANTIDAD' => $this->INS_CANTIDAD,
             'INS_PRECIO_UNITARIO' => $this->INS_PRECIO_UNITARIO,
             'INS_TOTAL' => $this->INS_TOTAL,

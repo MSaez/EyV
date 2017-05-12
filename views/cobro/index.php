@@ -13,17 +13,13 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="cobros-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a('Create Cobros', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
+    <br>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            //['class' => 'yii\grid\SerialColumn'],
 
             'CBR_ID',
             'OT_ID',

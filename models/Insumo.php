@@ -7,18 +7,21 @@ use Yii;
 /**
  * This is the model class for table "insumo".
  *
- * @property integer $INS_ID
- * @property integer $OT_ID
- * @property integer $PAG_ID
+ * @property int $INS_ID
+ * @property int $OT_ID
+ * @property int $PINS_ID
+ * @property int $INV_ID
  * @property string $INS_NOMBRE
- * @property integer $INS_CANTIDAD
- * @property integer $INS_PRECIO_UNITARIO
- * @property integer $INS_TOTAL
- * @property integer $INS_RECIBIDO 
+ * @property int $INS_CANTIDAD
+ * @property int $INS_PRECIO_UNITARIO
+ * @property int $INS_TOTAL
+ * @property int $INS_RECIBIDO
  *
- * @property Pagos $pAG
+ * @property Inventario $iNV
+ * @property PagoInsumos $pINS
  * @property Ot $oT
- * @property Pagos[] $pagos
+ * @property Inventario[] $inventarios
+ * @property PagoInsumos[] $pagoInsumos
  */
 class Insumo extends \yii\db\ActiveRecord
 {
@@ -36,11 +39,12 @@ class Insumo extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['OT_ID', 'PAG_ID', 'INS_CANTIDAD', 'INS_PRECIO_UNITARIO', 'INS_TOTAL','INS_RECIBIDO'], 'integer'],
+            [['OT_ID', 'PINS_ID', 'INV_ID', 'INS_CANTIDAD', 'INS_PRECIO_UNITARIO', 'INS_TOTAL', 'INS_RECIBIDO'], 'integer'],
             [['INS_NOMBRE', 'INS_CANTIDAD', 'INS_PRECIO_UNITARIO', 'INS_TOTAL'], 'required'],
             [['INS_NOMBRE'], 'string', 'max' => 128],
-            [['INS_NOMBRE'], 'match', 'pattern' => '/^[a-zA-Z0-9áéíóúAÉÍÓÚÑñ.,:;-]+$/', 'message'=>'Nombre de Insumo Inválido. Por favor ingrese solo caracteres alfanuméricos y signos de puntuación.'],
-            [['PAG_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Pagos::className(), 'targetAttribute' => ['PAG_ID' => 'PAG_ID']],
+            [['INS_NOMBRE'], 'match', 'pattern' => '/^[\sa-zA-Z0-9áéíóúAÉÍÓÚÑñ.,:;-]+$/', 'message'=>'Nombre de Insumo Inválido. Por favor ingrese solo caracteres alfanuméricos y signos de puntuación.'],
+            [['INV_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Inventario::className(), 'targetAttribute' => ['INV_ID' => 'INV_ID']],
+            [['PINS_ID'], 'exist', 'skipOnError' => true, 'targetClass' => PagoInsumos::className(), 'targetAttribute' => ['PINS_ID' => 'PINS_ID']],
             [['OT_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Ot::className(), 'targetAttribute' => ['OT_ID' => 'OT_ID']],
         ];
     }
@@ -53,7 +57,8 @@ class Insumo extends \yii\db\ActiveRecord
         return [
             'INS_ID' => 'ID',
             'OT_ID' => 'Orden de Trabajo',
-            'PAG_ID' => 'Documento de Pago',
+            'PINS_ID' => 'Documento de Pago',
+            'INV_ID' => 'Insumo',
             'INS_NOMBRE' => 'Nombre',
             'INS_CANTIDAD' => 'Cantidad',
             'INS_PRECIO_UNITARIO' => 'Precio  Unitario',
@@ -61,13 +66,33 @@ class Insumo extends \yii\db\ActiveRecord
             'INS_RECIBIDO' => 'Recibido',
         ];
     }
+    
+    public function getRecibido()
+    {
+        if($this->INS_RECIBIDO == 0)
+        {
+            return "No";
+        } 
+        else
+        {
+            return "Sí";
+        } 
+    }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPAG()
+    public function getINV()
     {
-        return $this->hasOne(Pagos::className(), ['PAG_ID' => 'PAG_ID']);
+        return $this->hasOne(Inventario::className(), ['INV_ID' => 'INV_ID']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPINS()
+    {
+        return $this->hasOne(PagoInsumos::className(), ['PINS_ID' => 'PINS_ID']);
     }
 
     /**
@@ -81,19 +106,16 @@ class Insumo extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPagos()
+    public function getInventarios()
     {
-        return $this->hasMany(Pagos::className(), ['INS_ID' => 'INS_ID']);
+        return $this->hasMany(Inventario::className(), ['INS_ID' => 'INS_ID']);
     }
-    public function getRecibido()
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPagoInsumos()
     {
-        if($this->INS_RECIBIDO == 0)
-        {
-            return "No";
-        } 
-        else
-        {
-            return "Sí";
-        } 
+        return $this->hasMany(PagoInsumos::className(), ['INS_ID' => 'INS_ID']);
     }
 }

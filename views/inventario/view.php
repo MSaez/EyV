@@ -4,19 +4,19 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Pagos */
+/* @var $model app\models\Inventario */
 
-$this->title = $model->PAG_ID;
-$this->params['breadcrumbs'][] = ['label' => 'Pagos', 'url' => ['index']];
+$this->title = $model->INV_ID;
+$this->params['breadcrumbs'][] = ['label' => 'Inventarios', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="pagos-view">
+<div class="inventario-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->PAG_ID], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->PAG_ID], [
+        <?= Html::a('Update', ['update', 'id' => $model->INV_ID], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Delete', ['delete', 'id' => $model->INV_ID], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
@@ -28,12 +28,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'PAG_ID',
-            'OS_ID',
+            'INV_ID',
+            'OT_ID',
             'INS_ID',
-            'PAG_FACTURA',
-            'PAG_VALOR',
-            'PAG_FECHA',
+            'INV_NOMBRE',
+            'INV_CANTIDAD',
         ],
     ]) ?>
 

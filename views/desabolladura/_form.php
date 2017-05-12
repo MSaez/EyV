@@ -8,6 +8,13 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
+<?php
+    $this->title = 'Actualizar Estado';
+    $this->params['breadcrumbs'][] = ['label' => 'Ordenes de Trabajo', 'url' => ['/ot/index']];
+    $this->params['breadcrumbs'][] = ['label' => 'Orden de Trabajo Folio: '.$model->OT_ID, 'url' => ['ot/view', 'id' => $model->OT_ID]];
+    $this->params['breadcrumbs'][] = 'Actualizar Estado';
+?>
+
 <div class="actividad-desabolladura-form">
 
     <?php $form = ActiveForm::begin(); ?>

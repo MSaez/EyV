@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="usuario-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    
 
     <p>
         <?= Html::a('Nuevo Usuario', ['create'], ['class' => 'btn btn-success']) ?>
@@ -24,6 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             'US_USERNAME',
+            'US_PASSWORD',
             'US_RUT:rut',
             'US_NOMBRES',
             'US_PATERNO',

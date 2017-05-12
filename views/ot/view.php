@@ -3,85 +3,18 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use kartik\grid\GridView;
-use yii\widgets\Pjax;
 use yii\helpers\Url;
-use yii\bootstrap\Modal;
+
 
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Ot */
 
-$this->title = 'Orden de Trabajo cód. : '.$model->OT_ID;
+$this->title = 'Orden de Trabajo Folio: '.$model->OT_ID;
 $this->params['breadcrumbs'][] = ['label' => 'Ordenes de Trabajo', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
-<!-- Codigo modal -->
-
-<?php
-    Modal::begin([
-    'options' => [
-        'id' => 'modal-asignar-desabolladura',
-        'tabindex' => false // important for Select2 to work properly
-    ],
-    'header' => '<h2>Asignar Trabajador</h2>']);
-    Modal::end();
-?>
-<?php
-    Modal::begin([
-    'options' => [
-        'id' => 'modal-estado-desabolladura',
-        
-    ],
-    'header' => '<h2>Actualizar Estado</h2>']);
-    Modal::end();
-?>
-<?php
-    Modal::begin([
-    'options' => [
-        'id' => 'modal-asignados-desabolladura',
-        
-    ],
-    'header' => '<h2>Listado de Trabajadores Asignados</h2>']);
-    Modal::end();
-?>
-<?php
-    Modal::begin([
-    'options' => [
-        'id' => 'modal-asignar-pintura',
-        'tabindex' => false // important for Select2 to work properly
-    ],
-    'header' => '<h2>Asignar Trabajador</h2>']);
-    Modal::end();
-?>
-<?php
-    Modal::begin([
-    'options' => [
-        'id' => 'modal-estado-pintura',
-        
-    ],
-    'header' => '<h2>Actualizar Estado</h2>']);
-    Modal::end();
-?>
-<?php
-    Modal::begin([
-    'options' => [
-        'id' => 'modal-asignados-pintura',
-        
-    ],
-    'header' => '<h2>Listado de Trabajadores Asignados</h2>']);
-    Modal::end();
-?>
-<?php
-    Modal::begin([
-    'options' => [
-        'id' => 'modal-recepcion-insumo',
-        
-    ],
-    'header' => '<h2>Confirmar recepción Insumo</h2>']);
-    Modal::end();
-?>
-<!-- ------------ -->
 
 <div class="ot-view">
         
@@ -90,15 +23,17 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Actualizar', ['update', 'id' => $model->OT_ID], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('<span class="glyphicon glyphicon-print" aria-hidden="true"></span> Generar Orden de Compra', ['genordencompra', 'id' => $model->OT_ID], ['class' => 'btn btn-primary']) ?>
-
+        <?= Html::a('<span class="glyphicon glyphicon-print" aria-hidden="true"></span> Generar Orden de Trabajo', ['genot', 'id' => $model->OT_ID], ['class' => 'btn btn-primary']) ?>
+        <?php if ($model->OT_ESTADO == 'Terminado')
+            echo Html::a('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Entregar Vehículo', ['despacho/ingresardespacho', 'ot' => $model->OT_ID], ['class' => 'btn btn-primary']) ?>
+        <?php if ($model->OT_ESTADO == 'Despachado')
+            echo Html::a('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Ver Orden de Despacho', ['despacho/view', 'id' => $model->oD->OD_ID], ['class' => 'btn btn-primary']) ?>
     </p>
     
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
             'OT_ID',
-            'OD_ID',
-            'CBR_ID',
             [                      
                 'label' => 'Vehículo', 
                 'value' => $model->vEH->VEH_PATENTE,
@@ -119,7 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>
     
     <h1>Actividades de desabolladura</h1>
-    <?php Pjax::begin(); ?>
+
 
         <?= GridView::widget([
             'dataProvider' => $dataProviderDesabolladura,
@@ -127,7 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'columns' => [
 
                  //['class' => 'yii\grid\SerialColumn'],
-                'DES_ID',
+                //'DES_ID',
                 'DES_DESCRIPCION',
                 'DES_HORAS',
                 'DES_PRECIO',
@@ -139,7 +74,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'buttons' => [
                     'asignarTrabajadorDes' => function ($url, $model) {
                                                     $title = null;
-                                                    $options = ['title' => 'Asignar Trabajador','id' => 'popupModal-asignar-desabolladura']; 
+                                                    $options = ['title' => 'Asignar Trabajador',]; 
                                                     $icon = '<span class="glyphicon glyphicon-pencil"></span>';
                                                     $label = $icon . ' ' . $title;
                                                     $url = Url::toRoute(['desabolladura/asignartrabajador','id'=>$model->DES_ID]);
@@ -147,7 +82,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                       },
                     'mostrarTrabajadoresDes' => function ($url, $model) {
                                                     $title = null;
-                                                    $options = ['title' => 'Ver Trabajadores', 'id' => 'popupModal-asignados-desabolladura']; 
+                                                    $options = ['title' => 'Ver Trabajadores',]; 
                                                     $icon = '<span class="glyphicon glyphicon-eye-open"></span>';
                                                     $label = $icon . ' ' . $title;
                                                     $url = Url::toRoute(['desabolladura/vertrabajadores','id'=>$model->DES_ID]);
@@ -155,7 +90,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                       },
                     'actualizarEstadoDes' => function ($url, $model) {
                                                     $title = null;
-                                                    $options = ['title' => 'Actualizar Estado', 'id' => 'popupModal-estado-desabolladura']; 
+                                                    $options = ['title' => 'Actualizar Estado',]; 
                                                     $icon = '<span class="glyphicon glyphicon-refresh"></span>';
                                                     $label = $icon . ' ' . $title;
                                                     $url = Url::toRoute(['desabolladura/actualizarestado','id'=>$model->DES_ID]);
@@ -168,10 +103,10 @@ $this->params['breadcrumbs'][] = $this->title;
             
 
         ]); ?>
-   <?php Pjax::end(); ?>
+
     
     <h1>Actividades de pintura</h1>
-    <?php Pjax::begin(); ?>
+    
 
         <?= GridView::widget([
             'dataProvider' => $dataProviderPintura,
@@ -220,10 +155,10 @@ $this->params['breadcrumbs'][] = $this->title;
             
 
         ]); ?>
-   <?php Pjax::end(); ?>
+   
     
     <h1>Insumos</h1>
-    <?php Pjax::begin(); ?>
+   
 
         <?= GridView::widget([
             'dataProvider' => $dataProviderInsumo,
@@ -242,7 +177,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 [
                     'class' => '\kartik\grid\ActionColumn',
                     'dropdown' => false,
-                    'template' => '{confirmarRecepcionInsumo}',
+                    'template' => '{confirmarRecepcionInsumo}{ingresarFactura}{ingresarStock}',
                     'buttons' => [
                     'confirmarRecepcionInsumo' => function ($url, $model) {
                                                     $title = null;
@@ -252,15 +187,31 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     $url = Url::toRoute(['insumo/confirmarrecepcion','id'=>$model->INS_ID]);
                                                     return Html::a($label, $url, $options);
                                       },
+                    'ingresarFactura' => function ($url, $model) {
+                                                    $title = null;
+                                                    $options = ['title' => 'Ingresar Factura Insumo'];
+                                                    $icon = '<span class="glyphicon glyphicon-barcode"></span>';
+                                                    $label = $icon . ' ' . $title;
+                                                    $url = Url::toRoute(['pinsumo/ingresarfactura','ins'=>$model->INS_ID]);
+                                                    return Html::a($label, $url, $options);
+                                      },
+                    'ingresarStock' => function ($url, $model) {
+                                                    $title = null;
+                                                    $options = ['title' => 'Ingresar Stock Insumo sobrante'];
+                                                    $icon = '<span class="glyphicon glyphicon-barcode"></span>';
+                                                    $label = $icon . ' ' . $title;
+                                                    $url = Url::toRoute(['inventario/ingresarstock','ins'=>$model->INS_ID]);
+                                                    return Html::a($label, $url, $options);
+                                      },
                     ]
                 ]
             ],
 
         ]); ?>
-   <?php Pjax::end(); ?>
+   
     
     <h1>Servicios Externos</h1>
-    <?php Pjax::begin(); ?>
+   
 
         <?= GridView::widget([
             'dataProvider' => $dataProviderServicios,
@@ -270,65 +221,25 @@ $this->params['breadcrumbs'][] = $this->title;
                 // ['class' => 'yii\grid\SerialColumn'],
                 'OS_DESCRIPCION:text',
                 'OS_PRECIO',
+                [
+                    'class' => '\kartik\grid\ActionColumn',
+                    'dropdown' => false,
+                    'template' => '{ingresarFactura}',
+                    'buttons' => [
+                                     'ingresarFactura' => function ($url, $model) {
+                                                    $title = null;
+                                                    $options = ['title' => 'Ingresar Factura Insumo'];
+                                                    $icon = '<span class="glyphicon glyphicon-pencil"></span>';
+                                                    $label = $icon . ' ' . $title;
+                                                    $url = Url::toRoute(['pexterno/ingresarfactura','ext'=>$model->OS_ID]);
+                                                    return Html::a($label, $url, $options);
+                                      },
+                    ]
+                ]
             ],
 
         ]); ?>
-   <?php Pjax::end(); ?>
+   
 
 </div>
 
-<?php $this->registerJs("$(function() {
-   $('#popupModal-asignar-desabolladura').click(function(e) {
-     e.preventDefault();
-     $('#modal-asignar-desabolladura').modal('show').find('.modal-body')
-     .load($(this).attr('href'));
-   });
-});"); ?>
-
-<?php $this->registerJs("$(function() {
-   $('#popupModal-estado-desabolladura').click(function(e) {
-     e.preventDefault();
-     $('#modal-estado-desabolladura').modal('show').find('.modal-body')
-     .load($(this).attr('href'));
-   });
-});"); ?>
-
-<?php $this->registerJs("$(function() {
-   $('#popupModal-asignados-desabolladura').click(function(e) {
-     e.preventDefault();
-     $('#modal-asignados-desabolladura').modal('show').find('.modal-body')
-     .load($(this).attr('href'));
-   });
-});"); ?>
-
-<?php $this->registerJs("$(function() {
-   $('#popupModal-asignar-pintura').click(function(e) {
-     e.preventDefault();
-     $('#modal-asignar-pintura').modal('show').find('.modal-body')
-     .load($(this).attr('href'));
-   });
-});"); ?>
-
-<?php $this->registerJs("$(function() {
-   $('#popupModal-estado-pintura').click(function(e) {
-     e.preventDefault();
-     $('#modal-estado-pintura').modal('show').find('.modal-body')
-     .load($(this).attr('href'));
-   });
-});"); ?>
-
-<?php $this->registerJs("$(function() {
-   $('#popupModal-asignados-pintura').click(function(e) {
-     e.preventDefault();
-     $('#modal-asignados-pintura').modal('show').find('.modal-body')
-     .load($(this).attr('href'));
-   });
-});"); ?>
-
-<?php $this->registerJs("$(function() {
-   $('#popupModal-recepcion').click(function(e) {
-     e.preventDefault();
-     $('#modal-recepcion-insumo').modal('show').find('.modal-body')
-     .load($(this).attr('href'));
-   });
-});"); ?>

@@ -82,7 +82,7 @@ class PinturaController extends Controller
             $this->comprobarPintura($id);
             return $this->redirect(array('ot/view','id'=>$ot->OT_ID));
         } else {
-            return $this->renderPartial('_form', [
+            return $this->render('_form', [
                 'model' => $model,
             ]);
         }
@@ -90,7 +90,7 @@ class PinturaController extends Controller
     
     public function actionVertrabajadores($id){
         
-        
+        $actPintura = $this->findModel($id);
         $count = Yii::$app->db->createCommand('
             SELECT COUNT(*) 
             FROM empleado, responsable_pintura 
@@ -111,8 +111,9 @@ class PinturaController extends Controller
         $session['pinturaId'] = $id;
 
         
-        return $this->renderPartial('trabajadores', [/*'model' => $model,*/
-                                             'dataProvider' => $dataProvider]);
+        return $this->render('trabajadores', [/*'model' => $model,*/
+                                             'dataProvider' => $dataProvider,
+                                             'actPintura' => $actPintura]);
         
     }
 
@@ -121,10 +122,9 @@ class PinturaController extends Controller
     {
         $model = new EmpleadoForm();
         $ot = new Ot();
-        
+        $actPintura = $this->findModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $empleado = Empleado::findOne(['EMP_RUT' => $model->EMP_RUT]);
-            $actPintura = $this->findModel($id);
             $ot = $actPintura->getOT()->one();
            
             try{
@@ -139,7 +139,8 @@ class PinturaController extends Controller
             return $this->redirect(array('ot/view','id'=>$ot->OT_ID));
         } else {
             // either the page is initially displayed or there is some validation error
-            return $this->renderAjax('asignar', ['model' => $model]);
+            return $this->render('asignar', ['model' => $model,
+                                             'actPintura' => $actPintura]);
         }
         
     }
@@ -202,7 +203,7 @@ class PinturaController extends Controller
         }
         // Si solo hay registradas actividades de desabolladura se procede a comprobar
         if ($estado_desabolladura == 'Pendiente' && $estado_pintura == null){
-            $ot->OT_ESTADO = 'Pendiente';
+            $ot->OT_ESTADO = 'OT';
             $ot->save();
         }
         if ($estado_desabolladura == 'Terminado' && $estado_pintura == null){
@@ -211,7 +212,7 @@ class PinturaController extends Controller
         }
         // Si solo hay registradas actividades de pintura se procede a comprobar
         if ($estado_desabolladura == null && $estado_pintura == 'Pendiente'){
-            $ot->OT_ESTADO = 'Pendiente';
+            $ot->OT_ESTADO = 'OT';
             $ot->save();
         }
         if ($estado_desabolladura == null && $estado_pintura == 'Terminado'){
@@ -220,15 +221,15 @@ class PinturaController extends Controller
         }
         // En caso de haber ambos tipos de actividades se procede a comprobar
         if ($estado_desabolladura == 'Pendiente' && $estado_pintura == 'Pendiente'){
-            $ot->OT_ESTADO = 'Pendiente';
+            $ot->OT_ESTADO = 'OT';
             $ot->save();
         }
         if ($estado_desabolladura == 'Pendiente' && $estado_pintura == 'Terminado'){
-            $ot->OT_ESTADO = 'Pendiente';
+            $ot->OT_ESTADO = 'OT';
             $ot->save();
         }
         if ($estado_desabolladura == 'Terminado' && $estado_pintura == 'Pendiente'){
-            $ot->OT_ESTADO = 'Pendiente';
+            $ot->OT_ESTADO = 'OT';
             $ot->save();
         }
         if ($estado_desabolladura == 'Terminado' && $estado_pintura == 'Terminado'){

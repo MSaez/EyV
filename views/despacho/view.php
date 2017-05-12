@@ -12,17 +12,11 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="despacho-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= "Orden de Despacho" ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->OD_ID], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->OD_ID], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
+        <?= Html::a('Actualizar', ['update', 'id' => $model->OD_ID], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('<span class="glyphicon glyphicon-print" aria-hidden="true"></span> Generar Documento de entrega', ['imprimir', 'id' => $model->OD_ID], ['class' => 'btn btn-primary']) ?>
     </p>
 
     <?= DetailView::widget([

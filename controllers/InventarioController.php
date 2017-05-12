@@ -3,16 +3,17 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Pagos;
-use app\models\PagosSearch;
+use app\models\Insumo;
+use app\models\Inventario;
+use app\models\InventarioSeach;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * PagoController implements the CRUD actions for Pagos model.
+ * InventarioController implements the CRUD actions for Inventario model.
  */
-class PagoController extends Controller
+class InventarioController extends Controller
 {
     /**
      * @inheritdoc
@@ -30,12 +31,12 @@ class PagoController extends Controller
     }
 
     /**
-     * Lists all Pagos models.
+     * Lists all Inventario models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new PagosSearch();
+        $searchModel = new InventarioSeach();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,7 +46,7 @@ class PagoController extends Controller
     }
 
     /**
-     * Displays a single Pagos model.
+     * Displays a single Inventario model.
      * @param integer $id
      * @return mixed
      */
@@ -57,16 +58,20 @@ class PagoController extends Controller
     }
 
     /**
-     * Creates a new Pagos model.
+     * Creates a new Inventario model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionIngresarstock($ins)
     {
-        $model = new Pagos();
-
+        $model = new Inventario();
+        $insumo = Insumo::find()->where(['INS_ID'=>$ins])->one();
+        $model->OT_ID = $insumo->OT_ID;
+        $model->INS_ID = $insumo->INS_ID;
+        $model->INV_NOMBRE = $insumo->INS_NOMBRE;
+        
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->PAG_ID]);
+            return $this->redirect(['view', 'id' => $model->INV_ID]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -75,7 +80,7 @@ class PagoController extends Controller
     }
 
     /**
-     * Updates an existing Pagos model.
+     * Updates an existing Inventario model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -85,7 +90,7 @@ class PagoController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->PAG_ID]);
+            return $this->redirect(['view', 'id' => $model->INV_ID]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -94,7 +99,7 @@ class PagoController extends Controller
     }
 
     /**
-     * Deletes an existing Pagos model.
+     * Deletes an existing Inventario model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -107,15 +112,15 @@ class PagoController extends Controller
     }
 
     /**
-     * Finds the Pagos model based on its primary key value.
+     * Finds the Inventario model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Pagos the loaded model
+     * @return Inventario the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Pagos::findOne($id)) !== null) {
+        if (($model = Inventario::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

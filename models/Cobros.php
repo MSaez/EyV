@@ -33,6 +33,7 @@ class Cobros extends \yii\db\ActiveRecord
         return [
             [['OT_ID', 'CBR_VALOR'], 'integer'],
             [['CBR_VALOR'], 'required'],
+            [['OT_ID'], 'unique'],
             [['CBR_FECHA'], 'safe'],
             [['OT_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Ot::className(), 'targetAttribute' => ['OT_ID' => 'OT_ID']],
         ];
@@ -44,10 +45,10 @@ class Cobros extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'CBR_ID' => 'Cbr  ID',
-            'OT_ID' => 'Ot  ID',
-            'CBR_VALOR' => 'Cbr  Valor',
-            'CBR_FECHA' => 'Cbr  Fecha',
+            'CBR_ID' => 'Folio documento de cobro',
+            'OT_ID' => 'Folio OT',
+            'CBR_VALOR' => 'Valor a cobrar',
+            'CBR_FECHA' => 'Fecha cobro',
         ];
     }
 

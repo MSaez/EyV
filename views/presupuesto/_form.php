@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use wbraganca\dynamicform\DynamicFormWidget;
 use kartik\select2\Select2;
+use kartik\date\DatePicker;
 use app\models\Cliente;
 use app\models\Vehiculo;
 use yii\helpers\ArrayHelper;
@@ -213,15 +214,19 @@ $this->registerJs($JS_TOTAL, \yii\web\VIEW::POS_HEAD);
         ['prompt' => 'Seleccione un vehículo']
     ) ?>
     
-    <?= $form->field($model, 'OT_INICIO')->widget(\yii\jui\DatePicker::classname(), [
-            //'language' => 'ru',
-            'dateFormat' => 'yyyy-MM-dd',
+    <?= $form->field($model, 'OT_INICIO')->widget(DatePicker::classname(), [
+            'pluginOptions' => [
+                        'format' => 'yyyy-mm-dd',
+                        'todayHighlight' => true
+                    ],
             'options' => ['class' => 'form-control', 'style' => 'width:25%',]
     ]) ?>
     
-    <?= $form->field($model, 'OT_ENTREGA')->widget(\yii\jui\DatePicker::classname(), [
-            //'language' => 'ru',
-            'dateFormat' => 'yyyy-MM-dd',
+    <?= $form->field($model, 'OT_ENTREGA')->widget(DatePicker::classname(), [
+            'pluginOptions' => [
+                        'format' => 'yyyy-mm-dd',
+                        'todayHighlight' => true
+                    ],
             'options' => ['class' => 'form-control', 'style' => 'width:25%']
     ]) ?>
     
@@ -279,7 +284,9 @@ $this->registerJs($JS_TOTAL, \yii\web\VIEW::POS_HEAD);
                                 <?= $form->field($modelDesabolladura, "[{$i}]DES_DESCRIPCION")->textInput(['maxlength' => true]) ?>
                             </div>
                             <div class="col-sm-2">
-                                <?= $form->field($modelDesabolladura, "[{$i}]DES_HORAS")->textInput(['maxlength' => true, 'onkeyup' => 'sumar_total_horas_desabolladura();total_horas();']) ?>
+                                <?= $form->field($modelDesabolladura, "[{$i}]DES_HORAS")->textInput(['maxlength' => true,
+                                                                                                     'onkeyup' => 'sumar_total_horas_desabolladura();total_horas();',
+                                                                                                    ]) ?>
                             </div>
                             <div class="col-sm-3">
                                 <?= $form->field($modelDesabolladura, "[{$i}]DES_PRECIO")->textInput(['maxlength' => true, 'onkeyup'=>'sumar_total_desabolladura();sumar_total_pintura();sumar_total_insumos();sumar_total_servicio();calcular_subtotal();calcular_iva();calcular_total();']) ?>
@@ -496,35 +503,44 @@ $this->registerJs($JS_TOTAL, \yii\web\VIEW::POS_HEAD);
     </div><!-- .panel -->
     <?php DynamicFormWidget::end(); ?>
     <!-- fin codigo -->
-    <div class="row">
-        <div class="col-sm-3">
-            <?= $form->field($model, 'OT_TDESABOLLADURA')->textInput(['size' => 8, 'value' => '0']) ?>
+    
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4><i class="glyphicon glyphicon-usd"></i> Totales</h4>
         </div>
-        <div class="col-sm-3">
-            <?= $form->field($model, 'OT_TPINTURA')->textInput(['size' => 8, 'value' => '0']) ?>
-        </div>
-        <div class="col-sm-3">
-            <?= $form->field($model, 'OT_TINSUMO')->textInput(['size' => 8, 'value' => '0']) ?>
-        </div>
-        <div class="col-sm-3">
-            <?= $form->field($model, 'OT_TEXTERNO')->textInput(['size' => 8, 'value' => '0']) ?>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-3">
+                    <?= $form->field($model, 'OT_TDESABOLLADURA')->textInput(['size' => 8, 'value' => '0']) ?>
+                </div>
+                <div class="col-sm-3">
+                    <?= $form->field($model, 'OT_TPINTURA')->textInput(['size' => 8, 'value' => '0']) ?>
+                </div>
+                <div class="col-sm-3">
+                    <?= $form->field($model, 'OT_TINSUMO')->textInput(['size' => 8, 'value' => '0']) ?>
+                </div>
+                <div class="col-sm-3">
+                    <?= $form->field($model, 'OT_TEXTERNO')->textInput(['size' => 8, 'value' => '0']) ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <?= $form->field($model, 'OT_SUBTOTAL')->textInput(['size' => 8,]) ?>
+                </div>
+                <div class="col-sm-3">
+                    <?= $form->field($model, 'OT_IVA')->textInput(['size' => 8,]) ?>
+                </div>
+                <div class="col-sm-3">
+                    <?= $form->field($model, 'OT_TOTAL')->textInput(['size' => 8,]) ?>
+                </div>
+                <div class="col-sm-3">
+                    <?= $form->field($model, 'OT_TOTAL_HORAS')->textInput(['size' => 8,]) ?>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-sm-3">
-            <?= $form->field($model, 'OT_SUBTOTAL')->textInput(['size' => 8,]) ?>
-        </div>
-        <div class="col-sm-3">
-            <?= $form->field($model, 'OT_IVA')->textInput(['size' => 8,]) ?>
-        </div>
-        <div class="col-sm-3">
-            <?= $form->field($model, 'OT_TOTAL')->textInput(['size' => 8,]) ?>
-        </div>
-        <div class="col-sm-3">
-            <?= $form->field($model, 'OT_TOTAL_HORAS')->textInput(['size' => 8,]) ?>
-        </div>
-    </div>
-
+    
+    
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Guardar' : 'Guardar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
@@ -533,3 +549,6 @@ $this->registerJs($JS_TOTAL, \yii\web\VIEW::POS_HEAD);
 
 </div>
 
+
+
+        

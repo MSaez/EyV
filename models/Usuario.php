@@ -113,15 +113,16 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     // Para Administrador:
     public static function isUserAdmin($id)
     {
-       if (Usuario::findOne(['US_ID' => $id, 'US_ROL' => 2]))
-       {
+        
+        if (Usuario::findOne(['US_ID' => $id, 'US_ROL' => 2]))
+        {
             return true;
-       } 
-       else 
-       {
+        } 
+        else 
+        {
             return false;
-       }
-
+        }
+        
     }
     // Para Usuario:
     public static function isUserSimple($id)
