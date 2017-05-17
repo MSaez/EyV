@@ -5,10 +5,10 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Inventario */
 
-$this->title = 'Update Inventario: ' . $model->INV_ID;
-$this->params['breadcrumbs'][] = ['label' => 'Inventarios', 'url' => ['index']];
+$this->title = 'Modificar Datos Insumo: '.$model->iNS->INS_NOMBRE;
+$this->params['breadcrumbs'][] = ['label' => 'Inventario', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->INV_ID, 'url' => ['view', 'id' => $model->INV_ID]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'Modificar';
 ?>
 <div class="inventario-update">
 

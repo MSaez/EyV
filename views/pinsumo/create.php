@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\PagoInsumos */
 
-$this->title = 'Ingresar Factura Insumo';
+$this->title = 'Ingresar Factura Proveedor Insumo';
 $this->params['breadcrumbs'][] = ['label' => 'Pago Insumos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

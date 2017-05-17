@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Inventario */
 
-$this->title = 'Create Inventario';
-$this->params['breadcrumbs'][] = ['label' => 'Inventarios', 'url' => ['index']];
+$this->title = 'Ingresar Insumo: '.$model->iNS->INS_NOMBRE;
+$this->params['breadcrumbs'][] = ['label' => 'Inventario', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="inventario-create">
