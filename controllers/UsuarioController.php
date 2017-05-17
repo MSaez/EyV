@@ -206,7 +206,7 @@ class UsuarioController extends Controller
         if (($model = Usuario::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('El Usuario solicitado no existe.');
+            throw new NotFoundHttpException('La página solicitada no existe.');
         }
     }
     

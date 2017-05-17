@@ -143,7 +143,7 @@ class MarcaController extends Controller
         if (($model = Marca::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('La marca solicitada no existe.');
+            throw new NotFoundHttpException('La página solicitada no existe.');
         }
     }
 }

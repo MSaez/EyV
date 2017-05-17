@@ -8,7 +8,7 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
-
+use kartik\alert\Alert;
 
 
 
@@ -169,18 +169,26 @@ AppAsset::register($this);
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         
-        <?php if (Yii::$app->session->hasFlash('danger')): ?>
-            <div class="alert alert-danger alert-dismissable">
-                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                <?= Yii::$app->session->getFlash('danger') ?>
-            </div>
+        <?php if (Yii::$app->session->hasFlash('danger')): 
+                    echo Alert::widget([
+                        'type' => Alert::TYPE_DANGER,
+                        'title' => '¡Oh no!',
+                        'icon' => 'glyphicon glyphicon-remove-sign',
+                        'body' => Yii::$app->session->getFlash('danger'),
+                        'showSeparator' => true,
+                        'delay' => 8000
+                    ]); ?>
         <?php endif; ?>
     
-        <?php if (Yii::$app->session->hasFlash('success')): ?>
-            <div class="alert alert-success alert-dismissable">
-                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                <?= Yii::$app->session->getFlash('success') ?>
-            </div>
+        <?php if (Yii::$app->session->hasFlash('success')): 
+                    echo Alert::widget([
+                        'type' => Alert::TYPE_SUCCESS,
+                        'title' => '¡Estupendo!',
+                        'icon' => 'glyphicon glyphicon-ok-sign',
+                        'body' => Yii::$app->session->getFlash('success'),
+                        'showSeparator' => true,
+                        'delay' => 2000
+                    ]); ?>
         <?php endif; ?>
         
         
