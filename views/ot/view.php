@@ -21,9 +21,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Actualizar', ['update', 'id' => $model->OT_ID], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('<span class="glyphicon glyphicon-print" aria-hidden="true"></span> Generar Orden de Compra', ['genordencompra', 'id' => $model->OT_ID], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('<span class="glyphicon glyphicon-print" aria-hidden="true"></span> Generar Orden de Trabajo', ['genot', 'id' => $model->OT_ID], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Actualizar Datos ', ['update', 'id' => $model->OT_ID], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('<span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir Orden de Compra', ['genordencompra', 'id' => $model->OT_ID], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('<span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir Orden de Trabajo', ['genot', 'id' => $model->OT_ID], ['class' => 'btn btn-primary']) ?>
         <?php if ($model->OT_ESTADO == 'Terminado')
             echo Html::a('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Entregar Vehículo', ['despacho/ingresardespacho', 'ot' => $model->OT_ID], ['class' => 'btn btn-primary']) ?>
         <?php if ($model->OT_ESTADO == 'Despachado')
@@ -114,7 +114,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'columns' => [
 
                 // ['class' => 'yii\grid\SerialColumn'],
-                'PIN_ID',
+                //'PIN_ID',
                 'PIN_DESCRIPCION',
                 'PIN_HORAS',
                 'PIN_PRECIO',

@@ -11,7 +11,8 @@
     $this->params['breadcrumbs'][] = ['label' => 'Orden de Trabajo Folio: '.$actPintura->OT_ID, 'url' => ['ot/view', 'id' => $actPintura->OT_ID]];
     $this->params['breadcrumbs'][] = 'Ver Trabajadores';
 ?>
-<h1>Trabajadores asignados a esta actividad:</h1>
+<h1>Trabajadores asignados a la actividad: <?= $actPintura->PIN_DESCRIPCION ?></h1>
+<br>
 <?php Pjax::begin();?>
 
 <?= GridView::widget([

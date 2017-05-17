@@ -4,7 +4,8 @@
     use yii\widgets\Pjax;
     use yii\helpers\Url;
 ?>
-<h3>Trabajadores asignados a esta actividad:</h3>
+<h1>Trabajadores asignados a la actividad: <?= $actDesabolladura->DES_DESCRIPCION ?></h1>
+<br>
 <?php Pjax::begin();?>
 
 

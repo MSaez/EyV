@@ -63,7 +63,7 @@ class Ot extends \yii\db\ActiveRecord
             [['OT_EDES', 'OT_EPIN'], 'string', 'max' => 10],
             [['OT_ENTREGA'], 'compare', 'compareAttribute' => 'OT_INICIO', 'operator' => '>=', 'message' => 'La fecha de entrega no puede ser menor a la fecha de inicio'],
             [['OT_OBSERVACIONES'], 'string'],
-            [['OT_OBSERVACIONES'], 'match', 'pattern' => '/^[a-zA-Z0-9áéíóúAÉÍÓÚÑñ.,:;-]+$/', 'message'=>'Por favor ingrese solo caracteres alfanuméricos y signos de puntuación.'],
+            [['OT_OBSERVACIONES'], 'match', 'pattern' => '/^[\sa-zA-Z0-9áéíóúAÉÍÓÚÑñ.,:;-]+$/', 'message'=>'Por favor ingrese solo caracteres alfanuméricos y signos de puntuación.'],
             [['OD_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Despacho::className(), 'targetAttribute' => ['OD_ID' => 'OD_ID']],
             [['CBR_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Cobros::className(), 'targetAttribute' => ['CBR_ID' => 'CBR_ID']],
             [['CLI_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Cliente::className(), 'targetAttribute' => ['CLI_ID' => 'CLI_ID']],
