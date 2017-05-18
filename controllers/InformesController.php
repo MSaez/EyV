@@ -8,9 +8,38 @@ use app\models\OtAtrasadosSearch;
 use app\models\Ot;
 use kartik\mpdf\Pdf;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
+use app\models\Usuario;
 
 class InformesController extends \yii\web\Controller
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['generarInformeAtrasados', 'generarInformeUtilidad', 'imprimirAtrasos', 'imprimirUtilidad'],
+                'rules' => [
+                    //Para Administrador
+                    [
+                        //El administrador tiene permisos sobre las siguientes acciones
+                        'actions' => ['generarInformeAtrasados', 'generarInformeUtilidad', 'imprimirAtrasos', 'imprimirUtilidad'],
+                        //Esta propiedad establece que tiene permisos
+                        'allow' => true,
+                        //Usuarios autenticados, el signo ? es para invitados
+                        'roles' => ['@'],
+                        //Este método nos permite crear un filtro sobre la identidad del usuario
+                        //y así establecer si tiene permisos o no
+                        'matchCallback' => function ($rule, $action) {
+                            //Llamada al método que comprueba si es un administrador
+                            return Usuario::isUserAdmin(Yii::$app->user->identity->id);
+                        },
+                    ],
+                ],
+            ],
+        ];
+    }
+    
     public function actionGenerarInformeAtrasados()
     {
         $searchModelOt = new OtAtrasadosSearch();
