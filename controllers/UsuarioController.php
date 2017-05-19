@@ -10,6 +10,8 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use app\models\PasswordForm;
+use app\models\ResetPassForm;
+
 
 
 /**
@@ -100,6 +102,7 @@ class UsuarioController extends Controller
         }
         
         $model->US_AUTHKEY = Yii::$app->getSecurity()->generateRandomString();
+        $model->setPassword($model->US_PASSWORD);
         
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->US_ID]);
@@ -144,53 +147,58 @@ class UsuarioController extends Controller
 
     
     /* Función para reestablecer la contraseña */
-    public function actionResetPass($mail)
+    public function actionResetPassword()
     {
-        $model = Usuario::find()->where(['US_EMAIL'=>$mail])->one();
+        $model = new ResetPassForm();
         $pass = "";
-        $pass = rand(10000, 99999999);
-        $msj = "Clave Cambiada. Nueva Clave Enviada al Correo: $model->US_EMAIL";
-        Yii::$app->session->setFlash('success', $msj);
-        $model->US_PASSWORD = $pass;
-        if($model->save()){ // ver como usar el codigo de envio de emails
-            Yii::$app->mail->compose()
-            ->setFrom([\Yii::$app->params['supportEmail'] => 'Test Mail'])
-            ->setTo($model->US_EMAIL)
-            ->setSubject('Reseteo de contraseña' )
-            ->setHtmlBody('<h2>Cambio de Clave de Acceso</h1><br><br>
-            <h4>{$model->US_NOMBRES} {$model->US_PATERNO}: <br> &nbsp;Se realizó el cambio en su clave de acceso al sistema. Su nueva clave es {$model->US_PASSWORD} </h4><br>
-            <h5>Se Recomienda por temas de seguridad, que cambie la clave de acceso. </h5>"')
-            ->send();
-            $this->redirect("index.php?r=usuario/admin"); 
+        $msj = "";
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $usuario = Usuario::findByEmail($model->email);
+            $pass = Yii::$app->security->generateRandomString(10);
+            $model->resetPassword($model->email, $pass);
+            $msj = "Contraseña Cambiada. Nueva contraseña enviada al correo: $usuario->US_EMAIL";
+            Yii::$app->session->setFlash('success', $msj);
+            Yii::$app->mailer->compose()
+                ->setFrom(['mail@gmail.com' => 'Sistema de Gestión de reparaciones Estrada y Veloso Ltda.'])
+                ->setTo($usuario->US_EMAIL)
+                ->setSubject('Reseteo de contraseña' )
+                ->setHtmlBody('<h2>Reseteo de contraseña</h2>
+                               <br>
+                               <br>
+                               <h4>'.$usuario->nombreCompleto.':
+                               <br>Se realizó el cambio en su contraseña de acceso al sistema. Su nueva contraseña es:'.
+                               $pass.'</h4><br>
+                               <h4>Se Recomienda por temas de seguridad, que cambie la contraseña. </h4>')
+                ->send();
+            $this->redirect("@web");                 
+            
         }else{
             return $this->render('resetpassword', [
                 'model' => $model,
             ]);
-        }
-               		
-             
+        }            
     }
     
      // Función para el cambio de contraseña (mala)
-    public function actionChangepassword(){
-        $model = new PasswordForm();
-        if($model->load(Yii::$app->request->post())){
-            $modeluser = $this->findModel(Yii::$app->user->identity->US_ID);
-            if($model->validate()){
-                $modeluser->US_PASSWORD = $_POST['PasswordForm']['newpass'];
-                $modeluser->save();
-                Yii::$app->session->setFlash('success',$modeluser->US_PASSWORD);
-                return $this->redirect(['index']);
-            }else{
-                return $this->render('changepassword',[
-                    'model'=>$model
-                ]);
-            }
-        }else{
-            return $this->render('changepassword',[
-                'model'=>$model
-            ]);
+    public function actionChangePassword()
+    {
+        $id = Yii::$app->user->id;
+ 
+        try {
+            $model = new PasswordForm($id);
+        } catch (InvalidParamException $e) {
+            throw new \yii\web\BadRequestHttpException($e->getMessage());
         }
+ 
+        if ($model->load(\Yii::$app->request->post()) && $model->validate() && $model->changePassword()) {
+            Yii::$app->session->setFlash('success', 'Contraseña cambiada con éxito.');
+            return $this->redirect(['view', 'id' => $model->id]);
+            
+        }
+ 
+        return $this->render('changePassword', [
+            'model' => $model,
+        ]);
     }
     
     /**

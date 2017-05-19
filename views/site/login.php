@@ -39,6 +39,8 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
 
     <?php ActiveForm::end(); ?>
-
+    <div>
+        <?= Html::a( "¿Olvidaste tu contraseña?", $url = Yii::$app->urlManager->createUrl(['/usuario/reset-password']), $options = [] ) ?>
+    </div>
     
 </div>

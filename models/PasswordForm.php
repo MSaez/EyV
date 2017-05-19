@@ -4,34 +4,49 @@
     use Yii;
     use yii\base\Model;
     use app\models\Usuario;
+    use yii\base\InvalidParamException;
     
-    class PasswordForm extends Model{
-        public $oldpass;
-        public $newpass;
-        public $repeatnewpass;
+    class PasswordForm extends Model
+    {
+        public $id;
+        public $password;
+        public $confirm_password;
         
-        public function rules(){
-            return [
-                [['oldpass','newpass','repeatnewpass'],'required'],
-                ['oldpass','findPasswords'],
-                ['repeatnewpass','compare','compareAttribute'=>'newpass'],
-            ];
+        private $_user;
+        
+        public function __construct($id, $config = [])
+        {
+            $this->_user = Usuario::findIdentity($id);
+        
+            if (!$this->_user) {
+                throw new InvalidParamException('No se puede encontrar al usuario.');
+            }
+        
+            $this->id = $this->_user->id;
+            parent::__construct($config);
         }
         
-        public function findPasswords($attribute, $params){
-            $user = Usuario::find()->where([
-                'US_USERNAME'=>Yii::$app->user->identity->US_USERNAME
-            ])->one();
-            $password = $user->US_PASSWORD;
-            if($password!=$this->oldpass)
-                $this->addError($attribute,'Contraseña actual erronea.');
+        public function rules()
+        {
+            return [
+                [['password','confirm_password'], 'required'],
+                [['password','confirm_password'], 'string', 'min' => 6],
+                ['confirm_password', 'compare', 'compareAttribute' => 'password'],
+            ];
         }
         
         public function attributeLabels(){
             return [
-                'oldpass'=>'Contraseña Actual',
-                'newpass'=>'Nueva Contraseña',
-                'repeatnewpass'=>'Repetir Nueva Contraseña',
+                'password'=>'Nueva Contraseña',
+                'confirm_password'=>'Repetir Nueva Contraseña',
             ];
         }
+        
+        public function changePassword()
+        {
+        $user = $this->_user;
+        $user->setPassword($this->password);
+ 
+        return $user->save(false);
+        }      
     }

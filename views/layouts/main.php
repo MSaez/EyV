@@ -120,6 +120,11 @@ AppAsset::register($this);
                                 ],
                                 'visible' => app\models\Usuario::isUserAdmin(Yii::$app->user->identity->id),
                             ],
+            ['label' => 'Perfil',
+             'url' => ['/usuario/view', 
+             'id' => Yii::$app->user->identity->id,
+             'visible' => app\models\Usuario::isUserSimple(Yii::$app->user->identity->id),]
+            ],
             
             Yii::$app->user->isGuest ? (
                 ['label' => 'Iniciar sesión', 'url' => ['/site/login']]

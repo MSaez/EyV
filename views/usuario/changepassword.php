@@ -2,14 +2,14 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->title = 'Change Password';
+$this->title = 'Cambiar Contraseña';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="site-changepassword">
     <h1><?= Html::encode($this->title) ?></h1>
     
-    <p>Please fill out the following fields to change password :</p>
+    <p>Por favor, rellene los siguientes campos para cambiar la contraseña :</p>
     
     <?php $form = ActiveForm::begin([
         'id'=>'changepassword-form',
@@ -21,21 +21,18 @@ $this->params['breadcrumbs'][] = $this->title;
             'labelOptions'=>['class'=>'col-lg-2 control-label'],
         ],
     ]); ?>
-        <?= $form->field($model,'oldpass',['inputOptions'=>[
-            'placeholder'=>'Old Password'
+           
+        <?= $form->field($model,'password',['inputOptions'=>[
+            'placeholder'=>'Nueva Contraseña'
         ]])->passwordInput() ?>
         
-        <?= $form->field($model,'newpass',['inputOptions'=>[
-            'placeholder'=>'New Password'
-        ]])->passwordInput() ?>
-        
-        <?= $form->field($model,'repeatnewpass',['inputOptions'=>[
-            'placeholder'=>'Repeat New Password'
+        <?= $form->field($model,'confirm_password',['inputOptions'=>[
+            'placeholder'=>'Repetor Nueva Contraseña'
         ]])->passwordInput() ?>
         
         <div class="form-group">
             <div class="col-lg-offset-2 col-lg-11">
-                <?= Html::submitButton('Change password',[
+                <?= Html::submitButton('Cambiar contraseña',[
                     'class'=>'btn btn-primary'
                 ]) ?>
             </div>

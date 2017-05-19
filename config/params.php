@@ -1,5 +1,6 @@
 <?php
 
 return [
-    'adminEmail' => 'sistema.eyv@gmasil.com',
+    'adminEmail' => '',
+    'supportEmail' => '',
 ];

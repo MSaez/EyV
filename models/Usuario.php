@@ -86,7 +86,6 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
  
     public static function findIdentityByAccessToken($token, $type = null){
 	throw new NotSupportedException();
-
     }
  
     public function getId(){
@@ -104,9 +103,25 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public static function findByUsername($username){
         return self::findOne(['US_USERNAME'=>$username]);
     }
+    
+    public static function findByEmail($email){
+        return self::findOne(['US_EMAIL'=>$email]);
+    }
  
     public function validatePassword($password){
 	return $this->US_PASSWORD === $password;
+    }
+    
+    public function setPassword($password)
+    {
+        // Quedará sin hash para testeo, luego se cambiará a como está en la siguiente linea
+        //$this->US_PASSWORD = Yii::$app->security->generatePasswordHash($password);
+        $this->US_PASSWORD = $password;
+    }
+    
+    public function getNombreCompleto() // Función que obtiene el nombre completo de un registro en el modelo.
+    {
+        return $this->US_NOMBRES.' '.$this->US_PATERNO.' '.$this->US_MATERNO;
     }
     
     // Implementacion de metodos para control de acceso por roles

@@ -4,6 +4,7 @@ $params = require(__DIR__ . '/params.php');
 
 $config = [
     'id' => 'EyV',
+    'name'=>'Plataforma de apoyo a la gestión de Reparaciones de Vehículos para taller de desabolladura y pintura Estrada y Veloso Ltda.',
     'language' => 'es-ES',
     'sourceLanguage' => 'en-EN',
     'basePath' => dirname(__DIR__),
@@ -29,7 +30,21 @@ $config = [
             // send all mails to a file by default. You have to set
             // 'useFileTransport' to false and configure a transport
             // for the mailer to send real emails.
-            'useFileTransport' => true,
+            'useFileTransport' => false,
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'smtp.gmail.com',
+                'username' => 'mail@gmail.com',
+                'password' => 'pass',
+                'port' => '465',
+                'encryption' => 'ssl',
+                'streamOptions' => [ 'ssl' =>
+                    [ 'allow_self_signed' => true,
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                    ],
+                ],
+            ],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
