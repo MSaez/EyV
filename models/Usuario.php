@@ -109,14 +109,15 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     }
  
     public function validatePassword($password){
-	return $this->US_PASSWORD === $password;
+	//return $this->US_PASSWORD === $password;
+        return Yii::$app->security->validatePassword($password, $this->US_PASSWORD);
     }
     
     public function setPassword($password)
     {
         // Quedará sin hash para testeo, luego se cambiará a como está en la siguiente linea
-        //$this->US_PASSWORD = Yii::$app->security->generatePasswordHash($password);
-        $this->US_PASSWORD = $password;
+        $this->US_PASSWORD = Yii::$app->security->generatePasswordHash($password);
+        //$this->US_PASSWORD = $password;
     }
     
     public function getNombreCompleto() // Función que obtiene el nombre completo de un registro en el modelo.
