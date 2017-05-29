@@ -16,6 +16,7 @@ use Yii;
  * @property int $INS_PRECIO_UNITARIO
  * @property int $INS_TOTAL
  * @property int $INS_RECIBIDO
+ * @property int $INS_REUTILIZADO 
  *
  * @property Inventario $iNV
  * @property PagoInsumos $pINS
@@ -25,6 +26,7 @@ use Yii;
  */
 class Insumo extends \yii\db\ActiveRecord
 {
+    public $inventario_id;
     /**
      * @inheritdoc
      */
@@ -39,13 +41,15 @@ class Insumo extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['OT_ID', 'PINS_ID', 'INV_ID', 'INS_CANTIDAD', 'INS_PRECIO_UNITARIO', 'INS_TOTAL', 'INS_RECIBIDO'], 'integer'],
+            [['OT_ID', 'PINS_ID', 'INV_ID', 'INS_CANTIDAD', 'INS_PRECIO_UNITARIO', 'INS_TOTAL', 'INS_RECIBIDO', 'INS_REUTILIZADO'], 'integer'],
             [['INS_NOMBRE', 'INS_CANTIDAD', 'INS_PRECIO_UNITARIO', 'INS_TOTAL'], 'required'],
             [['INS_NOMBRE'], 'string', 'max' => 128],
             [['INS_NOMBRE'], 'match', 'pattern' => '/^[\sa-zA-Z0-9áéíóúAÉÍÓÚÑñ.,:;-]+$/', 'message'=>'Nombre de Insumo Inválido. Por favor ingrese solo caracteres alfanuméricos y signos de puntuación.'],
             [['INV_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Inventario::className(), 'targetAttribute' => ['INV_ID' => 'INV_ID']],
             [['PINS_ID'], 'exist', 'skipOnError' => true, 'targetClass' => PagoInsumos::className(), 'targetAttribute' => ['PINS_ID' => 'PINS_ID']],
             [['OT_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Ot::className(), 'targetAttribute' => ['OT_ID' => 'OT_ID']],
+            [['inventario_id','INS_NOMBRE', 'INS_CANTIDAD', 'INS_PRECIO_UNITARIO', 'INS_TOTAL'], 'required', 'on' => 'existente'],
+            [['INS_CANTIDAD'], 'validateCantidad', 'on' => 'existente'],
         ];
     }
 
@@ -64,12 +68,26 @@ class Insumo extends \yii\db\ActiveRecord
             'INS_PRECIO_UNITARIO' => 'Precio  Unitario',
             'INS_TOTAL' => 'Total',
             'INS_RECIBIDO' => 'Recibido',
+            'INS_REUTILIZADO' => 'Reutilizado',
+            'inventario_id' => 'Insumo',
         ];
     }
     
     public function getRecibido()
     {
         if($this->INS_RECIBIDO == 0)
+        {
+            return "No";
+        } 
+        else
+        {
+            return "Sí";
+        } 
+    }
+    
+    public function getReutilizado()
+    {
+        if($this->INS_REUTILIZADO == 0)
         {
             return "No";
         } 
@@ -117,5 +135,21 @@ class Insumo extends \yii\db\ActiveRecord
     public function getPagoInsumos()
     {
         return $this->hasMany(PagoInsumos::className(), ['INS_ID' => 'INS_ID']);
+    }
+    
+    public function validateCantidad($attribute, $params)
+    {
+        
+        $item = Inventario::find(['INV_ID' => $this->inventario_id])->one();
+        if ($this->INS_CANTIDAD > $item->INV_CANTIDAD) {
+            $this->addError($attribute, 'Ha excedido la cantidad de material almacenado en bodega.(Máximo: '.$item->INV_CANTIDAD.')');
+        }
+    }
+    
+    public function scenarios() {
+        $scenarios = parent::scenarios();
+        //Scenario Values Only Accepted
+        $scenarios['existente'] = ['inventario_id','INS_NOMBRE', 'INS_CANTIDAD', 'INS_PRECIO_UNITARIO', 'INS_TOTAL'];
+        return $scenarios;
     }
 }
