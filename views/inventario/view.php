@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Inventario */
 
-$this->title = $model->INV_ID;
+$this->title = $model->INV_NOMBRE;
 $this->params['breadcrumbs'][] = ['label' => 'Inventario', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -15,8 +15,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['Actualizar Datos', 'id' => $model->INV_ID], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['Eliminar Insumo', 'id' => $model->INV_ID], [
+        <?= Html::a('Actualizar Datos', ['update', 'id' => $model->INV_ID], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Eliminar Insumo', ['delete', 'id' => $model->INV_ID], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => '¿Está seguro de eliminar este insumo?',
@@ -33,6 +33,8 @@ $this->params['breadcrumbs'][] = $this->title;
             //'INS_ID',
             'INV_NOMBRE',
             'INV_CANTIDAD',
+            'INV_PRECIO_UNITARIO',
+            'INV_TOTAL',
         ],
     ]) ?>
 

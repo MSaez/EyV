@@ -18,7 +18,7 @@ class InventarioSeach extends Inventario
     public function rules()
     {
         return [
-            [['INV_ID', 'OT_ID', 'INS_ID', 'INV_CANTIDAD'], 'integer'],
+            [['INV_ID', 'OT_ID', 'INS_ID', 'INV_CANTIDAD', 'INV_PRECIO_UNITARIO', 'INV_TOTAL'], 'integer'],
             [['INV_NOMBRE'], 'safe'],
         ];
     }
@@ -63,6 +63,8 @@ class InventarioSeach extends Inventario
             'OT_ID' => $this->OT_ID,
             'INS_ID' => $this->INS_ID,
             'INV_CANTIDAD' => $this->INV_CANTIDAD,
+            'INV_UNITARIO' => $this->INV_PRECIO_UNITARIO,
+            'INV_TOTAL' => $this->INV_TOTAL,
         ]);
 
         $query->andFilterWhere(['like', 'INV_NOMBRE', $this->INV_NOMBRE]);

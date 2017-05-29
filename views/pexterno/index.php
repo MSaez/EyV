@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\PagoExternosSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Pago Externos';
+$this->title = 'Pago de Servicios Externos';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="pago-externos-index">

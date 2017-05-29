@@ -22,9 +22,11 @@ $this->params['breadcrumbs'][] = $this->title;
             //['class' => 'yii\grid\SerialColumn'],
             //'INV_ID',
             //'OT_ID',
-            'INS_ID',
+            //'INS_ID',
             'INV_NOMBRE',
             'INV_CANTIDAD',
+            'INV_PRECIO_UNITARIO',
+            'INV_TOTAL',
 
             ['class' => 'kartik\grid\ActionColumn'],
         ],

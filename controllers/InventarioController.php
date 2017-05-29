@@ -69,6 +69,11 @@ class InventarioController extends Controller
         $model->OT_ID = $insumo->OT_ID;
         $model->INS_ID = $insumo->INS_ID;
         $model->INV_NOMBRE = $insumo->INS_NOMBRE;
+        $model->INV_PRECIO_UNITARIO = $insumo->INS_PRECIO_UNITARIO;
+        
+        
+        
+        
         
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->INV_ID]);
@@ -125,5 +130,16 @@ class InventarioController extends Controller
         } else {
             throw new NotFoundHttpException('La página solicitada no existe.');
         }
+    }
+    // Obtener precio unitario para mostrarlo en el formulario
+    public function actionUnitario($id){
+        $rows = \app\models\Inventario::find()->where(['INV_ID' => $id])->one();
+        return $rows->INV_PRECIO_UNITARIO;
+    }
+    
+    // Obtener nombre para llenar field oculto en el formulario
+    public function actionNombre($id){
+        $rows = \app\models\Inventario::find()->where(['INV_ID' => $id])->one();
+        return $rows->INV_NOMBRE;
     }
 }

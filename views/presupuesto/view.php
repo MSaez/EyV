@@ -20,9 +20,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Actualizar', ['update', 'id' => $model->OT_ID], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Actualizar Datos', ['update', 'id' => $model->OT_ID], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Confirmar Presupuesto', ['confirmar', 'id' => $model->OT_ID], ['class' => 'btn btn-success']) ?>
-        <?= Html::a('<span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir',['imprimir', 'id'=>$model->OT_ID] , ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('<span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir Presupuesto',['imprimir', 'id'=>$model->OT_ID] , ['class' => 'btn btn-primary']) ?>
     </p>
     
     <?= DetailView::widget([
@@ -78,7 +78,12 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]); ?>
    <?php Pjax::end(); ?>
-    
+
+    <?php echo Html::a('<span class="glyphicon glyphicon-plus"></span> Agregar Material Existente',
+                    ['/insumo/create', 'ot' => $model->OT_ID, 'status' => 'presupuesto'], 
+                    ['class' => 'btn btn-success']);
+    ?>
+
     <h1>Insumos</h1>
     <?php Pjax::begin(); ?>
 

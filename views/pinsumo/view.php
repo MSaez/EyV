@@ -12,17 +12,10 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="pago-insumos-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <!--<h1><?php //echo Html::encode($this->title) ?></h1>-->
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->PINS_ID], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->PINS_ID], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
+        <?= Html::a('Corregir Factura de Pago de Insumo', ['update', 'id' => $model->PINS_ID], ['class' => 'btn btn-primary']) ?>
     </p>
 
     <?= DetailView::widget([

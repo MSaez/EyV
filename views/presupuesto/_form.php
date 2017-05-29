@@ -60,26 +60,39 @@ $JS_INSUMOS = 'function sumar_total_insumos(){
 
 	id = 0;
 	suma = 0;
+	suma_r = 0;
 	ptotal = 0;
+	rtotal = 0;
 	existe = true;
 	while(existe){
 
 		var idPrecio = "insumo-"+id+"-ins_precio_unitario";
 		var idCantidad = "insumo-"+id+"-ins_cantidad";
 		var idTotal = "insumo-"+id+"-ins_total";
+		var idReutilizado = "insumo-"+id+"-ins_reutilizado";
+
 		try{campo = document.getElementById(idPrecio);
-			if(document.getElementById(idPrecio).value!="" && document.getElementById(idCantidad).value!=""){
+			if(document.getElementById(idPrecio).value!="" && document.getElementById(idCantidad).value!="" && document.getElementById(idReutilizado).value!="1"){
 				ptotal = parseInt(document.getElementById(idPrecio).value) * parseInt(document.getElementById(idCantidad).value)
 				document.getElementById(idTotal).value=ptotal;
 				suma = suma + ptotal;
 			}
+			else if (document.getElementById(idPrecio).value!="" && document.getElementById(idCantidad).value!="" && document.getElementById(idReutilizado).value=="1"){
+				rtotal = parseInt(document.getElementById(idPrecio).value) * parseInt(document.getElementById(idCantidad).value)
+				document.getElementById(idTotal).value=rtotal;
+				suma_r = suma_r + rtotal;	
+			}
 		id = id+1;
-    	}catch(e){
-       		existe = false;
-    	}  
+    	
+                }catch(e){
+                    existe = false;
+                }  
+	
 	}
-        console.log(suma);
+    
+        console.log(rtotal);
 	document.getElementById("ot-ot_tinsumo").value=suma;
+        document.getElementById("ot-ot_treutilizado").value=suma_r;
 
 }';
 
@@ -102,7 +115,6 @@ $JS_SERVICIOS = 'function sumar_total_servicio(){
 	}
         console.log(suma);
 	document.getElementById("ot-ot_texterno").value=suma;
-
 }';
 
 $JS_HORAS_DESABOLLADURA = 'function sumar_total_horas_desabolladura(){
@@ -157,7 +169,7 @@ $JS_TOTAL_HORAS ='function total_horas(){
 
 $JS_SUBTOTAL = 'function calcular_subtotal(){
                     subtotal = 0;
-                    subtotal = parseInt(document.getElementById("ot-ot_tdesabolladura").value) + parseInt(document.getElementById("ot-ot_tpintura").value) + parseInt(document.getElementById("ot-ot_tinsumo").value) + parseInt(document.getElementById("ot-ot_texterno").value);
+                    subtotal = parseInt(document.getElementById("ot-ot_tdesabolladura").value) + parseInt(document.getElementById("ot-ot_tpintura").value) + parseInt(document.getElementById("ot-ot_tinsumo").value) + parseInt(document.getElementById("ot-ot_texterno").value) + parseInt(document.getElementById("ot-ot_treutilizado").value);
                     document.getElementById("ot-ot_subtotal").value=subtotal;
 }';
     
@@ -399,7 +411,7 @@ $this->registerJs($JS_TOTAL, \yii\web\VIEW::POS_HEAD);
              <?php foreach ($modelsInsumo as $i => $modelInsumo): ?>
                 <div class="item_insumo panel panel-default"><!-- widgetItem -->
                     <div class="panel-heading">
-                        <h3 class="panel-title pull-left">Actividad</h3>
+                        <h3 class="panel-title pull-left">Insumo</h3>
                         <div class="pull-right">
                             <button type="button" class="remove-item_insumo btn btn-danger btn-xs"><i class="glyphicon glyphicon-minus"></i></button>
                         </div>
@@ -431,6 +443,14 @@ $this->registerJs($JS_TOTAL, \yii\web\VIEW::POS_HEAD);
                                 <?= $form->field($modelInsumo, "[{$i}]INS_TOTAL")->textInput(['maxlength' => true,
                                                                                               'style' => 'text-align: right']) ?>
                             </div>
+                            <?php
+                            if (! $modelInsumo->isNewRecord) {
+                                echo Html::activeHiddenInput($modelInsumo, "[{$i}]INS_REUTILIZADO");
+                            }
+                            else{
+                                echo Html::activeHiddenInput($modelInsumo, "[{$i}]INS_REUTILIZADO", ['value' => 0]);
+                            }
+                            ?>
                                                         
                         </div><!-- .row -->
                     </div>
@@ -510,30 +530,36 @@ $this->registerJs($JS_TOTAL, \yii\web\VIEW::POS_HEAD);
         </div>
         <div class="panel-body">
             <div class="row">
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                     <?= $form->field($model, 'OT_TDESABOLLADURA')->textInput(['size' => 8, 'value' => '0']) ?>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                     <?= $form->field($model, 'OT_TPINTURA')->textInput(['size' => 8, 'value' => '0']) ?>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                     <?= $form->field($model, 'OT_TINSUMO')->textInput(['size' => 8, 'value' => '0']) ?>
-                </div>
-                <div class="col-sm-3">
+                </div>                
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
                     <?= $form->field($model, 'OT_TEXTERNO')->textInput(['size' => 8, 'value' => '0']) ?>
+                </div>
+                <div class="col-sm-4">
+                    <?= $form->field($model, 'OT_TREUTILIZADO')->textInput(['size' => 8, 'value' => '0']) ?>
+                </div>
+                <div class="col-sm-4">
+                    <?= $form->field($model, 'OT_SUBTOTAL')->textInput(['size' => 8,]) ?>
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-3">
-                    <?= $form->field($model, 'OT_SUBTOTAL')->textInput(['size' => 8,]) ?>
-                </div>
-                <div class="col-sm-3">
+                
+                <div class="col-sm-4">
                     <?= $form->field($model, 'OT_IVA')->textInput(['size' => 8,]) ?>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                     <?= $form->field($model, 'OT_TOTAL')->textInput(['size' => 8,]) ?>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                     <?= $form->field($model, 'OT_TOTAL_HORAS')->textInput(['size' => 8,]) ?>
                 </div>
             </div>

@@ -20,6 +20,7 @@ use Yii;
  * @property int $OT_TPINTURA
  * @property int $OT_TINSUMO
  * @property int $OT_TEXTERNO
+ * @property int $OT_TREUTILIZADO 
  * @property int $OT_SUBTOTAL
  * @property int $OT_IVA
  * @property int $OT_TOTAL
@@ -55,8 +56,8 @@ class Ot extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['OD_ID', 'CBR_ID', 'VEH_ID', 'CLI_ID', 'OT_TDESABOLLADURA', 'OT_TPINTURA', 'OT_TINSUMO', 'OT_TEXTERNO', 'OT_SUBTOTAL', 'OT_IVA', 'OT_TOTAL', 'OT_TOTAL_HORAS'], 'integer'],
-            [['VEH_ID', 'CLI_ID', 'OT_INICIO', 'OT_ENTREGA', 'OT_OBSERVACIONES', 'OT_TDESABOLLADURA', 'OT_TPINTURA', 'OT_TINSUMO', 'OT_TEXTERNO', 'OT_SUBTOTAL', 'OT_IVA', 'OT_TOTAL', 'OT_TOTAL_HORAS'], 'required'],
+            [['OD_ID', 'CBR_ID', 'VEH_ID', 'CLI_ID', 'OT_TDESABOLLADURA', 'OT_TPINTURA', 'OT_TINSUMO', 'OT_TEXTERNO', 'OT_TREUTILIZADO', 'OT_SUBTOTAL', 'OT_IVA', 'OT_TOTAL', 'OT_TOTAL_HORAS'], 'integer'],
+            [['VEH_ID', 'CLI_ID', 'OT_INICIO', 'OT_ENTREGA', 'OT_OBSERVACIONES', 'OT_TDESABOLLADURA', 'OT_TPINTURA', 'OT_TINSUMO', 'OT_TEXTERNO', 'OT_TREUTILIZADO', 'OT_SUBTOTAL', 'OT_IVA', 'OT_TOTAL', 'OT_TOTAL_HORAS'], 'required'],
             [['OT_INICIO', 'OT_ENTREGA'], 'safe'],
             [['OT_OBSERVACIONES'], 'string'],
             [['OT_ESTADO'], 'string', 'max' => 12],
@@ -90,6 +91,7 @@ class Ot extends \yii\db\ActiveRecord
             'OT_TPINTURA' => 'Total Pintura',
             'OT_TINSUMO' => 'Total Insumos',
             'OT_TEXTERNO' => 'Total Servicios Externos',
+            'OT_TREUTILIZADO' => 'Total Material Reutilizado',
             'OT_SUBTOTAL' => 'Subtotal',
             'OT_IVA' => 'IVA',
             'OT_TOTAL' => 'Total',

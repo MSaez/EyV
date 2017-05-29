@@ -11,7 +11,9 @@ use yii\widgets\ActiveForm;
 <div class="inventario-form">
 
     <?php $form = ActiveForm::begin(); ?>
-
+    
+    <?php echo $form->errorSummary($model); ?>
+    
     <?= $form->field($model, 'INV_CANTIDAD')->textInput() ?>
 
     <div class="form-group">

@@ -156,6 +156,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
         ]); ?>
    
+    <?php echo Html::a('<span class="glyphicon glyphicon-plus"></span> Agregar Material Existente',
+                    ['/insumo/create', 'ot' => $model->OT_ID, 'status' => 'ot'], 
+                    ['class' => 'btn btn-success']);
+    ?>
     
     <h1>Insumos</h1>
    

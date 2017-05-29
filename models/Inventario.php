@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\AttributeBehavior;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "inventario".
@@ -12,6 +14,8 @@ use Yii;
  * @property int $INS_ID
  * @property string $INV_NOMBRE
  * @property int $INV_CANTIDAD
+ * @property int $INV_PRECIO_UNITARIO 
+ * @property int $INV_TOTAL
  *
  * @property Insumo[] $insumos
  * @property Insumo $iNS
@@ -32,11 +36,15 @@ class Inventario extends \yii\db\ActiveRecord
      */
     public function rules()
     {
+        try{
         $max = $this->iNS->INS_CANTIDAD;
+        } catch (yii\base\ErrorException $e){
+            $max = 0;
+        }
         return [
-            [['OT_ID', 'INS_ID', 'INV_CANTIDAD'], 'integer'],
-                [['INV_CANTIDAD'], 'compare', 'compareValue' => $max, 'operator' => '<='],
-            [['INV_NOMBRE', 'INV_CANTIDAD'], 'required'],
+            [['OT_ID', 'INS_ID', 'INV_CANTIDAD', 'INV_PRECIO_UNITARIO', 'INV_TOTAL'], 'integer'],
+            [['INV_CANTIDAD'], 'compare', 'compareValue' => $max, 'operator' => '<='],
+            [['INV_NOMBRE', 'INV_CANTIDAD', 'INV_PRECIO_UNITARIO', ], 'required'],
             [['INV_NOMBRE'], 'string', 'max' => 128],
             [['INS_ID'], 'unique'],
             [['INS_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Insumo::className(), 'targetAttribute' => ['INS_ID' => 'INS_ID']],
@@ -55,6 +63,8 @@ class Inventario extends \yii\db\ActiveRecord
             'INS_ID' => 'Código Insumo',
             'INV_NOMBRE' => 'Nombre Insumo',
             'INV_CANTIDAD' => 'Cantidad',
+            'INV_PRECIO_UNITARIO' => 'Precio Unitario',
+            'INV_TOTAL' => 'Precio Total',
         ];
     }
 
@@ -81,4 +91,20 @@ class Inventario extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Ot::className(), ['OT_ID' => 'OT_ID']);
     }
+    
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => AttributeBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'INV_TOTAL',
+                    ActiveRecord::EVENT_BEFORE_UPDATE => 'INV_TOTAL',
+                ],
+                'value' => function ($event) {
+                    return ($this->INV_CANTIDAD * $this->INV_PRECIO_UNITARIO);
+                },
+            ],
+        ];
+    }   
 }
