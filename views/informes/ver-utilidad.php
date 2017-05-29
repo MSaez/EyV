@@ -43,6 +43,7 @@
                 'OT_TPINTURA',
                 'OT_TINSUMO',
                 'OT_TEXTERNO',
+                'OT_TREUTILIZADO',
                 'OT_SUBTOTAL',
                 'OT_IVA',
                 'OT_TOTAL',
@@ -79,6 +80,7 @@
                 <th>Total Mensual Pintura</th>
                 <th>Total Mensual Insumos</th>
                 <th>Total Mensual Servicios Externos</th>
+                <th>Total Mensual Insumos Reutilizados</th>
                 <th>Subtotal Mensual</th>
                 <th>IVA Mensual</th>
                 <th>Total Mensual</th>
@@ -91,6 +93,7 @@
                 <td><?= $pintura ?></td>
                 <td><?= $insumos ?></td>
                 <td><?= $externos ?></td>
+                <td><?= $reutilizado ?></td>
                 <td><?= $subtotal ?></td>
                 <td><?= $iva ?></td>
                 <td><?= $total ?></td>
