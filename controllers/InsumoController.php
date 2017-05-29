@@ -24,12 +24,12 @@ class InsumoController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['confirmarrecepcion'],
+                'only' => ['confirmarrecepcion', 'create'],
                 'rules' => [
                     //Para Administrador
                     [
                         //El administrador tiene permisos sobre las siguientes acciones
-                        'actions' => ['confirmarrecepcion'],
+                        'actions' => ['confirmarrecepcion', 'create'],
                         //Esta propiedad establece que tiene permisos
                         'allow' => true,
                         //Usuarios autenticados, el signo ? es para invitados
@@ -44,7 +44,7 @@ class InsumoController extends Controller
                     //Para Usuario
                     [
                         //El administrador tiene permisos sobre las siguientes acciones
-                        'actions' => ['confirmarrecepcion'],
+                        'actions' => ['confirmarrecepcion', 'create'],
                         //Esta propiedad establece que tiene permisos
                         'allow' => true,
                         //Usuarios autenticados, el signo ? es para invitados
@@ -93,32 +93,7 @@ class InsumoController extends Controller
         }
     }
     
-    /**
-    * Lists all Insumo models.
-    * @return mixed
-    */
-    public function actionIndex()
-    {
-        $searchModel = new InsumoSearch();
-	$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-		
-        return $this->render('index', [
-		           'searchModel' => $searchModel,
-		           'dataProvider' => $dataProvider,
-	]);
-    }
-		
-    /**    
-    * Displays a single Insumo model.
-    * @param integer $id
-    * @return mixed
-    */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-		           'model' => $this->findModel($id),
-        ]);
-    }
+   
 		
     /**
     * Esta función utilizará AJAX para rellenar el resto de los campos a excepción de INS_CANTIDAD e INS_TOTAL
