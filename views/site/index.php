@@ -6,7 +6,7 @@ $this->title = Yii::$app->name;
 ?>
 <div class="site-index">
 
-    <h1>Bienvenido a la Plataforma de gestión de Reparaciones de Vehículos y apoyo al proceso de Contabilidad</h1>
+    <h1>Bienvenido a la Plataforma de apoyo a la gestión de Reparaciones y Contabilidad, para servicio automotriz Estrada y Veloso ltda. </h1>
     <h4>Con esta plataforma usted podrá gestionar los procesos de reparación de vehiculos de forma más eficiente y apoyar el proceso de contabilidad de su taller.</h4>
     <br>
     <br>
