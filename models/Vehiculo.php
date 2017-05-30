@@ -42,6 +42,7 @@ class Vehiculo extends \yii\db\ActiveRecord
             [['MAR_ID', 'MOD_ID', 'CLI_ID', 'VEH_ANIO'], 'integer'],
             [['VEH_CHASIS', 'VEH_MOTOR', 'VEH_COLOR'], 'string', 'max' => 128],
             [['VEH_PATENTE'], 'string', 'max' => 8],
+            [['VEH_PATENTE'], 'unique'],
             [['MAR_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Marca::className(), 'targetAttribute' => ['MAR_ID' => 'MAR_ID']],
             [['MOD_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Modelo::className(), 'targetAttribute' => ['MOD_ID' => 'MOD_ID']],
             [['CLI_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Cliente::className(), 'targetAttribute' => ['CLI_ID' => 'CLI_ID']],

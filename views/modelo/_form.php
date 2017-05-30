@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use app\models\Marca;
+use kartik\select2\Select2;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Modelo */
@@ -14,10 +15,13 @@ use app\models\Marca;
 
 <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'MAR_ID')->dropDownList(
-    	ArrayHelper::map(Marca::find()->all(),'MAR_ID','MAR_NOMBRE'),
-    	['prompt' => 'Seleccione una marca']
-    ) ?>
+    <?= $form->field($model, 'MAR_ID')->widget(Select2::classname(), [
+        'data' => ArrayHelper::map(Marca::find()->all(),'MAR_ID','MAR_NOMBRE'),
+        'options' => ['placeholder' => 'Seleccione una Marca ...',],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]); ?>
 
     <?= $form->field($model, 'MOD_NOMBRE')->textInput(['maxlength' => true]) ?>
 

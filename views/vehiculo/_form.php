@@ -6,6 +6,7 @@ use yii\helpers\ArrayHelper;
 use app\models\Cliente;
 use app\models\Marca;
 use app\models\Modelo;
+use kartik\select2\Select2;
 
 
 /* @var $this yii\web\View */
@@ -18,26 +19,35 @@ use app\models\Modelo;
     <?php $form = ActiveForm::begin(); ?>
     
     <!--Código para DropDown de Clientes-->
-    <?= $form->field($model, 'CLI_ID')->dropDownList(
-        ArrayHelper::map(Cliente::find()->all(),'CLI_ID','nombreCompleto'),
-        ['prompt' => 'Seleccione un cliente']
-    ) ?>
+    <?= $form->field($model, 'CLI_ID')->widget(Select2::classname(), [
+        'data' => ArrayHelper::map(Cliente::find()->all(),'CLI_ID','nombreCompleto'),
+        'options' => ['placeholder' => 'Seleccione un Cliente ...',],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]); ?>
     
     <!--Código para DropDown de Marcas-->
-    <?= $form->field($model, 'MAR_ID')->dropDownList(
-        ArrayHelper::map(Marca::find()->all(),'MAR_ID','MAR_NOMBRE'),
-        ['prompt' => 'Seleccione una marca',
-         'onchange' => '
-                $.post( "index.php?r=modelo/list&id='.'"+$(this).val(), function( data) {
-                    $( "select#vehiculo-mod_id" ).html( data );
-                });']
-    ) ?>
+    <?= $form->field($model, 'MAR_ID')->widget(Select2::classname(), [
+        'data' => ArrayHelper::map(Marca::find()->all(),'MAR_ID','MAR_NOMBRE'),
+        'options' => ['placeholder' => 'Seleccione una Marca ...',
+                      'onchange' => '
+                            $.post( "index.php?r=modelo/list&id='.'"+$(this).val(), function( data) {
+                                $( "select#vehiculo-mod_id" ).html( data );
+                            });'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]); ?>
 
     <!--Código para DropDown de Modelos-->
-    <?= $form->field($model, 'MOD_ID')->dropDownList(
-        ArrayHelper::map(Modelo::find()->all(),'MOD_ID','MOD_NOMBRE'),
-        ['prompt' => 'Seleccione un modelo']
-    ) ?>
+    <?= $form->field($model, 'MOD_ID')->widget(Select2::classname(), [
+        'data' => ArrayHelper::map(Modelo::find()->all(),'MOD_ID','nombreModelo'),
+        'options' => ['placeholder' => 'Seleccione un Modelo ...',],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]); ?>
 
     <?= $form->field($model, 'VEH_ANIO')->textInput() ?>
 

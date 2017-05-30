@@ -162,7 +162,7 @@ class ModeloController extends Controller
         if( $countModelos > 0 )
         {
             foreach ($modelos as $modelo) {
-                echo "<option value='".$modelo->MOD_ID."'>".$modelo->MOD_NOMBRE."</option>";                
+                echo "<option value='".$modelo->MOD_ID."'>".$modelo->nombreModelo."</option>";                
             }
         }
         else

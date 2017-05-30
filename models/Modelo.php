@@ -35,7 +35,7 @@ class Modelo extends \yii\db\ActiveRecord
             [['MAR_ID'], 'integer'],
             [['MOD_NOMBRE', 'MOD_VARIANTE'], 'string', 'max' => 128],
             [['MAR_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Marca::className(), 'targetAttribute' => ['MAR_ID' => 'MAR_ID']],
-            [['MOD_NOMBRE', 'MOD_VARIANTE'], 'match', 'pattern' => '/^[\sa-zA-Z0-9áéíóúAÉÍÓÚÑñ]+$/', 'message'=>'Nombre de Modelo Inválido. Por favor ingrese solo caracteres alfanuméricos.'],
+            [['MOD_NOMBRE', 'MOD_VARIANTE'], 'match', 'pattern' => '/^[\sa-zA-Z0-9áéíóúAÉÍÓÚÑñ.]+$/', 'message'=>'Nombre de Modelo Inválido. Por favor ingrese solo caracteres alfanuméricos.'],
         ];
     }
 
@@ -66,5 +66,9 @@ class Modelo extends \yii\db\ActiveRecord
     public function getVehiculos()
     {
         return $this->hasMany(Vehiculo::className(), ['MOD_ID' => 'MOD_ID']);
+    }
+    
+    public function getNombreModelo(){
+        return $this->MOD_NOMBRE.' '.$this->MOD_VARIANTE;
     }
 }

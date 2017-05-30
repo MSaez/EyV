@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [                      
                 'label' => 'Modelo', // se modifica la columna de la id de marca para que muestre su nombre
-                'value' => $model->mOD->MOD_NOMBRE,
+                'value' => $model->mOD->nombreModelo,
             ],
             [                      
                 'label' => 'Propietario', // se modifica la columna de la id de marca para que muestre su nombre
