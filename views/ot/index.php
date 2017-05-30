@@ -25,7 +25,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            //['class' => 'yii\grid\SerialColumn'],
+            'OT_ID',
             [
                 'attribute' => 'VEH_ID', 
                 'value' => 'vEH.VEH_PATENTE',
@@ -37,7 +38,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     'hideSearch' => false,
                     'options' => [
                         'placeholder' => 'Seleccione un Vehiculo...',
-                    ]
+                    ],
+                    'pluginOptions' => ['allowClear' => true],
                 ]),
             ],
             [
@@ -51,7 +53,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     'hideSearch' => false,
                     'options' => [
                         'placeholder' => 'Seleccione un Cliente...',
-                    ]
+                    ],
+                    'pluginOptions' => ['allowClear' => true],
                 ]),
             ],
             [
@@ -83,7 +86,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'format' => 'yyyy-mm-dd',
                         'todayHighlight' => true
                     ],
-                    'options' => ['placeholder' => 'Fecha de Entrega ...'],                    
+                    'options' => ['placeholder' => 'Fecha de Entrega ...'],
                 ]),
             ],
             // 'OT_OBSERVACIONES:ntext',
@@ -91,7 +94,23 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'OT_IVA',
             'OT_TOTAL',
             // 'OT_TOTAL_HORAS',
-            'OT_ESTADO',
+            [
+                'attribute' => 'OT_ESTADO',
+                'value' => 'OT_ESTADO',
+                'filter' => Select2::widget([
+                    'model' => $searchModel,
+                    'attribute' => 'OT_ESTADO',
+                    'data' => ['Pendiente' => 'Pendiente',
+                               'Ejecutando' => 'En ejecución',
+                               'Terminado' => 'Terminado',
+                               'Cancelado' => 'Cancelado',
+                               'Despachado' => 'Despachado',],                               
+                    'options' => ['placeholder' => 'Seleccione un Estado...',],
+                    'theme' => Select2::THEME_BOOTSTRAP,
+                    'hideSearch' => false,
+                    'pluginOptions' => ['allowClear' => true],
+                ]),
+            ],
             ['class' => '\kartik\grid\ActionColumn',
              'template' => '{view} {update}'],
         ],
