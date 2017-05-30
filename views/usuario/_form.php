@@ -11,6 +11,8 @@ use yii\widgets\ActiveForm;
 <div class="usuario-form">
 
     <?php $form = ActiveForm::begin(); ?>
+    
+    <?= $form->errorSummary($model)?>
 
     <?= $form->field($model, 'US_USERNAME')->textInput(['maxlength' => true]) ?>
 
@@ -23,11 +25,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'US_MATERNO')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'US_EMAIL')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'US_PASSWORD')->textInput(['maxlength' => true]) ?>
-    
-    
-    
+   
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Guardar' : 'Guardar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

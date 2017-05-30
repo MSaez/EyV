@@ -93,6 +93,7 @@ class UsuarioController extends Controller
     public function actionCreate()
     {
         $model = new Usuario();
+        $pass = Yii::$app->security->generateRandomString(10);
         
         //Validación mediante ajax
         if ($model->load(Yii::$app->request->post()) && Yii::$app->request->isAjax)
@@ -102,9 +103,21 @@ class UsuarioController extends Controller
         }
         
         $model->US_AUTHKEY = Yii::$app->getSecurity()->generateRandomString();
-        $model->setPassword($model->US_PASSWORD);
+        $model->setPassword($pass);
         
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->mailer->compose()
+                ->setFrom(['mail@gmail.com' => 'Sistema de Gestión de reparaciones Estrada y Veloso Ltda.'])
+                ->setTo($model->US_EMAIL)
+                ->setSubject('Registro en sistema Estrada y Veloso' )
+                ->setHtmlBody('<h2>Registro en sistema Estrada y Veloso</h2>
+                               <br>
+                               <br>
+                               <h4>'.$model->nombreCompleto.':
+                               <br>Se realizó el registro de su cuenta en el sistema. Su contraseña es: '.
+                               $pass.'</h4><br>
+                               <h4>Se Recomienda por temas de seguridad, que cambie la contraseña. </h4>')
+                ->send();
             return $this->redirect(['view', 'id' => $model->US_ID]);
         } else {
             return $this->render('create', [
@@ -112,6 +125,7 @@ class UsuarioController extends Controller
             ]);
         }
     }
+
 
     /**
      * Updates an existing Usuario model.
@@ -166,7 +180,7 @@ class UsuarioController extends Controller
                                <br>
                                <br>
                                <h4>'.$usuario->nombreCompleto.':
-                               <br>Se realizó el cambio en su contraseña de acceso al sistema. Su nueva contraseña es:'.
+                               <br>Se realizó el cambio en su contraseña de acceso al sistema. Su nueva contraseña es: '.
                                $pass.'</h4><br>
                                <h4>Se Recomienda por temas de seguridad, que cambie la contraseña. </h4>')
                 ->send();

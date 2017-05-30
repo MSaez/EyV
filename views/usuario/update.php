@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Usuario */
 
-$this->title = 'Actualizar Usuario: ' . $model->US_RUT;
+$this->title = 'Actualizar Usuario: '.Yii::$app->formatter->asRut($model->US_RUT);
 $this->params['breadcrumbs'][] = ['label' => 'Usuarios', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => Yii::$app->formatter->asRut($model->US_RUT), 'url' => ['view', 'id' => $model->US_ID]];
 $this->params['breadcrumbs'][] = 'Actualizar';
