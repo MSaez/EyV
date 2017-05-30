@@ -85,7 +85,7 @@ class InformesController extends \yii\web\Controller
             $xfecha = explode("-",$model->fecha);
             $inicio = '"'.$xfecha[0].'-'.$xfecha[1].'-01"';
             $fin = '"'.$xfecha[0].'-'.$xfecha[1].'-31"';
-            $sql = "SELECT ot.OT_ID, ot.CLI_ID, ot.VEH_ID, ot.OT_TOTAL, ot.OT_TDESABOLLADURA, ot.OT_TPINTURA, ot.OT_TINSUMO, ot.OT_TEXTERNO,ot.OT_SUBTOTAL, ot.OT_IVA, ot.OT_OBSERVACIONES FROM ot INNER JOIN cobros ON ot.OT_ID = cobros.OT_ID WHERE (cobros.CBR_FECHA BETWEEN ".$inicio." AND ".$fin.")";
+            $sql = "SELECT ot.OT_ID, ot.CLI_ID, ot.VEH_ID, ot.OT_TOTAL, ot.OT_TDESABOLLADURA, ot.OT_TPINTURA, ot.OT_TINSUMO, ot.OT_TEXTERNO, ot.OT_TREUTILIZADO, ot.OT_SUBTOTAL, ot.OT_IVA, ot.OT_OBSERVACIONES FROM ot INNER JOIN cobros ON ot.OT_ID = cobros.OT_ID WHERE (cobros.CBR_FECHA BETWEEN ".$inicio." AND ".$fin.")";
             $query = Ot::findBySql($sql);
             
             $dataProviderUtilidad = new ActiveDataProvider([
@@ -100,6 +100,7 @@ class InformesController extends \yii\web\Controller
         $pintura = 0;
         $insumos =0;
         $externos = 0;
+        $reutilizado = 0;
         $iva = 0;
         foreach ($dataProviderUtilidad->models as $item){
             $utilidad = $utilidad + $item->utilidad;
@@ -107,6 +108,7 @@ class InformesController extends \yii\web\Controller
             $pintura = $pintura + $item->OT_TPINTURA;
             $insumos = $insumos + $item->OT_TINSUMO;
             $externos = $externos + $item->OT_TEXTERNO;
+            $reutilizado = $reutilizado + $item->OT_TREUTILIZADO;
             $subtotal = $subtotal + $item->OT_SUBTOTAL;
             $iva = $iva + $item->OT_IVA;
             $total = $total + $item->OT_TOTAL;
@@ -120,6 +122,7 @@ class InformesController extends \yii\web\Controller
                                                                 'pintura' => $pintura,
                                                                 'insumos' => $insumos,
                                                                 'externos' => $externos,
+                                                                'reutilizado' => $reutilizado,
                                                                 'subtotal' => $subtotal,
                                                                 'iva' => $iva,
                                                                 'total' => $total
@@ -133,7 +136,7 @@ class InformesController extends \yii\web\Controller
     
     public function actionImprimirUtilidad($inicio, $fin)
     {
-        $sql = "SELECT ot.OT_ID, ot.CLI_ID, ot.VEH_ID, ot.OT_TOTAL, ot.OT_TDESABOLLADURA, ot.OT_TPINTURA, ot.OT_TINSUMO, ot.OT_TEXTERNO,ot.OT_SUBTOTAL, ot.OT_IVA, ot.OT_OBSERVACIONES, cobros.CBR_VALOR, cobros.CBR_FECHA FROM ot INNER JOIN cobros ON ot.OT_ID = cobros.OT_ID WHERE (cobros.CBR_FECHA BETWEEN ".$inicio." AND ".$fin.")";
+        $sql = "SELECT ot.OT_ID, ot.CLI_ID, ot.VEH_ID, ot.OT_TOTAL, ot.OT_TDESABOLLADURA, ot.OT_TPINTURA, ot.OT_TINSUMO, ot.OT_TEXTERNO, ot.OT_TREUTILIZADO, ot.OT_SUBTOTAL, ot.OT_IVA, ot.OT_OBSERVACIONES, cobros.CBR_VALOR, cobros.CBR_FECHA FROM ot INNER JOIN cobros ON ot.OT_ID = cobros.OT_ID WHERE (cobros.CBR_FECHA BETWEEN ".$inicio." AND ".$fin.")";
             $query = Ot::findBySql($sql);
             
         $dataProviderUtilidad = new ActiveDataProvider([
@@ -148,6 +151,7 @@ class InformesController extends \yii\web\Controller
         $pintura = 0;
         $insumos =0;
         $externos = 0;
+        $reutilizado = 0;
         $iva = 0;
         foreach ($dataProviderUtilidad->models as $item){
             $utilidad = $utilidad + $item->utilidad;
@@ -155,6 +159,7 @@ class InformesController extends \yii\web\Controller
             $pintura = $pintura + $item->OT_TPINTURA;
             $insumos = $insumos + $item->OT_TINSUMO;
             $externos = $externos + $item->OT_TEXTERNO;
+            $reutilizado = $reutilizado + $item->OT_TREUTILIZADO;
             $subtotal = $subtotal + $item->OT_SUBTOTAL;
             $iva = $iva + $item->OT_IVA;
             $total = $total + $item->OT_TOTAL;
@@ -167,6 +172,7 @@ class InformesController extends \yii\web\Controller
             'pintura' => $pintura,
             'insumos' => $insumos,
             'externos' => $externos,
+            'reutilizado' => $reutilizado,
             'subtotal' => $subtotal,
             'iva' => $iva,
             'total' => $total
