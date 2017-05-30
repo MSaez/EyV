@@ -12,8 +12,10 @@ use app\models\DesModel;
 use app\models\PinModel;
 use app\models\ActividadDesabolladura;
 use app\models\ActividadDesabolladuraSearch;
+use app\models\ImprimirActividadDesabolladuraSearch;
 use app\models\ActividadPintura;
 use app\models\ActividadPinturaSearch;
+use app\models\ImprimirActividadPinturaSearch;
 use app\models\Insumo;
 use app\models\InsumoSearch;
 use app\models\InformeInsumoSearch;
@@ -165,6 +167,11 @@ class OtController extends Controller
         $modelsServicios=$model->otrosServicios;
 
         if ($model->load(Yii::$app->request -> post())){
+            
+            if ($model->CBR_ID != null){
+                throw new \yii\base\Exception("No se puede modificar el estado de una Orden de Trabajo cobrada.");
+            }
+            
             
             $oldIDsDesabolladura = ArrayHelper::map($modelsDesabolladura, 'DES_ID', 'DES_ID');
             $modelsDesabolladura = DesModel::createMultiple(ActividadDesabolladura::classname(), $modelsDesabolladura);
@@ -358,11 +365,11 @@ class OtController extends Controller
         $modelsDesabolladura = $model->actividadDesabolladuras;
         $modelsPintura = $model->actividadPinturas;
         
-        $searchModelDesabolladura = new ActividadDesabolladuraSearch();
+        $searchModelDesabolladura = new ImprimirActividadDesabolladuraSearch();
         $searchModelDesabolladura->OT_ID = $model->OT_ID;
         $dataProviderDesabolladura = $searchModelDesabolladura->search(Yii::$app->request->queryParams);
         
-        $searchModelPintura = new ActividadPinturaSearch();
+        $searchModelPintura = new ImprimirActividadPinturaSearch();
         $searchModelPintura->OT_ID = $model->OT_ID;
         $dataProviderPintura = $searchModelPintura->search(Yii::$app->request->queryParams);
         

@@ -257,7 +257,7 @@ $this->registerJs($JS_TOTAL, \yii\web\VIEW::POS_HEAD);
         'widgetContainer' => 'dynamicform_wrapper_desabolladura', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
         'widgetBody' => '.container-items_desabolladura', // required: css class selector
         'widgetItem' => '.item_desabolladura', // required: css class
-        'limit' => 4, // the maximum times, an element can be added (default 999)
+        'limit' => 999, // the maximum times, an element can be added (default 999)
         'min' => 0, // 0 or 1 (default 1)
         'insertButton' => '.add-item_desabolladura', // css class
         'deleteButton' => '.remove-item_desabolladura', // css class
@@ -267,7 +267,6 @@ $this->registerJs($JS_TOTAL, \yii\web\VIEW::POS_HEAD);
             'DES_DESCRIPCION',
             'DES_HORAS',
             'DES_PRECIO',
-
         ],
     ]); ?>
 
@@ -324,7 +323,7 @@ $this->registerJs($JS_TOTAL, \yii\web\VIEW::POS_HEAD);
         'widgetContainer' => 'dynamicform_wrapper_pintura', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
         'widgetBody' => '.container-items_pintura', // required: css class selector
         'widgetItem' => '.item_pintura', // required: css class
-        'limit' => 4, // the maximum times, an element can be added (default 999)
+        'limit' => 999, // the maximum times, an element can be added (default 999)
         'min' => 0, // 0 or 1 (default 1)
         'insertButton' => '.add-item_pintura', // css class
         'deleteButton' => '.remove-item_pintura', // css class
@@ -334,7 +333,6 @@ $this->registerJs($JS_TOTAL, \yii\web\VIEW::POS_HEAD);
             'PIN_DESCRIPCION',
             'PIN_HORAS',
             'PIN_PRECIO',
-
         ],
     ]); ?>
 
@@ -389,7 +387,7 @@ $this->registerJs($JS_TOTAL, \yii\web\VIEW::POS_HEAD);
         'widgetContainer' => 'dynamicform_wrapper_insumo', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
         'widgetBody' => '.container-items_insumo', // required: css class selector
         'widgetItem' => '.item_insumo', // required: css class
-        'limit' => 99, // the maximum times, an element can be added (default 999)
+        'limit' => 999, // the maximum times, an element can be added (default 999)
         'min' => 0, // 0 or 1 (default 1)
         'insertButton' => '.add-item_insumo', // css class
         'deleteButton' => '.remove-item_insumo', // css class
@@ -471,7 +469,7 @@ $this->registerJs($JS_TOTAL, \yii\web\VIEW::POS_HEAD);
         'widgetContainer' => 'dynamicform_wrapper_servicio', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
         'widgetBody' => '.container-items_servicio', // required: css class selector
         'widgetItem' => '.item_servicio', // required: css class
-        'limit' => 4, // the maximum times, an element can be added (default 999)
+        'limit' => 999, // the maximum times, an element can be added (default 999)
         'min' => 0, // 0 or 1 (default 1)
         'insertButton' => '.add-item_servicio', // css class
         'deleteButton' => '.remove-item_servicio', // css class

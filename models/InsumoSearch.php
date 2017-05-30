@@ -47,6 +47,8 @@ class InsumoSearch extends Insumo
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => false,
+            'pagination' => false,
         ]);
 
         $this->load($params);

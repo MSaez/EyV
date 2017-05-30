@@ -47,7 +47,7 @@ class ActividadDesabolladuraSearch extends ActividadDesabolladura
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort' => false,
+            'sort' => false,            
         ]);
 
         $this->load($params);

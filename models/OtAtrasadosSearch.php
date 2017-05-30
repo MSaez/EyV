@@ -50,6 +50,7 @@ class OtAtrasadosSearch extends Ot
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'sort' => false,
+            'pagination' => false,
         ]);
 
         $this->load($params);

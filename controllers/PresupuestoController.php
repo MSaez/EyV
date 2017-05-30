@@ -10,13 +10,16 @@ use app\models\DesModel;
 use app\models\PinModel;
 use app\models\ActividadDesabolladura;
 use app\models\ActividadDesabolladuraSearch;
+use app\models\ImprimirActividadDesabolladuraSearch;
 use app\models\ActividadPintura;
 use app\models\ActividadPinturaSearch;
+use app\models\ImprimirActividadPinturaSearch;
 use app\models\Insumo;
 use app\models\InsumoSearch;
-use app\models\InformeInsumoSearch;
+use app\models\ImprimirInsumoSearch;
 use app\models\OtrosServicios;
 use app\models\OtrosServiciosSearch;
+use app\models\ImprimirOtrosServiciosSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -416,19 +419,19 @@ class PresupuestoController extends Controller
         $modelsInsumo = $model->insumos;
         $modelsServicios = $model->otrosServicios;
         
-        $searchModelDesabolladura = new ActividadDesabolladuraSearch();
+        $searchModelDesabolladura = new ImprimirActividadDesabolladuraSearch();
         $searchModelDesabolladura->OT_ID = $model->OT_ID;
         $dataProviderDesabolladura = $searchModelDesabolladura->search(Yii::$app->request->queryParams);
         
-        $searchModelPintura = new ActividadPinturaSearch();
-        $searchModelPintura->OT_ID = $model->OT_ID;
+        $searchModelPintura = new ImprimirActividadPinturaSearch();
+        $searchModelPintura->OT_ID = $model->OT_ID;        
         $dataProviderPintura = $searchModelPintura->search(Yii::$app->request->queryParams);
         
-        $searchModelInsumo = new InsumoSearch();
+        $searchModelInsumo = new ImprimirInsumoSearch();
         $searchModelInsumo->OT_ID = $model->OT_ID;
         $dataProviderInsumo = $searchModelInsumo->search(Yii::$app->request->queryParams);
         
-        $searchModelServicios = new OtrosServiciosSearch();
+        $searchModelServicios = new ImprimirOtrosServiciosSearch();
         $searchModelServicios->OT_ID = $model->OT_ID;
         $dataProviderServicios = $searchModelServicios->search(Yii::$app->request->queryParams);
         // get your HTML raw content without any layouts or scripts

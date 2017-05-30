@@ -91,6 +91,7 @@ class InformesController extends \yii\web\Controller
             $dataProviderUtilidad = new ActiveDataProvider([
                 'query' => $query,
                 'sort' => false,
+                'pagination' => false,
             ]);
             
             $utilidad = 0;
@@ -142,6 +143,7 @@ class InformesController extends \yii\web\Controller
         $dataProviderUtilidad = new ActiveDataProvider([
             'query' => $query,
             'sort' => false,
+            'pagination' => false,
         ]);
         
         $utilidad = 0;

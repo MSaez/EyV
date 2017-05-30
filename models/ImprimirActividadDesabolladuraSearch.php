@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Ot;
+use app\models\ActividadDesabolladura;
 
 /**
- * OtSearch represents the model behind the search form about `app\models\Ot`.
+ * ActividadDesabolladuraSearch represents the model behind the search form about `app\models\ActividadDesabolladura`.
  */
-class OtSearch extends Ot
+class ImprimirActividadDesabolladuraSearch extends ActividadDesabolladura
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class OtSearch extends Ot
     public function rules()
     {
         return [
-            [['OT_ID', 'OD_ID', 'CBR_ID', 'VEH_ID', 'CLI_ID', 'OT_SUBTOTAL', 'OT_IVA', 'OT_TOTAL', 'OT_TOTAL_HORAS'], 'integer'],
-            [['OT_INICIO', 'OT_ENTREGA', 'OT_OBSERVACIONES', 'OT_ESTADO'], 'safe'],
+            [['DES_ID', 'OT_ID', 'DES_HORAS', 'DES_PRECIO'], 'integer'],
+            [['DES_DESCRIPCION', 'DES_ESTADO'], 'safe'],
         ];
     }
 
@@ -41,12 +41,14 @@ class OtSearch extends Ot
      */
     public function search($params)
     {
-        $query = Ot::find()->where('OT_ESTADO != "Presupuesto"');
+        $query = ActividadDesabolladura::find();
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => false,
+            'pagination' => false,
         ]);
 
         $this->load($params);
@@ -59,23 +61,17 @@ class OtSearch extends Ot
 
         // grid filtering conditions
         $query->andFilterWhere([
+            'DES_ID' => $this->DES_ID,
             'OT_ID' => $this->OT_ID,
-            'OD_ID' => $this->OD_ID,
-            'CBR_ID' => $this->CBR_ID,
-            'VEH_ID' => $this->VEH_ID,
-            'CLI_ID' => $this->CLI_ID,
-            'OT_INICIO' => $this->OT_INICIO,
-            'OT_ENTREGA' => $this->OT_ENTREGA,
-            'OT_SUBTOTAL' => $this->OT_SUBTOTAL,
-            'OT_IVA' => $this->OT_IVA,
-            'OT_TOTAL' => $this->OT_TOTAL,
-            'OT_TOTAL_HORAS' => $this->OT_TOTAL_HORAS,
-            'OT_ESTADO' => $this->OT_ESTADO
+            'DES_HORAS' => $this->DES_HORAS,
+            'DES_PRECIO' => $this->DES_PRECIO,
         ]);
 
-        //$query->andFilterWhere(['like', 'OT_OBSERVACIONES', $this->OT_OBSERVACIONES])
-                //->andFilterWhere(['like', 'Presupuesto', $this->OT_ESTADO]);
+        $query->andFilterWhere(['like', 'DES_DESCRIPCION', $this->DES_DESCRIPCION])
+            ->andFilterWhere(['like', 'DES_ESTADO', $this->DES_ESTADO]);
 
         return $dataProvider;
     }
 }
+
+

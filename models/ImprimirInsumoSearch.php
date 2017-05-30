@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Ot;
+use app\models\Insumo;
 
 /**
- * OtSearch represents the model behind the search form about `app\models\Ot`.
+ * InsumoSearch represents the model behind the search form of `app\models\Insumo`.
  */
-class OtSearch extends Ot
+class ImprimirInsumoSearch extends Insumo
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class OtSearch extends Ot
     public function rules()
     {
         return [
-            [['OT_ID', 'OD_ID', 'CBR_ID', 'VEH_ID', 'CLI_ID', 'OT_SUBTOTAL', 'OT_IVA', 'OT_TOTAL', 'OT_TOTAL_HORAS'], 'integer'],
-            [['OT_INICIO', 'OT_ENTREGA', 'OT_OBSERVACIONES', 'OT_ESTADO'], 'safe'],
+            [['INS_ID', 'OT_ID', 'PINS_ID', 'INV_ID', 'INS_CANTIDAD', 'INS_PRECIO_UNITARIO', 'INS_TOTAL', 'INS_RECIBIDO', 'INS_REUTILIZADO'], 'integer'],
+            [['INS_NOMBRE'], 'safe'],
         ];
     }
 
@@ -41,12 +41,14 @@ class OtSearch extends Ot
      */
     public function search($params)
     {
-        $query = Ot::find()->where('OT_ESTADO != "Presupuesto"');
+        $query = Insumo::find();
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => false,
+            'pagination' => false,
         ]);
 
         $this->load($params);
@@ -59,23 +61,21 @@ class OtSearch extends Ot
 
         // grid filtering conditions
         $query->andFilterWhere([
+            'INS_ID' => $this->INS_ID,
             'OT_ID' => $this->OT_ID,
-            'OD_ID' => $this->OD_ID,
-            'CBR_ID' => $this->CBR_ID,
-            'VEH_ID' => $this->VEH_ID,
-            'CLI_ID' => $this->CLI_ID,
-            'OT_INICIO' => $this->OT_INICIO,
-            'OT_ENTREGA' => $this->OT_ENTREGA,
-            'OT_SUBTOTAL' => $this->OT_SUBTOTAL,
-            'OT_IVA' => $this->OT_IVA,
-            'OT_TOTAL' => $this->OT_TOTAL,
-            'OT_TOTAL_HORAS' => $this->OT_TOTAL_HORAS,
-            'OT_ESTADO' => $this->OT_ESTADO
+            'PINS_ID' => $this->PINS_ID,
+            'INV_ID' => $this->INV_ID,
+            'INS_CANTIDAD' => $this->INS_CANTIDAD,
+            'INS_PRECIO_UNITARIO' => $this->INS_PRECIO_UNITARIO,
+            'INS_TOTAL' => $this->INS_TOTAL,
+            'INS_RECIBIDO' => $this->INS_RECIBIDO,
+            'INS_REUTILIZADO' => $this->INS_REUTILIZADO,
         ]);
 
-        //$query->andFilterWhere(['like', 'OT_OBSERVACIONES', $this->OT_OBSERVACIONES])
-                //->andFilterWhere(['like', 'Presupuesto', $this->OT_ESTADO]);
+        $query->andFilterWhere(['like', 'INS_NOMBRE', $this->INS_NOMBRE]);
 
         return $dataProvider;
     }
 }
+
+
