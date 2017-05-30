@@ -202,6 +202,7 @@ AppAsset::register($this);
         
         
         <?= $content ?>
+        
     </div>
 </div>
 
@@ -217,3 +218,5 @@ AppAsset::register($this);
 </body>
 </html>
 <?php $this->endPage() ?>
+
+

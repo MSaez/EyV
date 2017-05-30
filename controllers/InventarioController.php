@@ -3,12 +3,14 @@
 namespace app\controllers;
 
 use Yii;
+use app\models\Usuario;
 use app\models\Insumo;
 use app\models\Inventario;
 use app\models\InventarioSeach;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * InventarioController implements the CRUD actions for Inventario model.

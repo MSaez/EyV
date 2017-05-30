@@ -104,10 +104,13 @@ class InsumoController extends Controller
         if ($status != 'presupuesto' && $status != 'ot'){
             throw new Exception("Algo salió mal!");
         }
-        
         $model = new Insumo(['scenario' => 'existente']);
-        $inventario = Inventario::find(['INV_ID' => $model->inventario_id])->one();
-        $insumo_excedente = Insumo::find(['INS_ID' => $inventario->INS_ID])->one();
+        try{
+            $inventario = Inventario::find(['INV_ID' => $model->inventario_id])->one();
+            $insumo_excedente = Insumo::find(['INS_ID' => $inventario->INS_ID])->one();
+        }catch (yii\base\ErrorException $e){
+            throw new Exception("Algo salió mal!");
+        }        
         $model->INS_REUTILIZADO = 1;
         $model->OT_ID = $ot;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
