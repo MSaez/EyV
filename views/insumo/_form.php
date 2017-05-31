@@ -18,12 +18,11 @@ $JS = 'function obtenerTotal(){
 
 $this->registerJs($JS, \yii\web\VIEW::POS_HEAD);
 ?>
+<h1>Retirar Insumo de Bodega</h1>
 
 <div class="insumo-form">
 
     <?php $form = ActiveForm::begin(); ?>
-    
-    <?= $form->errorSummary($model) ?>
     
     <?= $form->field($model, 'inventario_id')->label("Insumo en Bodega")->widget(Select2::classname(), [
         'data' => ArrayHelper::map(Inventario::find()->all(),'INV_ID','itemCantidad'),
