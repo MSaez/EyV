@@ -92,6 +92,10 @@ class Inventario extends \yii\db\ActiveRecord
         return $this->hasOne(Ot::className(), ['OT_ID' => 'OT_ID']);
     }
     
+    public function getItemCantidad(){
+        return $this->INV_NOMBRE.': Cantidad: '.$this->INV_CANTIDAD;
+    }
+    
     public function behaviors()
     {
         return [

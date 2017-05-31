@@ -140,10 +140,11 @@ class Insumo extends \yii\db\ActiveRecord
     public function validateCantidad($attribute, $params)
     {
         
-        $item = Inventario::find(['INV_ID' => $this->inventario_id])->one();
+        $item = Inventario::find()->where(['INV_ID' => $this->inventario_id])->one();
         if ($this->INS_CANTIDAD > $item->INV_CANTIDAD) {
             $this->addError($attribute, 'Ha excedido la cantidad de material almacenado en bodega.(Máximo: '.$item->INV_CANTIDAD.')');
         }
+        
     }
     
     public function scenarios() {

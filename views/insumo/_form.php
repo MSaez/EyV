@@ -25,8 +25,8 @@ $this->registerJs($JS, \yii\web\VIEW::POS_HEAD);
     
     <?= $form->errorSummary($model) ?>
     
-    <?= $form->field($model, 'inventario_id')->widget(Select2::classname(), [
-        'data' => ArrayHelper::map(Inventario::find()->all(),'INV_ID','INV_NOMBRE'),
+    <?= $form->field($model, 'inventario_id')->label("Insumo en Bodega")->widget(Select2::classname(), [
+        'data' => ArrayHelper::map(Inventario::find()->all(),'INV_ID','itemCantidad'),
         'options' =>   ['placeholder' => 'Seleccione un Insumo ...',
                         'onchange' => '
                             $.post( "index.php?r=inventario/unitario&id='.'"+$(this).val(), function( data) {
@@ -41,13 +41,15 @@ $this->registerJs($JS, \yii\web\VIEW::POS_HEAD);
         ],
     ]); ?>
     
+    <?php Yii::$app->session->set('inventario_id', $model->inventario_id); ?>
+    
     <?= $form->field($model, 'INS_NOMBRE')->hiddenInput()->label(false)?>
 
-    <?= $form->field($model, 'INS_CANTIDAD')->textInput(['onkeyup' => 'obtenerTotal();']) ?>
+    <?= $form->field($model, 'INS_CANTIDAD')->label("Cantidad a Retirar")->textInput(['onkeyup' => 'obtenerTotal();']) ?>
 
     <?= $form->field($model, 'INS_PRECIO_UNITARIO')->textInput(['readonly' => true, 'value' => 0]) ?>
 
-    <?= $form->field($model, 'INS_TOTAL')->textInput(['readonly' => true, 'value' => 0]) ?>
+    <?= $form->field($model, 'INS_TOTAL')->label("Valor Retiro")->textInput(['readonly' => true, 'value' => 0]) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>

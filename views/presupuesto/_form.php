@@ -430,7 +430,9 @@ $this->registerJs($JS_TOTAL, \yii\web\VIEW::POS_HEAD);
                         </div><!-- .row -->
                         <div class="row">
                             <div class="col-sm-4">
-                                <?= $form->field($modelInsumo, "[{$i}]INS_CANTIDAD")->textInput(['maxlength' => true]) ?>
+                                <?= $form->field($modelInsumo, "[{$i}]INS_CANTIDAD")->textInput(['maxlength' => true,
+                                                                                                        'onkeyup'=>'sumar_total_desabolladura();sumar_total_pintura();sumar_total_insumos();sumar_total_servicio();calcular_subtotal();calcular_iva();calcular_total();'
+                                                                                                       ]) ?>
                             </div>
                             <div class="col-sm-4">
                                 <?= $form->field($modelInsumo, "[{$i}]INS_PRECIO_UNITARIO")->textInput(['maxlength' => true,
@@ -546,19 +548,19 @@ $this->registerJs($JS_TOTAL, \yii\web\VIEW::POS_HEAD);
                     <?= $form->field($model, 'OT_TREUTILIZADO')->textInput(['size' => 8, 'value' => '0']) ?>
                 </div>
                 <div class="col-sm-4">
-                    <?= $form->field($model, 'OT_SUBTOTAL')->textInput(['size' => 8,]) ?>
+                    <?= $form->field($model, 'OT_SUBTOTAL')->textInput(['size' => 8, 'value' => '0']) ?>
                 </div>
             </div>
             <div class="row">
                 
                 <div class="col-sm-4">
-                    <?= $form->field($model, 'OT_IVA')->textInput(['size' => 8,]) ?>
+                    <?= $form->field($model, 'OT_IVA')->textInput(['size' => 8, 'value' => '0']) ?>
                 </div>
                 <div class="col-sm-4">
-                    <?= $form->field($model, 'OT_TOTAL')->textInput(['size' => 8,]) ?>
+                    <?= $form->field($model, 'OT_TOTAL')->textInput(['size' => 8, 'value' => '0']) ?>
                 </div>
                 <div class="col-sm-4">
-                    <?= $form->field($model, 'OT_TOTAL_HORAS')->textInput(['size' => 8,]) ?>
+                    <?= $form->field($model, 'OT_TOTAL_HORAS')->textInput(['size' => 8, 'value' => '0']) ?>
                 </div>
             </div>
         </div>
