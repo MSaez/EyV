@@ -46,7 +46,7 @@ class Cliente extends \yii\db\ActiveRecord
             ['CLI_PATERNO', 'match', 'pattern' => '/^[a-zA-ZáéíóúAÉÍÓÚÑñ\s]+$/', 'message'=>'Apellido Paterno Inválido. Por favor ingrese solo caracteres alfabeticos.'],
             ['CLI_MATERNO', 'match', 'pattern' => '/^[a-zA-ZáéíóúAÉÍÓÚÑñ\s]+$/', 'message'=>'Apellido Materno Inválido. Por favor ingrese solo caracteres alfabeticos.'],
             ['CLI_TELEFONO', 'match', 'pattern' => '/^[+0-9]+$/', 'message'=>'Número telefónico Inválido. Por favor ingrese solo caracteres numéricos.'],
-            ['CLI_DIRECCION', 'match', 'pattern' => '/^[\sa-zA-Z0-9áéíóúAÉÍÓÚÑñ.,:;-]+$/', 'message'=>'Dirección Inválida. Por favor ingrese solo caracteres alfanuméricos y signos de puntuación.'],
+            ['CLI_DIRECCION', 'match', 'pattern' => '/^[\sa-zA-Z0-9áéíóúAÉÍÓÚÑñ#.,:;-]+$/', 'message'=>'Dirección Inválida. Por favor ingrese solo caracteres alfanuméricos y signos de puntuación.'],
             
         ];
     }
