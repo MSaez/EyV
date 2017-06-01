@@ -106,8 +106,8 @@ class InsumoController extends Controller
         }
         $model = new Insumo(['scenario' => 'existente']);
         try{
-            $inventario = Inventario::find(['INV_ID' => $model->inventario_id])->one();
-            $insumo_excedente = Insumo::find(['INS_ID' => $inventario->INS_ID])->one();
+            $inventario = Inventario::find()->where(['INV_ID' => $model->inventario_id])->one();
+            $insumo_excedente = Insumo::find()->where(['INS_ID' => $inventario->INS_ID])->one();
         }catch (yii\base\ErrorException $e){
             throw new Exception("Algo salió mal!");
         }        
