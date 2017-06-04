@@ -105,15 +105,11 @@ class InsumoController extends Controller
             throw new Exception("Algo salió mal!");
         }
         $model = new Insumo(['scenario' => 'existente']);
-        try{
-            $inventario = Inventario::find()->where(['INV_ID' => $model->inventario_id])->one();
-            $insumo_excedente = Insumo::find()->where(['INS_ID' => $inventario->INS_ID])->one();
-        }catch (yii\base\ErrorException $e){
-            throw new Exception("Algo salió mal!");
-        }        
         $model->INS_REUTILIZADO = 1;
         $model->OT_ID = $ot;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $inventario = Inventario::find()->where(['INV_ID' => $model->inventario_id])->one();
+            $insumo_excedente = Insumo::find()->where(['INS_ID' => $inventario->INS_ID])->one();            
             if ($inventario->INV_CANTIDAD == $model->INS_CANTIDAD){
                 // En caso de usar todo lo almacenado en bodega se procedera a cortar los enlaces que posea y eliminar el registro de la bodega
                 $inventario->INV_CANTIDAD = 0;
