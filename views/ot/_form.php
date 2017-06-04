@@ -20,8 +20,9 @@ $JS_DESABOLLADURA = 'function sumar_total_desabolladura(){
 	while(existe){
 
 		var idFull = "actividaddesabolladura-"+id+"-des_precio";
+                var estadoFull = "actividaddesabolladura-"+id+"-des_estado";
 		try{campo = document.getElementById(idFull);
-			if(document.getElementById(idFull).value!=""){
+			if(document.getElementById(idFull).value!="" && document.getElementById(estadoFull).value!= "Cancelado"){
 				suma = suma + parseInt(document.getElementById(idFull).value);
 			}
 		id = id+1;
@@ -42,8 +43,9 @@ $JS_PINTURA = 'function sumar_total_pintura(){
 	while(existe){
 
 		var idFull = "actividadpintura-"+id+"-pin_precio";
+                var estadoFull = "actividadpintura-"+id+"-pin_estado";
 		try{campo = document.getElementById(idFull);
-			if(document.getElementById(idFull).value!=""){
+			if(document.getElementById(idFull).value!="" && document.getElementById(estadoFull).value!= "Cancelado"){
 				suma = suma + parseInt(document.getElementById(idFull).value);
 			}
 		id = id+1;
@@ -307,7 +309,11 @@ $this->registerJs($JS_TOTAL, \yii\web\VIEW::POS_HEAD);
                                 <?= $form->field($modelDesabolladura, "[{$i}]DES_PRECIO")->textInput(['maxlength' => true, 'onkeyup'=>'sumar_total_desabolladura();sumar_total_pintura();sumar_total_insumos();sumar_total_servicio();calcular_subtotal();calcular_iva();calcular_total();']) ?>
                             </div>
                         </div><!-- .row -->    
-                        
+                        <?php
+                            if (! $modelDesabolladura->isNewRecord) {
+                                echo Html::activeHiddenInput($modelDesabolladura, "[{$i}]DES_ESTADO");
+                            }
+                        ?>
                     </div>
                 </div>
             <?php endforeach; ?>
@@ -373,6 +379,11 @@ $this->registerJs($JS_TOTAL, \yii\web\VIEW::POS_HEAD);
                                 <?= $form->field($modelPintura, "[{$i}]PIN_PRECIO")->textInput(['maxlength' => true, 'onkeyup'=>'sumar_total_desabolladura();sumar_total_pintura();sumar_total_insumos();sumar_total_servicio();calcular_subtotal();calcular_iva();calcular_total();']) ?>
                             </div>                            
                         </div><!-- .row -->
+                        <?php
+                            if (! $modelPintura->isNewRecord) {
+                                echo Html::activeHiddenInput($modelPintura, "[{$i}]PIN_ESTADO");
+                            }
+                        ?>
                     </div>
                 </div>
             <?php endforeach; ?>
