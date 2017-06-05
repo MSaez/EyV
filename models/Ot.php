@@ -191,4 +191,8 @@ class Ot extends \yii\db\ActiveRecord
     {
         return $this->hasMany(OtrosServicios::className(), ['OT_ID' => 'OT_ID']);
     }
+    
+    public function getNombreVeh(){
+        return $this->vEH->VEH_PATENTE;
+    }
 }

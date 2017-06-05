@@ -299,7 +299,7 @@ $this->registerJs($JS_TOTAL, \yii\web\VIEW::POS_HEAD);
                         ?>
                                      
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                                 <?= $form->field($modelDesabolladura, "[{$i}]DES_DESCRIPCION")->textInput(['maxlength' => true]) ?>
                             </div>
                             <div class="col-sm-2">
@@ -369,7 +369,7 @@ $this->registerJs($JS_TOTAL, \yii\web\VIEW::POS_HEAD);
                         ?>
                         
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                                 <?= $form->field($modelPintura, "[{$i}]PIN_DESCRIPCION")->textInput(['maxlength' => true]) ?>
                             </div>
                             <div class="col-sm-2">

@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Despacho */
 
-$this->title = 'Create Despacho';
+$this->title = 'Despachar Vehiculo: '.$model->oT->nombreVeh;
 $this->params['breadcrumbs'][] = ['label' => 'Despachos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
