@@ -202,7 +202,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'ingresarStock' => function ($url, $model) {
                                                     $title = null;
                                                     $options = ['title' => 'Ingresar Stock Insumo sobrante'];
-                                                    $icon = '<span class="glyphicon glyphicon-barcode"></span>';
+                                                    $icon = '<span class="glyphicon glyphicon-shopping-cart"></span>';
                                                     $label = $icon . ' ' . $title;
                                                     $url = Url::toRoute(['inventario/ingresarstock','ins'=>$model->INS_ID]);
                                                     return Html::a($label, $url, $options);
