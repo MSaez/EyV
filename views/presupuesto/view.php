@@ -79,7 +79,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ]); ?>
     
     <?php Pjax::end(); ?>
-    <?php echo Html::a('<span class="glyphicon glyphicon-plus"></span> Agregar Material Existente',
+    <?php echo Html::a('<span class="glyphicon glyphicon-plus"></span> Agregar Insumo Existente en Bodega',
                     ['/insumo/create', 'ot' => $model->OT_ID, 'status' => 'presupuesto'], 
                     ['class' => 'btn btn-success']);
     ?>

@@ -6,6 +6,7 @@ use Yii;
 use app\models\Usuario;
 use app\models\Insumo;
 use app\models\Inventario;
+use app\models\Ot;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -104,6 +105,7 @@ class InsumoController extends Controller
         if ($status != 'presupuesto' && $status != 'ot'){
             throw new Exception("Algo salió mal!");
         }
+        $ot = Ot::find()->where(['OT_ID' => $ot])->one();
         $model = new Insumo(['scenario' => 'existente']);
         $model->INS_REUTILIZADO = 1;
         $model->OT_ID = $ot;
@@ -124,6 +126,13 @@ class InsumoController extends Controller
                 $inventario->INV_CANTIDAD = $inventario->INV_CANTIDAD - $model->INS_CANTIDAD;
                 $inventario->save();
             }
+            // Actualizamos el precio total de insumos reutilizados en caso de 
+            // que el insumo se agregara desde una orden de trabajo
+            if ($status == 'ot'){
+                $ot->OT_TREUTILIZADO = $ot->OT_TREUTILIZADO + $model->INS_TOTAL;
+                $ot->save();                
+            }
+            // Redirecciona según donde se agregó el insumo
             if ($status == 'presupuesto'){
                 return $this->redirect(array('presupuesto/view','id'=>$ot));
             }else {
