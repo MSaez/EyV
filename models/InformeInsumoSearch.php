@@ -47,7 +47,9 @@ class InformeInsumoSearch extends Insumo
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort' => false,             
+            'sort' => false,
+            'pagination' => false,
+            
         ]);
         
         

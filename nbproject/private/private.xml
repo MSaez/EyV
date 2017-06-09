@@ -2,6 +2,20 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/xampp/htdocs/EyV/models/PagoInsumosSearch.php</file>
+            <file>file:/C:/xampp/htdocs/EyV/models/VehiculoSearch.php</file>
+            <file>file:/C:/xampp/htdocs/EyV/models/CobrosSearch.php</file>
+            <file>file:/C:/xampp/htdocs/EyV/models/ClienteSearch.php</file>
+            <file>file:/C:/xampp/htdocs/EyV/models/InventarioSeach.php</file>
+            <file>file:/C:/xampp/htdocs/EyV/models/ModeloSearch.php</file>
+            <file>file:/C:/xampp/htdocs/EyV/models/PagoExternosSearch.php</file>
+            <file>file:/C:/xampp/htdocs/EyV/models/EmpleadoSearch.php</file>
+            <file>file:/C:/xampp/htdocs/EyV/models/OtSearch.php</file>
+            <file>file:/C:/xampp/htdocs/EyV/models/PresupuestoSearch.php</file>
+            <file>file:/C:/xampp/htdocs/EyV/models/UsuarioSearch.php</file>
+            <file>file:/C:/xampp/htdocs/EyV/models/MarcaSearch.php</file>
+            <file>file:/C:/xampp/htdocs/EyV/models/DespachoSearch.php</file>
+        </group>
     </open-files>
 </project-private>
