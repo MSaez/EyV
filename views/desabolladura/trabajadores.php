@@ -10,7 +10,7 @@
 
 
 <?php
-    $this->title = 'Ver Trabajadores';
+    $this->title = 'Ver Trabajadores Asignados';
     $this->params['breadcrumbs'][] = ['label' => 'Ordenes de Trabajo', 'url' => ['/ot/index']];
     $this->params['breadcrumbs'][] = ['label' => 'Orden de Trabajo Folio: '.$actDesabolladura->OT_ID, 'url' => ['ot/view', 'id' => $actDesabolladura->OT_ID]];
     $this->params['breadcrumbs'][] = 'Ver Trabajadores';

@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="cliente-view">
 
     <p>
-        <?= Html::a('Actualizar', ['update', 'id' => $model->CLI_ID], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Actualizar datos', ['update', 'id' => $model->CLI_ID], ['class' => 'btn btn-primary']) ?>
     </p>
 
     <?= DetailView::widget([

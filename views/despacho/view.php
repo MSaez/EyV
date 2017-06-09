@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= "Orden de Despacho" ?></h1>
 
     <p>
-        <?= Html::a('Actualizar Datos', ['update', 'id' => $model->OD_ID], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Corregir Despacho', ['update', 'id' => $model->OD_ID], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('<span class="glyphicon glyphicon-print" aria-hidden="true"></span> Generar Documento de entrega', ['imprimir', 'id' => $model->OD_ID], ['class' => 'btn btn-primary']) ?>
     </p>
 
