@@ -42,8 +42,21 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Cliente', 
                 'value' => $model->cLI->CLI_NOMBRES.' '.$model->cLI->CLI_PATERNO.' '.$model->cLI->CLI_MATERNO,
             ],
-            'OT_INICIO',
-            'OT_ENTREGA',
+            [
+                'label' => 'Rut',
+                'value' => $model->cLI->CLI_RUT,
+                'format' => 'rut',
+            ],
+            [
+                'label' => 'Fecha Inicio',
+                'value' => $model->OT_INICIO,
+                'format' => ['date', 'php:d/m/Y'],
+            ],
+            [
+                'label' => 'Fecha Inicio',
+                'value' => $model->OT_ENTREGA,
+                'format' => ['date', 'php:d/m/Y'],
+            ],
             'OT_OBSERVACIONES:ntext',
             'OT_ESTADO',
             'OT_SUBTOTAL',

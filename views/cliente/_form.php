@@ -12,13 +12,13 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
+    <?= $form->field($model, 'CLI_RUT')->textInput(['data-rut' => 'true', 'maxlength' => true]) ?>    
+    
     <?= $form->field($model, 'CLI_NOMBRES')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'CLI_PATERNO')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'CLI_MATERNO')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'CLI_RUT')->textInput(['data-rut' => 'true', 'maxlength' => true]) ?>
 
     <?= $form->field($model, 'CLI_TELEFONO')->textInput(['maxlength' => true]) ?>
 
