@@ -138,8 +138,12 @@ class InformesController extends \yii\web\Controller
     public function actionImprimirUtilidad($inicio, $fin)
     {
         $sql = "SELECT ot.OT_ID, ot.CLI_ID, ot.VEH_ID, ot.OT_TOTAL, ot.OT_TDESABOLLADURA, ot.OT_TPINTURA, ot.OT_TINSUMO, ot.OT_TEXTERNO, ot.OT_TREUTILIZADO, ot.OT_SUBTOTAL, ot.OT_IVA, ot.OT_OBSERVACIONES, cobros.CBR_VALOR, cobros.CBR_FECHA FROM ot INNER JOIN cobros ON ot.OT_ID = cobros.OT_ID WHERE (cobros.CBR_FECHA BETWEEN ".$inicio." AND ".$fin.")";
-            $query = Ot::findBySql($sql);
-            
+        $query = Ot::findBySql($sql);
+        
+        $xfecha = explode("-",$fin);
+        $anio = trim($xfecha[0], '"');
+        $mes = $xfecha[1];
+        
         $dataProviderUtilidad = new ActiveDataProvider([
             'query' => $query,
             'sort' => false,
@@ -177,7 +181,9 @@ class InformesController extends \yii\web\Controller
             'reutilizado' => $reutilizado,
             'subtotal' => $subtotal,
             'iva' => $iva,
-            'total' => $total
+            'total' => $total,
+            'mes' => $mes,
+            'anio' => $anio
         ]);
         
         

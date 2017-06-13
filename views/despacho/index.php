@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use kartik\date\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\DespachoSearch */
@@ -26,6 +27,22 @@ $this->params['breadcrumbs'][] = $this->title;
             'OD_ID',
             'OT_ID',
             'OD_FECHA',
+            [
+                'attribute' => 'OD_FECHA',
+                'value' => 'OD_FECHA',
+                'format' => ['date', 'php:d/m/Y'],
+                'filter' => DatePicker::widget([
+                    'model'=>$searchModel,
+                    'attribute'=>'OD_FECHA',
+                    'type' => DatePicker::TYPE_INPUT,
+                    'language' => 'es',
+                    'pluginOptions' => [
+                        'format' => 'yyyy-mm-dd',
+                        'todayHighlight' => true
+                    ],
+                    'options' => [],
+                ]),
+            ],
             'OD_OBSERVACINES:ntext',
 
             ['class' => 'yii\grid\ActionColumn'],

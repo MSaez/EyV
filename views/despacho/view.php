@@ -24,7 +24,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'OD_ID',
             'OT_ID',
-            'OD_FECHA',
+            [
+                'label' => 'Fecha',
+                'value' => $model->OD_FECHA,
+                'format' => ['date', 'php:d/m/Y'],
+            ],
             'OD_OBSERVACINES:ntext',
         ],
     ]) ?>

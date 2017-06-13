@@ -31,7 +31,11 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'PEXT_FACTURA',
             'PEXT_VALOR',
-            'PEXT_FECHA',
+            [
+                'label' => 'Fecha de Pago',
+                'value' => $model->PEXT_FECHA,
+                'format' => ['date', 'php:d/m/Y'],
+            ],
         ],
     ]) ?>
 

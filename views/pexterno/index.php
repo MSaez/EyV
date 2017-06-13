@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use kartik\date\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\PagoExternosSearch */
@@ -34,7 +35,22 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'PEXT_FACTURA',
             'PEXT_VALOR',
-            'PEXT_FECHA',
+            [
+                'attribute' => 'PEXT_FECHA',
+                'value' => 'PEXT_FECHA',
+                'format' => ['date', 'php:d/m/Y'],
+                'filter' => DatePicker::widget([
+                    'model'=>$searchModel,
+                    'attribute'=>'PEXT_FECHA',
+                    'type' => DatePicker::TYPE_INPUT,
+                    'language' => 'es',
+                    'pluginOptions' => [
+                        'format' => 'yyyy-mm-dd',
+                        'todayHighlight' => true
+                    ],
+                    'options' => [],
+                ]),
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

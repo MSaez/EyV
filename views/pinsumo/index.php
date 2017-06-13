@@ -47,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'format' => 'yyyy-mm-dd',
                         'todayHighlight' => true
                     ],
-                    'options' => ['placeholder' => 'Fecha de Pago ...'],                    
+                    'options' => [],                    
                 ]),
             ],
 

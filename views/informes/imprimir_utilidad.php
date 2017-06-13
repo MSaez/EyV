@@ -3,10 +3,50 @@
 use yii\helpers\Html;
 use kartik\grid\GridView;
 
-$this->title = 'Informe de Utilidad Mensual.'; ?>
+switch ($mes) {
+    case "01":
+        $mes = "enero";
+        break;
+    case "02":
+        $mes = "febrero";
+        break;
+    case "03":
+        $mes = "marzo";
+        break;
+    case "04":
+        $mes = "abril";
+        break;
+    case "05":
+        $mes = "mayo";
+        break;
+    case "06":
+        $mes = "junio";
+        break;
+    case "07":
+        $mes = "julio";
+        break;
+    case "08":
+        $mes = "agosto";
+        break;
+    case "09":
+        $mes = "septiembre";
+        break;
+    case "10":
+        $mes = "octubre";
+        break;
+    case "11":
+        $mes = "noviembre";
+        break;
+    case "12":
+        $mes = "diciembre";
+        break;
+}
+
+
+$this->title = 'Informe de Utilidad Mensual: '.$mes.' '.$anio.'.'; ?>
 
 <div class="ot-view">
-        
+   
     <h1><?= Html::encode($this->title) ?></h1>
     <br>    
         <?= GridView::widget([
@@ -42,9 +82,9 @@ $this->title = 'Informe de Utilidad Mensual.'; ?>
             ],
             
         ]); ?>
-    <br>
+    <div class="page-break"></div>
     <table class="kv-grid-table table table-bordered table-striped kv-table-wrap">
-  <thead>
+    <thead>
     <tr>
         <th>Total Mensual Desabolladura</th>
         <th>Total Mensual Pintura</th>

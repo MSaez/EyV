@@ -23,8 +23,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'CBR_ID',
             'OT_ID',
-            'CBR_VALOR',
-            'CBR_FECHA',
+            'CBR_VALOR',            
+            [
+                'label' => 'Fecha Cobro',
+                'value' => $model->CBR_FECHA,
+                'format' => ['date', 'php:d/m/Y'],
+            ],
         ],
     ]) ?>
 

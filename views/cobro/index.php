@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use kartik\date\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\CobrosSearch */
@@ -25,6 +26,22 @@ $this->params['breadcrumbs'][] = $this->title;
             'OT_ID',
             'CBR_VALOR',
             'CBR_FECHA',
+            [
+                'attribute' => 'CBR_FECHA',
+                'value' => 'CBR_FECHA',
+                'format' => ['date', 'php:d/m/Y'],
+                'filter' => DatePicker::widget([
+                    'model'=>$searchModel,
+                    'attribute'=>'CBR_FECHA',
+                    'type' => DatePicker::TYPE_INPUT,
+                    'language' => 'es',
+                    'pluginOptions' => [
+                        'format' => 'yyyy-mm-dd',
+                        'todayHighlight' => true
+                    ],
+                    'options' => [],
+                ]),
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

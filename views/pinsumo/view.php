@@ -31,7 +31,11 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'PINS_FACTURA',
             'PINS_VALOR',
-            'PINS_FECHA',
+            [
+                'label' => 'Fecha de Pago',
+                'value' => $model->PINS_FECHA,
+                'format' => ['date', 'php:d/m/Y'],
+            ],
         ],
     ]) ?>
 
