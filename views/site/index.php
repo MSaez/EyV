@@ -1,5 +1,5 @@
 <?php
-
+use yii\helpers\Html;
 /* @var $this yii\web\View */
 
 $this->title = Yii::$app->name;
@@ -20,15 +20,15 @@ $this->title = Yii::$app->name;
     <div class="body-content">
         <h3>Estadística de trabajos.</h3>
         <div class="row">
-            <div class="col-sm-3"><?= 'Trabajos atrasados a la fecha:'?></div>
+            <div class="col-sm-3"><?= Html::a('Trabajos atrasados a la fecha:', ['/informes/generar-informe-atrasados'])?></div>
             <div class="col-sm-3"><?= '<span class="label label-danger">'.$atrasados."</span>" ?></div>
         </div>
         <div class="row">
-            <div class="col-sm-3"><?= 'Trabajos realizandose a la fecha:'?></div>
+            <div class="col-sm-3"><?= Html::a('Trabajos realizandose a la fecha:', ['/ot']);?></div>
             <div class="col-sm-3"><?= '<span class="label label-success">'.$activos."</span>" ?></div>
         </div>
         <div class="row">
-            <div class="col-sm-3"><?= 'Presupuestos emitidos: '?></div>
+            <div class="col-sm-3"><?= Html::a('Presupuestos emitidos: ', ['/presupuesto']);?></div>
             <div class="col-sm-3"><?= '<span class="label label-info">'.$presupuestos."</span>" ?></div>
         </div>
     </div>
