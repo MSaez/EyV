@@ -6,6 +6,8 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model app\models\Usuario */
 /* @var $form yii\widgets\ActiveForm */
+
+$this->registerJsFile('@web/js/rut-usuario.js');
 ?>
 
 <div class="usuario-form">
@@ -14,9 +16,9 @@ use yii\widgets\ActiveForm;
     
     <?= $form->errorSummary($model)?>
 
+    <?= $form->field($model, 'US_RUT')->textInput(['data-rut' => 'true', 'maxlength' => true, 'onkeyup' => 'verifica_rut();', 'onclick' => 'verifica_rut();']) ?>
+            
     <?= $form->field($model, 'US_USERNAME')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'US_RUT')->textInput(['data-rut' => 'true', 'maxlength' => true]) ?>
 
     <?= $form->field($model, 'US_NOMBRES')->textInput(['maxlength' => true]) ?>
 

@@ -34,7 +34,7 @@ class Cliente extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['CLI_NOMBRES', 'CLI_PATERNO', 'CLI_MATERNO', 'CLI_RUT', 'CLI_TELEFONO', 'CLI_DIRECCION'], 'required'],
+            [['CLI_RUT', 'CLI_NOMBRES', 'CLI_PATERNO', 'CLI_MATERNO', 'CLI_TELEFONO', 'CLI_DIRECCION'], 'required'],
             [['CLI_DIRECCION'], 'string'],
             [['CLI_NOMBRES', 'CLI_PATERNO', 'CLI_MATERNO'], 'string', 'max' => 128],
             [['CLI_RUT'], 'string', 'min' => 11],

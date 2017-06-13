@@ -6,13 +6,15 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model app\models\Empleado */
 /* @var $form yii\widgets\ActiveForm */
+
+$this->registerJsFile('@web/js/rut-empleado.js')
 ?>
 
 <div class="empleado-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'EMP_RUT')->textInput(['data-rut' => 'true', 'maxlength' => true]) ?>
+    <?= $form->field($model, 'EMP_RUT')->textInput(['data-rut' => 'true', 'maxlength' => true, 'onkeyup' => 'verifica_rut();', 'onclick' => 'verifica_rut();']) ?>
 
     <?= $form->field($model, 'EMP_NOMBRES')->textInput(['maxlength' => true]) ?>
 
