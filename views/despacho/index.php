@@ -26,7 +26,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'OD_ID',
             'OT_ID',
-            'OD_FECHA',
             [
                 'attribute' => 'OD_FECHA',
                 'value' => 'OD_FECHA',

@@ -116,7 +116,7 @@ $this->registerJsFile('@web/js/ot.js');
                             </div>
                             <div class="col-sm-3">
                                 <?= $form->field($modelDesabolladura, "[{$i}]DES_PRECIO")->textInput(['maxlength' => true, 'onkeyup'=>'sumar_total_desabolladura();sumar_total_pintura();sumar_total_insumos();sumar_total_servicio();calcular_subtotal();calcular_iva();calcular_total();',
-																																																		 											 'onclick'=>'sumar_total_desabolladura();sumar_total_pintura();sumar_total_insumos();sumar_total_servicio();calcular_subtotal();calcular_iva();calcular_total();']) ?>
+                                                                                                                                                                                                                                                     'onclick'=>'sumar_total_desabolladura();sumar_total_pintura();sumar_total_insumos();sumar_total_servicio();calcular_subtotal();calcular_iva();calcular_total();']) ?>
                             </div>
                         </div><!-- .row -->    
                         <?php
@@ -184,11 +184,11 @@ $this->registerJsFile('@web/js/ot.js');
                             </div>
                             <div class="col-sm-2">
                                 <?= $form->field($modelPintura, "[{$i}]PIN_HORAS")->textInput(['maxlength' => true, 'onkeyup' => 'sumar_total_horas_pintura(),total_horas();',
-																																																										'onclick' => 'sumar_total_horas_pintura(),total_horas();']) ?>
+                                                                                                                                                                                                                                        'onclick' => 'sumar_total_horas_pintura(),total_horas();']) ?>
                             </div>
                             <div class="col-sm-3">
                                 <?= $form->field($modelPintura, "[{$i}]PIN_PRECIO")->textInput(['maxlength' => true, 'onkeyup'=>'sumar_total_desabolladura();sumar_total_pintura();sumar_total_insumos();sumar_total_servicio();calcular_subtotal();calcular_iva();calcular_total();',
-																																															 											  'onclick'=>'sumar_total_desabolladura();sumar_total_pintura();sumar_total_insumos();sumar_total_servicio();calcular_subtotal();calcular_iva();calcular_total();']) ?>
+                                                                                                                                                                                                                                          'onclick'=>'sumar_total_desabolladura();sumar_total_pintura();sumar_total_insumos();sumar_total_servicio();calcular_subtotal();calcular_iva();calcular_total();']) ?>
                             </div>                            
                         </div><!-- .row -->
                         <?php
@@ -259,13 +259,13 @@ $this->registerJsFile('@web/js/ot.js');
                             <div class="col-sm-4">
                                 <?= $form->field($modelInsumo, "[{$i}]INS_CANTIDAD")->textInput(['maxlength' => true,
                                                                                                         'onkeyup'=>'sumar_total_desabolladura();sumar_total_pintura();sumar_total_insumos();sumar_total_servicio();calcular_subtotal();calcular_iva();calcular_total();',
-																																																 				'onclick'=>'sumar_total_desabolladura();sumar_total_pintura();sumar_total_insumos();sumar_total_servicio();calcular_subtotal();calcular_iva();calcular_total();'
+                                                                                                                                                                                                                'onclick'=>'sumar_total_desabolladura();sumar_total_pintura();sumar_total_insumos();sumar_total_servicio();calcular_subtotal();calcular_iva();calcular_total();'
                                                                                                        ]) ?>
                             </div>
                             <div class="col-sm-4">
                                 <?= $form->field($modelInsumo, "[{$i}]INS_PRECIO_UNITARIO")->textInput(['maxlength' => true,
                                                                                                         'onkeyup'=>'sumar_total_desabolladura();sumar_total_pintura();sumar_total_insumos();sumar_total_servicio();calcular_subtotal();calcular_iva();calcular_total();',
-																																																				'onclick'=>'sumar_total_desabolladura();sumar_total_pintura();sumar_total_insumos();sumar_total_servicio();calcular_subtotal();calcular_iva();calcular_total();'
+                                                                                                                                                                                                                'onclick'=>'sumar_total_desabolladura();sumar_total_pintura();sumar_total_insumos();sumar_total_servicio();calcular_subtotal();calcular_iva();calcular_total();'
                                                                                                        ]) ?>
                             </div>
                             <div class="col-sm-4">
@@ -340,7 +340,7 @@ $this->registerJsFile('@web/js/ot.js');
                             </div>
                             <div class="col-sm-2">
                                 <?= $form->field($modelServicio, "[{$i}]OS_PRECIO")->textInput(['maxlength' => true, 'onkeyup'=>'sumar_total_desabolladura();sumar_total_pintura();sumar_total_insumos();sumar_total_servicio();calcular_subtotal();calcular_iva();calcular_total();',
-																																															 												'onclick'=>'sumar_total_desabolladura();sumar_total_pintura();sumar_total_insumos();sumar_total_servicio();calcular_subtotal();calcular_iva();calcular_total();']) ?>
+                                                                                                                                                                                                                                            'onclick'=>'sumar_total_desabolladura();sumar_total_pintura();sumar_total_insumos();sumar_total_servicio();calcular_subtotal();calcular_iva();calcular_total();']) ?>
                             </div>
                             
                         </div><!-- .row -->

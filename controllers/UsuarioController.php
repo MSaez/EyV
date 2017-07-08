@@ -210,7 +210,7 @@ class UsuarioController extends Controller
             
         }
  
-        return $this->render('changePassword', [
+        return $this->render('changepassword', [
             'model' => $model,
         ]);
     }
